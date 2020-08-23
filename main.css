@@ -85,7 +85,6 @@ a.navbar-item {
 a.navbar-item:hover {
     border-bottom: 1px solid #dbdbdb;
 }
-
 .input {
     margin: 0;
     -moz-appearance: none;
@@ -115,14 +114,52 @@ a.navbar-item:hover {
     color: #363636;
     height: 50%;
 }
-
-.input.is-rounded {
-    border-radius: 20px;
+.row {
+    display: flex;
 }
-
-.box{
-    padding: 20px;
-    margin-top: 40px;
-    margin-bottom: 20px;
-    border: solid 1px #000;
+.row.is-wrap{
+    flex-wrap: wrap;
+}
+.col{
+    display: block;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: .75rem;
+}
+.col.size-12 {
+    flex: 0 0 100%;
+}
+.col.size-11 {
+    flex: 0 0 calc(100% / 12 * 11); /* 11/12 */
+}
+.col.size-10 {
+    flex: 0 0 calc(100% / 12 * 10);
+}
+.col.size-9 {
+    flex: 0 0 calc(100% / 12 * 9);
+}
+.col.size-8 {
+    flex: 0 0 calc(100% / 12 * 8);
+}
+.col.size-7 {
+    flex: 0 0 calc(100% / 12 * 7);
+}
+.col.size-6 {
+    flex: 0 0 calc(100% / 12 * 6);
+}
+.col.size-5 {
+    flex: 0 0 calc(100% / 12 * 5);
+}
+.col.size-4 {
+    flex: 0 0 calc(100% / 12 * 4);
+}
+.col.size-3 {
+    flex: 0 0 calc(100% / 12 * 3);
+}
+.col.size-2 {
+    flex: 0 0 calc(100% / 12 * 2);
+}
+.col.size-1 {
+    flex: 0 0 calc(100% / 12 * 1);
 }
