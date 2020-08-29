@@ -114,6 +114,17 @@ a.navbar-item:hover {
     color: #363636;
     height: 50%;
 }
+
+svg.search-icon {
+    height: 1.25em;
+    position: absolute;
+    right: 25px;
+}
+
+.input.is-rounded {
+    border-radius: 20px;
+}
+
 .row {
     display: flex;
 }
