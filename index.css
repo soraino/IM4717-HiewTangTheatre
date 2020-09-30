@@ -1,8 +1,18 @@
+svg.search-icon {
+    height: 1.25em;
+    position: absolute;
+    right: 25px;
+}
+
 .box {
     padding: 20px;
     margin-top: 40px;
     margin-bottom: 20px;
     border: solid 1px #000;
+}
+
+.input.is-rounded {
+    border-radius: 20px;
 }
 
 .slider {
