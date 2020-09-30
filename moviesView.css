@@ -1,0 +1,89 @@
+#sorter {
+    /* background-color: rgb(185, 185, 180); */
+    width: auto;
+    height: 20px;
+    margin-top: 40px;
+    padding: 20px;
+    border: solid 1px #000;
+    border-radius: 5px;
+}
+
+#sorter select {
+    width: 130px;
+    padding: 4px;
+    border-radius: 20px;
+    border-color: black;
+    background-color: transparent;
+}
+
+#sorter option {
+    border: none;
+    padding: 3px;
+}
+
+#sorter_btn {
+    float: right;
+}
+
+#sorter_btn a {
+    text-decoration: none;
+}
+
+.gridView-btn,
+.listView-btn {
+    width: 55px;
+    height: 25px;
+    padding: 4px;
+    background-color: transparent;
+    border-radius: 20px;
+    border: solid 1px #000;
+}
+
+.gridView-btn img,
+.listView-btn img {
+    width: 15px;
+    height: 15px;
+}
+
+#movieView {
+    margin: 30px;
+}
+
+/* .column {
+    float: left;
+    width: 80px;
+    padding: 10px;
+    border: solid 1px chocolate;
+}
+
+.row {
+    content: "";
+    display: table;
+    clear: both;
+} */
+
+.row {
+    padding: 20px 0;
+}
+
+/* .row .listView-detail {
+    margin: 0 50px;
+} */
+
+h3 {
+    margin-top: 0px;
+}
+
+.listView-detail p {
+    font-size: 14px;
+}
+
+.listView-detail span {
+    display: flex;
+    align-items: center;
+}
+
+hr {
+    clear: both;
+    margin: 0px;
+}
