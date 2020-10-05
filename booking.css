@@ -1,0 +1,40 @@
+.no-margin{
+    margin: 0;
+}
+.date-selector{
+    color: #fff;
+}
+input[type="radio"]{
+    display: none;
+}
+
+input[type="radio"]:checked+label{
+    color: #EF8F00;
+}
+
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    margin-top: 20px;
+}
+
+td,th {
+    border-width: 1px;
+    border: 1px solid #dbdbdb;
+    border-width: 1px 0 1px;
+    padding: .5em .75em;
+    vertical-align: top;
+}
+thead{
+    font-weight: bolder;
+    font-size: 1.5em;
+}
+td:last-child{
+    border-right-width: 1px;
+}
+td:first-child{
+    border-left-width: 1px;
+    border-right-width: 1px;
+    font-weight:bold;
+}

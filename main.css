@@ -11,6 +11,9 @@ ul,li,ol{
     list-style: none;
 }
 
+.center-text{
+    text-align: center;
+}
 .container {
     flex-grow: 1;
     margin: 0 auto;
