@@ -5,6 +5,7 @@ html {
     margin: 0;
     padding: 0;
     font-family: "Open Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
 }
 
 ul,li,ol{
@@ -89,15 +90,17 @@ ul,li,ol{
     padding: 0.5rem 0.75rem;
     position: relative;
     text-transform: uppercase;
+    text-decoration: none;
 }
 a.navbar-item {
     cursor: pointer;
     font-weight: 500;
     font-size: 24px;
     align-self: flex-end;
+    margin-right: 30px;
 }
 a.navbar-item:hover {
-    border-bottom: 1px solid #dbdbdb;
+    text-decoration: underline;
 }
 .input {
     margin: 0;
