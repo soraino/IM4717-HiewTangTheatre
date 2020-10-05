@@ -120,10 +120,5 @@
         </div>
     </footer>
 </body>
-<script src="./js/slider.js"></script>
-<script>
-    initSlider(1);
-    initSlider(2);
-</script>
 
 </html>

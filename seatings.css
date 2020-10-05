@@ -1,0 +1,68 @@
+#top select,
+#top input {
+    width: 145px;
+    height: 24px;
+    border-radius: 15px;
+    border: 1px solid black;
+}
+
+#top {
+    margin: 50px 0;
+}
+
+.outer-container {
+    border: 1px solid black;
+    width: auto;
+}
+
+.screen {
+    width: 95%;
+    height: fit-content;
+    justify-content: center;
+    background-color: rgb(124, 124, 124);
+    padding: 10px 0;
+    margin: 20px auto;
+}
+
+.iseat {
+    text-align: center;
+    border: 1px solid black;
+    flex: 0 0 calc(100% / 12 * 2 - 13px) !important;
+    margin: 5px;
+}
+
+.seats {
+    margin: 0 50px;
+}
+
+.seats-right {
+    margin-left: 80px;
+}
+.legends {
+    border-top: 1px solid black;
+}
+
+.title {
+    margin: 20px 0;
+}
+
+.boxes {
+    margin: 20px 0;
+}
+
+.unavailable {
+    background-color: grey;
+}
+.selected {
+    background-color: yellow;
+}
+.available {
+    background-color: white;
+}
+
+.boxes div {
+    border: 1px solid black;
+    width: 50px;
+    height: 50px;
+    margin: 0 100px 0 100px;
+}
