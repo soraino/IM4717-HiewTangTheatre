@@ -8,6 +8,26 @@
         <link rel="stylesheet" href="./css/index.css" />
     </head>
     <body>
+        <?php
+            @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
+            $MOVIE_QUERY = "select M.*, P.PhotoUrl from f34ee.MovieDetail as M inner join f34ee.Photo as P where P.MovieDetailId = M.Id order by M.Rating desc;";
+            if(!$DB){
+                exit('Unable to connect to db');
+            }
+            $movies = array();
+            $queryResult = $DB->query($MOVIE_QUERY);
+            if($queryResult->num_rows > 0){
+                while($row = $queryResult->fetch_assoc()){
+                    array_push($movies, $row);
+                }
+            }
+            $queryResult->free();
+            $DB->close();
+            $dateSortMovie = $movies;
+            usort($dateSortMovie, function($a, $b) {
+                return strtotime($b['ReleaseDate']) - strtotime($a['ReleaseDate']);
+            })
+        ?>
         <nav class="navbar">
             <div class="navbar-menu container">
                 <div class="navbar-end">
@@ -32,23 +52,25 @@
         </nav>
         <div class="carousel-wrapper">
             <div class="carousel">
-                <img
-                    class="carousel__photo initial"
-                    src="./assets/movie/banner/Vanguard.jpg"
-                />
-                <img
-                    class="carousel__photo"
-                    src="./assets/movie/banner/Mulan.jpg"
-                />
-                <img
-                    class="carousel__photo"
-                    src="./assets/movie/banner/Tunnel.jpg"
-                />
-                <img
-                    class="carousel__photo"
-                    src="./assets/movie/banner/LetItSnow.jpg"
-                />
-
+                <?php
+                    for($i = 0; $i < 4; $i++){
+                        if($i==0){
+                ?>
+                    <img
+                        class="carousel__photo initial"
+                        src="<?php echo './assets/movie/banner/'.$movies[$i]['PhotoUrl'].'.jpg'; ?>"
+                    />
+                <?php
+                        }else{
+                ?>
+                    <img
+                        class="carousel__photo"
+                        src="<?php echo './assets/movie/banner/'.$movies[$i]['PhotoUrl'].'.jpg'; ?>"
+                    />
+                <?php
+                        }
+                    }
+                ?>
                 <div class="carousel__button--next"></div>
                 <div class="carousel__button--prev"></div>
             </div>
@@ -58,20 +80,33 @@
                 <h2>Quick Purchase</h2>
                 <form>
                     <div class="row">
-                        <div class="col">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Cupiditate, dolores. Fugiat non porro harum
-                            alias quis incidunt, nesciunt aperiam cumque.
+                        <div class="col center">
+                            <label>Movie</label>
+                            <div class="select">
+                                <select>
+                                <option>test</option>    
+                                <select>
+                            </div>
                         </div>
-                        <div class="col">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Sunt dolorem beatae nostrum quos possimus
-                            ipsa, est voluptatem atque quam veritatis?
+                        <div class="col center">
+                            <label>Location</label>
+                            <div class="select">
+                                <select>
+                                <option>test</option>    
+                                <select>
+                            </div>
                         </div>
-                        <div class="col">
-                            Lorem, ipsum dolor sit amet consectetur adipisicing
-                            elit. Vel inventore ullam sint vitae quasi qui
-                            suscipit, reiciendis officia nemo blanditiis.
+                        <div class="col center">
+                            <label>Date</label>
+                            <input type="date" name="date" id="dateInput" class="input is-rounded">
+                        </div>
+                        <div class="col center">
+                            <label>Movie</label>
+                            <div class="select">
+                                <select>
+                                <option>test</option>    
+                                <select>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -81,40 +116,23 @@
                 <div id="slider1" class="slider">
                     <div class="wrapper">
                         <div id="slides1" class="slides shifting">
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
+                            <?php
+                                for($i = 0; $i < count($dateSortMovie); $i++){
+                                    if(time() >= strtotime($dateSortMovie[$i]['ReleaseDate'])){
+                            ?>
+                                <div class="slide">
+                                    <img
+                                        src="<?php echo './assets/movie/poster/'.$dateSortMovie[$i]['PhotoUrl'].'.jpg'; ?>"
+                                    />
+                                </div>
+                            <?php
+                                    }
+                                }
+                            ?>
                         </div>
                     </div>
-                    <a id="prev1" class="control prev" style="top: 45%"></a>
-                    <a id="next1" class="control next" style="top: 45%"></a>
+                    <a id="prev1" class="control prev" style="top: 32%"></a>
+                    <a id="next1" class="control next" style="top: 32%"></a>
                 </div>
             </div>
             <div>
@@ -122,52 +140,52 @@
                 <div id="slider2" class="slider">
                     <div class="wrapper">
                         <div id="slides2" class="slides shifting">
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
-                            <div class="slide">
-                                <img
-                                    src="https://picsum.photos/200/300"
-                                    alt=""
-                                />
-                            </div>
+                            <?php
+                                $counter = 0;
+                                for($i = 0; $i < count($movies); $i++){
+                                    if(time() >= strtotime($movies[$i]['ReleaseDate'])){
+                            ?>
+                                <div class="slide">
+                                    <img
+                                        src="<?php echo './assets/movie/poster/'.$movies[$i]['PhotoUrl'].'.jpg'; ?>"
+                                    />
+                                </div>
+                            <?php
+                                        $counter++;
+                                    }
+                                    if($counter == 5){
+                                        break;
+                                    }
+                                }
+                            ?>
                         </div>
                     </div>
-                    <a id="prev2" class="control prev" style="top: 85%"></a>
-                    <a id="next2" class="control next" style="top: 85%"></a>
+                    <a id="prev2" class="control prev" style="top: 60%"></a>
+                    <a id="next2" class="control next" style="top: 60%"></a>
+                </div>
+            </div>
+            <div>
+                <h2>Upcoming</h2>
+                <div id="slider3" class="slider">
+                    <div class="wrapper">
+                        <div id="slides3" class="slides shifting">
+                            <?php
+                                for($i = count($movies) - 1; $i >= 0; $i--){
+                                    if(time() < strtotime($dateSortMovie[$i]['ReleaseDate'])){
+                            ?>
+                                <div class="slide">
+                                    <img
+                                        src="<?php echo './assets/movie/poster/'.$dateSortMovie[$i]['PhotoUrl'].'.jpg'; ?>"
+                                    />
+                                </div>
+                            <?php
+                                    }
+                                }
+                            ?>
+                        </div>
+                    </div>
+                    <a id="prev3" class="control prev" style="top: 85%"></a>
+                    <a id="next3" class="control next" style="top: 85%"></a>
                 </div>
             </div>
         </main>
@@ -183,6 +201,7 @@
     <script>
         initSlider(1);
         initSlider(2);
+        initSlider(3);
         const slidesContainers = document.querySelectorAll(".slide-container");
         const wrapper = document.querySelector(".wrapper");
 
