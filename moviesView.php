@@ -73,7 +73,7 @@ if (isset($_GET['Sort'])) {
             <label>Sort By: </label> &nbsp;
             <select id="Sort" name="Sort" onChange="doReload(this.value)">
                 <?php
-                if (isset($_GET['Sort'])) {
+                if (isset($_GET['Sort'])  && $_GET['Sort'] != "") {
                 ?>
                     <option selected="selected" hidden><?php echo $_GET['Sort'] ?></option>
                     <option value="Default">Default</option>
