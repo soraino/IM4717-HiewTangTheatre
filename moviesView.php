@@ -9,6 +9,45 @@
     <link rel="stylesheet" href="./css/moviesView.css" />
 </head>
 
+<script>
+    function doReload(Sort) {
+        <?php
+        if (isset($_GET['View'])) {
+        ?>
+            document.location = 'moviesView.php?Sort=' + Sort + '&View=<?php echo $_GET['View']; ?>';
+        <?php
+        } else {
+        ?>
+            document.location = 'moviesView.php?Sort=' + Sort;
+        <?php
+        }
+        ?>
+    }
+</script>
+
+<?php
+$db = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
+
+if (mysqli_connect_errno()) {
+    echo 'Error: Could not connect to database.';
+    exit;
+}
+
+$filter = "";
+if (isset($_GET['Sort'])) {
+    if (($_GET['Sort'] == "Now Showing")) {
+        $currentDate = date("Y-m-d H:i:s", time());
+        $filter = "and ReleaseDate <= '$currentDate'";
+    } else if (($_GET['Sort'] == "Trending")) {
+        $filter = "and Rating >= 4";
+    } else if (($_GET['Sort'] == "Coming Soon")) {
+        $currentDate = date("Y-m-d H:i:s", time());
+        $filter = "and ReleaseDate > '$currentDate'";
+    }
+}
+
+?>
+
 <body>
     <nav class="navbar">
         <div class="navbar-menu container">
@@ -32,18 +71,33 @@
     <main class="container">
         <div id="sorter">
             <label>Sort By: </label> &nbsp;
-            <select>
-                <option>Now Showing</option>
-                <option>Trending</option>
-                <option>Coming Soon</option>
+            <select id="Sort" name="Sort" onChange="doReload(this.value)">
+                <?php
+                if (isset($_GET['Sort'])) {
+                ?>
+                    <option selected="selected" hidden><?php echo $_GET['Sort'] ?></option>
+                    <option value="Default">Default</option>
+                    <option value="Now Showing">Now Showing</option>
+                    <option value="Trending">Trending</option>
+                    <option value="Coming Soon">Coming Soon</option>
+                <?php
+                } else {
+                ?>
+                    <option value="Default">Default</option>
+                    <option value="Now Showing">Now Showing</option>
+                    <option value="Trending">Trending</option>
+                    <option value="Coming Soon">Coming Soon</option>
+                <?php
+                }
+                ?>
             </select>
             <div id="sorter_btn">
-                <a href="moviesView.php?view=grid">
+                <a href="moviesView.php?Sort=<?php echo $_GET['Sort']; ?>&View=grid">
                     <button class="gridView-btn">
                         <img src="assets/grid.svg" alt="grid" />
                     </button>
                 </a>
-                <a href="moviesView.php?view=list">
+                <a href="moviesView.php?Sort=<?php echo $_GET['Sort']; ?>&View=list">
                     <button class="listView-btn">
                         <img src="assets/list.svg" alt="list" />
                     </button>
@@ -52,44 +106,45 @@
         </div>
         <!-- Movies display -->
         <div id="movieView">
-            <!-- <div class="row">
-                    <div class="column">Column 1</div>
-                    <div class="column">Column 2</div>
-                </div>
-                <div class="row">
-                    <div class="column">Column 3</div>
-                    <div class="column">Column 4</div>
-                </div> -->
             <?php
 
-            if (isset($_GET['view'])) {
-                if ($_GET['view'] == "grid") { ?>
+
+            $sql = "select * from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId " . $filter;
+            $result = $db->query($sql);
+            $numRows = $result->num_rows;
+
+            if (isset($_GET['View'])) {
+                if ($_GET['View'] == "grid") { ?>
                     <div class="row is-wrap">
                         <?php
-                        for ($counter = 0; $counter < 10; $counter++) { ?>
-                            <div class="col size-2"><img src="http://placekitten.com/200/250" />
-                                <p>Movie Title</p>
+                        while ($movieList = $result->fetch_assoc()) { ?>
+                            <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
+                                <p><?php echo $movieList['Name']; ?></p>
                             </div>
                         <?php
                         } ?>
                     </div>
                     <?php
-                } else if ($_GET['view'] == "list") {
+                } else if ($_GET['View'] == "list") {
                     for ($counter = 0; $counter < 10; $counter++) { ?>
                         <div class="row is-wrap">
-                            <div class="col size-2">
-                                <img src="http://placekitten.com/150/200" />
-                            </div>
-                            <div class="listView-detail col size-10">
-                                <h3>Movie Title</h3>
-                                <p>2 Hrs 30 Mins</p>
-                                <p>Action | Horror</p>
-                                <p>Release Date: July 18, 2020</p>
-                                <hr />
-                                <span class="float-left">Watch Trailer</span>
-                                <span class="float-right"><img src="assets/ticket.svg" alt="ticker" width="30px" height="30px" />&nbsp; Book Ticket</span>
-                                <hr />
-                            </div>
+                            <?php
+                            while ($movieList = $result->fetch_assoc()) { ?>
+                                <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
+                                </div>
+                                <div class="listView-detail col size-10">
+                                    <h3><?php echo $movieList['Name']; ?></h3>
+                                    <p><?php echo $movieList['Duration']; ?></p>
+                                    <p><?php echo $movieList['Genre']; ?></p>
+                                    <p>Release Date: <?php echo date("F j, Y", strtotime($movieList['ReleaseDate']))  ?></p>
+
+                                    <hr />
+                                    <span class="float-left">Watch Trailer</span>
+                                    <span class="float-right"><img src="assets/ticket.svg" alt="ticker" width="30px" height="30px" />&nbsp; Book Ticket</span>
+                                    <hr />
+                                </div>
+                            <?php
+                            } ?>
                         </div>
                     <?php
                     } ?>
@@ -98,16 +153,16 @@
             } else { ?>
                 <div class="row is-wrap">
                     <?php
-                    for ($counter = 0; $counter < 10; $counter++) { ?>
-                        <div class="col size-2"><img src="http://placekitten.com/200/250" />
-                            <p>Movie Title</p>
+                    while ($movieList = $result->fetch_assoc()) { ?>
+                        <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
+                            <p><?php echo $movieList['Name']; ?></p>
                         </div>
                 <?php
                     }
                 }
-
                 ?>
                 </div>
+        </div>
     </main>
     <!-- End of container -->
     <footer class="footer">
