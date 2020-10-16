@@ -27,6 +27,10 @@ label {
     position: relative;
     margin: 10px;
 }
+.slide>img{
+    width: 200px;
+    height: 300px;
+}
 
 /* Parent wrapper to carousel. Width can be changed as needed. */
 .carousel-wrapper {
