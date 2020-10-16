@@ -134,7 +134,7 @@ a.navbar-item:hover {
     height: 50%;
 }
 
-.select{
+.select {
     display: inline-block;
     max-width: 100%;
     width: 100%;
@@ -142,7 +142,7 @@ a.navbar-item:hover {
     vertical-align: top;
 }
 
-.select select{
+.select select {
     padding-right: 2.5em;
     cursor: pointer;
     display: block;
@@ -162,37 +162,65 @@ a.navbar-item:hover {
     height: 2.5em;
     justify-content: flex-start;
     line-height: 1.5;
-    padding-bottom: calc(.5em - 1px);
-    padding-left: calc(.75em - 1px);
-    padding-top: calc(.5em - 1px);
+    padding-bottom: calc(0.5em - 1px);
+    padding-left: calc(0.75em - 1px);
+    padding-top: calc(0.5em - 1px);
     position: relative;
     margin: 0;
 }
 .select select:hover {
     border-color: #b5b5b5;
 }
-.select::after{
+.select::after {
     right: 1.125em;
     z-index: 4;
-    border: 3px solid #EF8F00;
+    border: 3px solid #ef8f00;
     border-radius: 2px;
     border-right: 0;
     border-top: 0;
     content: " ";
     display: block;
-    height: .5em;
-    margin-top: -.4375em;
+    height: 0.5em;
+    margin-top: -0.4375em;
     pointer-events: none;
     position: absolute;
     top: 50%;
     transform: rotate(-45deg);
     transform-origin: center;
-    width: .5em;
+    width: 0.5em;
     box-sizing: content-box;
 }
-.select:hover::after{
+.select:hover::after {
     border-color: #000;
 }
+
+.button {
+    background-color: #fff;
+    color: #ef8f00;
+    cursor: pointer;
+    justify-content: center;
+    padding-bottom: calc(0.5em - 1px);
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: calc(0.5em - 1px);
+    text-align: center;
+    white-space: nowrap;
+    -webkit-appearance: none;
+    align-items: center;
+    border: 1px solid #ef8f00;
+    border-radius: 50px;
+    box-shadow: none;
+    display: inline-flex;
+    font-size: 1rem;
+    font-weight: 700;
+    height: 2.5em;
+}
+.button:hover{
+    border-color: #ef8f00;
+    background-color: #ef8f00;
+    color: #fff;
+  }
+  
 
 svg.search-icon {
     height: 1.25em;
@@ -277,6 +305,14 @@ svg.search-icon {
 .float-right {
     float: right;
 }
+.clearfix{
+    overflow: auto;
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
 
 /******************* Slider styles ********************************/
 .slider {
