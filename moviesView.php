@@ -52,8 +52,8 @@ if (isset($_GET['Sort'])) {
     <nav class="navbar">
         <div class="navbar-menu container">
             <div class="navbar-end">
-                <a href="index.html" class="navbar-item"> Home </a>
-                <a class="navbar-item"> Movies </a>
+                <a href="index.php" class="navbar-item"> Home </a>
+                <a href="moviesView.php" class="navbar-item"> Movies </a>
                 <a class="navbar-item"> Bookings </a>
                 <div class="navbar-item">
                     <input class="input is-rounded" type="text" placeholder="Search" />
@@ -73,7 +73,7 @@ if (isset($_GET['Sort'])) {
             <label>Sort By: </label> &nbsp;
             <select id="Sort" name="Sort" onChange="doReload(this.value)">
                 <?php
-                if (isset($_GET['Sort'])  && $_GET['Sort'] != "") {
+                if (isset($_GET['Sort']) && $_GET['Sort'] != "") {
                 ?>
                     <option selected="selected" hidden><?php echo $_GET['Sort'] ?></option>
                     <option value="Default">Default</option>
@@ -107,8 +107,6 @@ if (isset($_GET['Sort'])) {
         <!-- Movies display -->
         <div id="movieView">
             <?php
-
-
             $sql = "select * from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId " . $filter;
             $result = $db->query($sql);
             $numRows = $result->num_rows;
@@ -118,20 +116,25 @@ if (isset($_GET['Sort'])) {
                     <div class="row is-wrap">
                         <?php
                         while ($movieList = $result->fetch_assoc()) { ?>
-                            <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
-                                <p><?php echo $movieList['Name']; ?></p>
-                            </div>
+                            <a href="movieDetails.php?movie=<?php echo $movieList['Name']; ?>">
+                                <div class="col size-2">
+                                    <img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
+                                    <p><?php echo $movieList['Name']; ?></p>
+                                </div>
+                            </a>
                         <?php
                         } ?>
                     </div>
                     <?php
                 } else if ($_GET['View'] == "list") {
-                    for ($counter = 0; $counter < 10; $counter++) { ?>
+                    for ($counter = 0; $counter < $numRows; $counter++) { ?>
                         <div class="row is-wrap">
                             <?php
                             while ($movieList = $result->fetch_assoc()) { ?>
-                                <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
-                                </div>
+                                <a href="movieDetails.php?movie=<?php echo $movieList['Name']; ?>">
+                                    <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
+                                    </div>
+                                </a>
                                 <div class="listView-detail col size-10">
                                     <h3><?php echo $movieList['Name']; ?></h3>
                                     <p><?php echo $movieList['Duration']; ?></p>
@@ -154,9 +157,11 @@ if (isset($_GET['Sort'])) {
                 <div class="row is-wrap">
                     <?php
                     while ($movieList = $result->fetch_assoc()) { ?>
-                        <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
-                            <p><?php echo $movieList['Name']; ?></p>
-                        </div>
+                        <a href="movieDetails.php?movie=<?php echo $movieList['Name']; ?>">
+                            <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
+                                <p><?php echo $movieList['Name']; ?></p>
+                            </div>
+                        </a>
                 <?php
                     }
                 }

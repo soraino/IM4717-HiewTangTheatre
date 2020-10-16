@@ -87,3 +87,8 @@ hr {
     clear: both;
     margin: 0px;
 }
+
+a {
+    text-decoration: none;
+    color: black;
+}
