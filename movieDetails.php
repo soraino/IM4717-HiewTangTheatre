@@ -37,9 +37,9 @@ $directorList = $result2->fetch_assoc();
     <nav class="navbar">
         <div class="navbar-menu container">
             <div class="navbar-end">
-                <a href="index.php" class="navbar-item"> Home </a>
+                <a href="./" class="navbar-item"> Home </a>
                 <a href="moviesView.php" class="navbar-item"> Movies </a>
-                <a class="navbar-item"> Bookings </a>
+                <a class="navbar-item"> Check Bookings </a>
                 <div class="navbar-item">
                     <input class="input is-rounded" type="text" placeholder="Search" />
                     <svg class="search-icon" viewBox="0 0 12 13">
