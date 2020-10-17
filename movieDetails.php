@@ -12,7 +12,7 @@
 <?php
 $db = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
 
-if (mysqli_connect_errno()) {
+if (mysqli_connect_errno() || !isset($_GET)) {
     echo 'Error: Could not connect to database.';
     exit;
 }
@@ -67,11 +67,11 @@ $movieDetails = $result->fetch_assoc();
                         <div class="col size-3 image-width"></div>
                         <div class="col size-9">
                             <div class="row">
-                                <div style="padding: 0" class="col">
+                                <div class="col pad-0">
                                     <h2 style="margin: 0"><?php echo $movieDetails['Rating']; ?></h3>
                                         <p style="margin: 0">User Ratings</p>
                                 </div>
-                                <div class="col">
+                                <div class="col pad-0">
                                     <a href="" class="button float-right">BOOK TICKET</a>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@ $movieDetails = $result->fetch_assoc();
                             <?php
                             for ($counter = 1; $counter <= 5; $counter++) { ?>
                                 <div class="slide">
-                                    <img src="assets/movie/screenshot/<?php echo $movieDetails['PhotoUrl'] . $counter; ?>.jpg" alt="<?php echo $movieDetails['Name']; ?>" width="260" />
+                                    <img src="assets/movie/screenshot/<?php echo $movieDetails['PhotoUrl'] . $counter; ?>.jpg" alt="<?php echo $movieDetails['Name']; ?>"/>
                                 </div>
                             <?php
                             }

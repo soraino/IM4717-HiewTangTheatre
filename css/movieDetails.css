@@ -23,31 +23,9 @@
     height: 80px;
     color: #fff;
 }
-.float-right {
-    float: right;
+.pad-0{
+    padding: 0;
 }
-
-a.button {
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 20px;
-    color: #000;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
-    padding-bottom: 0.55em;
-    padding-left: 1.2em;
-    padding-right: 1.2em;
-    padding-top: 0.55em;
-    text-align: center;
-    white-space: nowrap;
-}
-a.button:hover{
-    border: 1px solid #dbdbdb;
-    background-color: #272727;
-    color: #dbdbdb;
-}
-
 .slide {
     width: 300px;
     height: 200px;

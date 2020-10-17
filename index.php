@@ -11,17 +11,24 @@
         <?php
             @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
             $MOVIE_QUERY = "select M.*, P.PhotoUrl from f34ee.MovieDetail as M inner join f34ee.Photo as P where P.MovieDetailId = M.Id order by M.Rating desc;";
-            if(!$DB){
+            $THEATRE_QUERY = "select distinct Location from f34ee.Theatre;";
+            if(mysqli_connect_errno()){
                 exit('Unable to connect to db');
             }
             $movies = array();
+            $theatres = array();
             $queryResult = $DB->query($MOVIE_QUERY);
             if($queryResult->num_rows > 0){
                 while($row = $queryResult->fetch_assoc()){
                     array_push($movies, $row);
                 }
             }
-            $queryResult->free();
+            $queryResult = $DB->query($THEATRE_QUERY);
+            if($queryResult->num_rows > 0){
+                while($row = $queryResult->fetch_assoc()){
+                    array_push($theatres, $row);
+                }
+            }
             $DB->close();
             $dateSortMovie = $movies;
             usort($dateSortMovie, function($a, $b) {
@@ -54,12 +61,15 @@
             <div class="carousel">
                 <?php
                     for($i = 0; $i < 4; $i++){
+                ?>
+                    <a href="<?php echo './movieDetails.php?movie='.urlencode($movies[$i]['Name'])?>">
+                <?php
                         if($i==0){
                 ?>
-                    <img
-                        class="carousel__photo initial"
-                        src="<?php echo './assets/movie/banner/'.$movies[$i]['PhotoUrl'].'.jpg'; ?>"
-                    />
+                        <img
+                            class="carousel__photo initial"
+                            src="<?php echo './assets/movie/banner/'.$movies[$i]['PhotoUrl'].'.jpg'; ?>"
+                        />
                 <?php
                         }else{
                 ?>
@@ -69,6 +79,9 @@
                     />
                 <?php
                         }
+                ?>
+                    </a>
+                <?php
                     }
                 ?>
                 <div class="carousel__button--next"></div>
@@ -78,35 +91,39 @@
         <main class="container">
             <div class="box">
                 <h2>Quick Purchase</h2>
-                <form>
+                <form method="GET" action="./booking.php" >
                     <div class="row">
                         <div class="col center">
                             <label>Movie</label>
                             <div class="select">
-                                <select>
-                                <option>test</option>    
+                                <select name="movie" id="movieSelect" onchange="movieSelectorChange(this)" required>
+                                    <option value="" selected disabled>Select a movie</option>
+                                    <?php
+                                        for($i = 0; $i < count($dateSortMovie); $i++){
+                                            if(time() >= strtotime($dateSortMovie[$i]['ReleaseDate'])){
+                                                echo '<option value="'.$dateSortMovie[$i]['Id'].'">'.$dateSortMovie[$i]['Name'].'</option>';
+                                            }
+                                        }
+                                    ?>
                                 <select>
                             </div>
                         </div>
                         <div class="col center">
                             <label>Location</label>
                             <div class="select">
-                                <select>
-                                <option>test</option>    
+                                <select name="location"  id="locationSelect" onchange="locationSelectorChange(this)" required>
+                                    <option value="" selected disabled>Select a Location</option>
+                                    <?php
+                                        for($i = 0; $i < count($theatres); $i++){
+                                            echo '<option value="'.$theatres[$i]['Location'].'">'.$theatres[$i]['Location'].'</option>';
+                                        }
+                                    ?>
                                 <select>
                             </div>
                         </div>
                         <div class="col center">
                             <label>Date</label>
-                            <input type="date" name="date" id="dateInput" class="input is-rounded">
-                        </div>
-                        <div class="col center">
-                            <label>Timeslot</label>
-                            <div class="select">
-                                <select>
-                                <option>test</option>    
-                                <select>
-                            </div>
+                            <input type="date" name="date" id="dateInput" class="input is-rounded" required>
                         </div>
                     </div><br>
                     <div class="clearfix">
@@ -123,11 +140,13 @@
                                 for($i = 0; $i < count($dateSortMovie); $i++){
                                     if(time() >= strtotime($dateSortMovie[$i]['ReleaseDate'])){
                             ?>
-                                <div class="slide">
-                                    <img
-                                        src="<?php echo './assets/movie/poster/'.$dateSortMovie[$i]['PhotoUrl'].'.jpg'; ?>"
-                                    />
-                                </div>
+                                <a href="<?php echo './movieDetails.php?movie='.urlencode($dateSortMovie[$i]['Name'])?>">
+                                    <div class="slide">
+                                        <img
+                                            src="<?php echo './assets/movie/poster/'.$dateSortMovie[$i]['PhotoUrl'].'.jpg'; ?>"
+                                        />
+                                    </div>
+                                </a>
                             <?php
                                     }
                                 }
@@ -148,11 +167,13 @@
                                 for($i = 0; $i < count($movies); $i++){
                                     if(time() >= strtotime($movies[$i]['ReleaseDate'])){
                             ?>
+                             <a href="<?php echo './movieDetails.php?movie='.urlencode($movies[$i]['Name'])?>">
                                 <div class="slide">
                                     <img
                                         src="<?php echo './assets/movie/poster/'.$movies[$i]['PhotoUrl'].'.jpg'; ?>"
                                     />
                                 </div>
+                            </a>
                             <?php
                                         $counter++;
                                     }
@@ -173,14 +194,16 @@
                     <div class="wrapper">
                         <div id="slides3" class="slides shifting">
                             <?php
-                                for($i = count($movies) - 1; $i >= 0; $i--){
+                                for($i = count($dateSortMovie) - 1; $i >= 0; $i--){
                                     if(time() < strtotime($dateSortMovie[$i]['ReleaseDate'])){
                             ?>
-                                <div class="slide">
-                                    <img
-                                        src="<?php echo './assets/movie/poster/'.$dateSortMovie[$i]['PhotoUrl'].'.jpg'; ?>"
-                                    />
-                                </div>
+                                <a href="<?php echo './movieDetails.php?movie='.urlencode($dateSortMovie[$i]['Name'])?>">
+                                    <div class="slide">
+                                        <img
+                                            src="<?php echo './assets/movie/poster/'.$dateSortMovie[$i]['PhotoUrl'].'.jpg'; ?>"
+                                        />
+                                    </div>
+                                </a>
                             <?php
                                     }
                                 }
@@ -201,120 +224,10 @@
         </footer>
     </body>
     <script src="./js/slider.js"></script>
+    <script src="./js/bannerSlider.js"></script>
     <script>
-        
-        const slidesContainers = document.querySelectorAll(".slide-container");
-        const wrapper = document.querySelector(".wrapper");
-
-        // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-        const itemClassName = "carousel__photo";
-        const items = document.getElementsByClassName(itemClassName);
-        const totalItems = items.length;
-        let slide = 0;
-        let moving = true;
-        // To initialise the carousel we'll want to update the DOM with our own classes
-        function setInitialClasses() {
-            // Target the last, initial, and next items and give them the relevant class.
-            // This assumes there are three or more items.
-            items[totalItems - 1].classList.add("prev");
-            items[0].classList.add("active");
-            items[1].classList.add("next");
-        }
-        // Set click events to navigation buttons
-        function setEventListeners() {
-            const next = document.getElementsByClassName(
-                "carousel__button--next"
-            )[0];
-            const prev = document.getElementsByClassName(
-                "carousel__button--prev"
-            )[0];
-            next.addEventListener("click", moveNext);
-            prev.addEventListener("click", movePrev);
-        }
-
-        // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
-        function disableInteraction() {
-            moving = true;
-            setTimeout(function () {
-                moving = false;
-            }, 500);
-        }
-        function moveCarouselTo(slide) {
-            // Check if carousel is moving, if not, allow interaction
-            if (!moving) {
-                // temporarily disable interactivity
-                disableInteraction();
-                // Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-                let newPrevious = slide - 1;
-                let newNext = slide + 1;
-                let oldPrevious = slide - 2;
-                let oldNext = slide + 2;
-                // Checks if the new potential slide is out of bounds and sets slide numbers
-                if (newPrevious <= 0) {
-                    oldPrevious = totalItems - 1;
-                } else if (newNext >= totalItems - 1) {
-                    oldNext = 0;
-                }
-                // Check if current slide is at the beginning or end and sets slide numbers
-                if (slide === 0) {
-                    newPrevious = totalItems - 1;
-                    oldPrevious = totalItems - 2;
-                    oldNext = slide + 1;
-                } else if (slide === totalItems - 1) {
-                    newPrevious = slide - 1;
-                    newNext = 0;
-                    oldNext = 1;
-                }
-
-                // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
-                // Based on the current slide, reset to default classes.
-                items[oldPrevious].className = itemClassName;
-                items[oldNext].className = itemClassName;
-                // Add the new classes
-                items[newPrevious].className = itemClassName + " prev";
-                items[slide].className = itemClassName + " active";
-                items[newNext].className = itemClassName + " next";
-            }
-        }
-        // Next navigation handler
-        function moveNext() {
-            // Check if moving
-            if (!moving) {
-                // If it's the last slide, reset to 0, else +1
-                if (slide === totalItems - 1) {
-                    slide = 0;
-                } else {
-                    slide++;
-                }
-
-                // Move carousel to updated slide
-                moveCarouselTo(slide);
-            }
-        }
-        // Previous navigation handler
-        function movePrev() {
-            // Check if moving
-            if (!moving) {
-                // If it's the first slide, set as the last slide, else -1
-                if (slide === 0) {
-                    slide = totalItems - 1;
-                } else {
-                    slide--;
-                }
-
-                // Move carousel to updated slide
-                moveCarouselTo(slide);
-            }
-        }
-
-        // Initialise carousel
-        function initCarousel() {
-            setInitialClasses();
-            setEventListeners();
-            // Set moving to false now that the carousel is ready
-            moving = false;
-        }
-        
+        const movieSelector = document.getElementById('movieSelect');
+        const locationSelector = document.getElementById('locationSelect');
         function initialisedPage(){
             const dateInput = document.getElementById('dateInput');
             const dateVar = new Date();
@@ -327,6 +240,5 @@
             initCarousel();
         }
         initialisedPage();
-
     </script>
 </html>

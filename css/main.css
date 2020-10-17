@@ -208,12 +208,13 @@ a.navbar-item:hover {
     -webkit-appearance: none;
     align-items: center;
     border: 1px solid #ef8f00;
-    border-radius: 50px;
+    border-radius: 290486px;
     box-shadow: none;
     display: inline-flex;
     font-size: 1rem;
     font-weight: 700;
     height: 2.5em;
+    text-decoration: none;
 }
 .button:hover{
     border-color: #ef8f00;
