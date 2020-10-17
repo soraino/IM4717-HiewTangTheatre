@@ -71,26 +71,28 @@ if (isset($_GET['Sort'])) {
     <main class="container">
         <div id="sorter">
             <label>Sort By: </label> &nbsp;
-            <select id="Sort" name="Sort" onChange="doReload(this.value)">
-                <?php
-                if (isset($_GET['Sort']) && $_GET['Sort'] != "") {
-                ?>
-                    <option selected="selected" hidden><?php echo $_GET['Sort'] ?></option>
-                    <option value="Default">Default</option>
-                    <option value="Now Showing">Now Showing</option>
-                    <option value="Trending">Trending</option>
-                    <option value="Coming Soon">Coming Soon</option>
-                <?php
-                } else {
-                ?>
-                    <option value="Default">Default</option>
-                    <option value="Now Showing">Now Showing</option>
-                    <option value="Trending">Trending</option>
-                    <option value="Coming Soon">Coming Soon</option>
-                <?php
-                }
-                ?>
-            </select>
+            <div class="select_box">
+                <select id="Sort" name="Sort" onChange="doReload(this.value)">
+                    <?php
+                    if (isset($_GET['Sort']) && $_GET['Sort'] != "") {
+                    ?>
+                        <option selected="selected" hidden><?php echo $_GET['Sort'] ?></option>
+                        <option value="Default">Default</option>
+                        <option value="Now Showing">Now Showing</option>
+                        <option value="Trending">Trending</option>
+                        <option value="Coming Soon">Coming Soon</option>
+                    <?php
+                    } else {
+                    ?>
+                        <option value="Default">Default</option>
+                        <option value="Now Showing">Now Showing</option>
+                        <option value="Trending">Trending</option>
+                        <option value="Coming Soon">Coming Soon</option>
+                    <?php
+                    }
+                    ?>
+                </select>
+            </div>
             <div id="sorter_btn">
                 <a href="moviesView.php?Sort=<?php echo $_GET['Sort']; ?>&View=grid">
                     <button class="gridView-btn">
@@ -128,27 +130,30 @@ if (isset($_GET['Sort'])) {
                     <?php
                 } else if ($_GET['View'] == "list") {
                     for ($counter = 0; $counter < $numRows; $counter++) { ?>
-                        <div class="row is-wrap">
-                            <?php
-                            while ($movieList = $result->fetch_assoc()) { ?>
-                                <a href="movieDetails.php?movie=<?php echo $movieList['Name']; ?>">
-                                    <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
-                                    </div>
-                                </a>
-                                <div class="listView-detail col size-10">
+                        <?php
+                        while ($movieList = $result->fetch_assoc()) { ?>
+                            <div class="row is-wrap">
+                                <div class="col size-2">
+                                    <a href="movieDetails.php?movie=<?php echo $movieList['Name']; ?>">
+                                        <img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
+                                    </a>
+                                </div>
+                                <div class="listView-detail col size-8">
                                     <h3><?php echo $movieList['Name']; ?></h3>
-                                    <p><?php echo $movieList['Duration']; ?></p>
+                                    <p><?php echo $movieList['Duration']; ?> Mins</p>
                                     <p><?php echo $movieList['Genre']; ?></p>
                                     <p>Release Date: <?php echo date("F j, Y", strtotime($movieList['ReleaseDate']))  ?></p>
-
-                                    <hr />
-                                    <span class="float-left">Watch Trailer</span>
-                                    <span class="float-right"><img src="assets/ticket.svg" alt="ticker" width="30px" height="30px" />&nbsp; Book Ticket</span>
-                                    <hr />
+                                    <div>
+                                        <hr />
+                                        <span class="float-left"><img src="assets/play.svg" alt="ticket" width="20px" height="20px" />&nbsp; Watch Trailer</span>
+                                        <span class="float-right"><img src="assets/movie-tickets.svg" alt="ticket" width="32px" height="32px" />&nbsp; Book Ticket</span>
+                                        <hr />
+                                    </div>
                                 </div>
-                            <?php
-                            } ?>
-                        </div>
+                            </div>
+                        <?php
+                        } ?>
+                        <!-- End of while lopp -->
                     <?php
                     } ?>
                 <?php

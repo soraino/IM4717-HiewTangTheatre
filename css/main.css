@@ -216,12 +216,11 @@ a.navbar-item:hover {
     height: 2.5em;
     text-decoration: none;
 }
-.button:hover{
+.button:hover {
     border-color: #ef8f00;
     background-color: #ef8f00;
     color: #fff;
-  }
-  
+}
 
 svg.search-icon {
     height: 1.25em;
@@ -306,14 +305,14 @@ svg.search-icon {
 .float-right {
     float: right;
 }
-.clearfix{
+.clearfix {
     overflow: auto;
 }
 .clearfix::after {
     content: "";
     clear: both;
     display: table;
-  }
+}
 
 /******************* Slider styles ********************************/
 .slider {

@@ -23,6 +23,14 @@ $result = $db->query($sql);
 $numRows = $result->num_rows;
 $movieDetails = $result->fetch_assoc();
 
+$sql2 = "select * from MovieDetail A inner join Cast B on A.Id = B.MovieDetailId inner join People C on C.Id = B.PeopleId and A.Name = '" . $selectedMovie . "'";
+$result2 = $db->query($sql2);
+$castList = $result2->fetch_assoc();
+
+$sql3 = "select * from MovieDetail A inner join Director B on A.Id = B.MovieDetailId inner join People C on C.Id = B.PeopleId and A.Name = '" . $selectedMovie . "'";
+$result3 = $db->query($sql3);
+$directorList = $result2->fetch_assoc();
+
 ?>
 
 <body>
@@ -68,11 +76,22 @@ $movieDetails = $result->fetch_assoc();
                         <div class="col size-9">
                             <div class="row">
                                 <div class="col pad-0">
-                                    <h2 style="margin: 0"><?php echo $movieDetails['Rating']; ?></h3>
-                                        <p style="margin: 0">User Ratings</p>
+                                    <div class="row">
+                                        <h2 style="margin: 0"><?php echo $movieDetails['Rating']; ?></h2>
+                                        <?php
+                                        $ratingPercentage = ($movieDetails['Rating'] / 5) * 100;
+                                        ?>
+                                        <div class="star-ratings-css">
+                                            <div class="star-ratings-css-top" style="width: <?php echo $ratingPercentage ?>%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <p style="margin: 0">Users Rating</p>
+                                    </div>
                                 </div>
                                 <div class="col pad-0">
-                                    <a href="" class="button float-right">BOOK TICKET</a>
+                                    <a href="booking.html?movie=<?php echo $movieDetails['Id']; ?>" class=" button float-right">BOOK TICKET</a>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +108,7 @@ $movieDetails = $result->fetch_assoc();
                             <?php
                             for ($counter = 1; $counter <= 5; $counter++) { ?>
                                 <div class="slide">
-                                    <img src="assets/movie/screenshot/<?php echo $movieDetails['PhotoUrl'] . $counter; ?>.jpg" alt="<?php echo $movieDetails['Name']; ?>"/>
+                                    <img src="assets/movie/screenshot/<?php echo $movieDetails['PhotoUrl'] . $counter; ?>.jpg" alt="<?php echo $movieDetails['Name']; ?>" />
                                 </div>
                             <?php
                             }
@@ -102,20 +121,29 @@ $movieDetails = $result->fetch_assoc();
             </section>
             <div class="row">
                 <div class="col">
-                    <h3>SYSNOPSIS</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Modi eum mollitia eligendi voluptatum? Perspiciatis minus beatae, consequatur, odit autem maiores nostrum cupiditate ipsa non perferendis quidem quae officiis deleniti mollitia. Consectetur, voluptas assumenda! Atque voluptatem vel hic nobis consequatur sapiente, ullam explicabo perferendis in quo ipsum ipsa repellat possimus ab repellendus alias placeat nemo, mollitia laborum cupiditate blanditiis laboriosam! Voluptas ab animi, a alias ipsum beatae quas, dolore quasi, voluptatem consectetur voluptatum? Reiciendis ut reprehenderit modi dolorem odio labore a corrupti recusandae! Illo qui dolor pariatur! Expedita ad pariatur velit harum placeat, qui autem vel veritatis facere aut dolorem quod?</p>
+                    <h3>SYNOPSIS</h3>
+                    <p><?php echo $movieDetails['Synopsis']; ?></p>
                 </div>
                 <div class="col">
                     <h3>DIRECTOR</h3>
                     <ul>
-                        <li>Lorem ipsum dolor sit amet.</li>
-                        <li>Lorem ipsum dolor sit amet.</li>
-                        <li>Lorem ipsum dolor sit amet.</li>
+                        <?php
+                        while ($directorList = $result3->fetch_assoc()) {
+                        ?>
+                            <li><?php echo $directorList['Name'] ?></li>
+                        <?php
+                        }
+                        ?>
                     </ul>
                     <h3>CAST</h3>
                     <ul>
-                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, provident.</li>
-                        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, fugiat?</li>
+                        <?php
+                        while ($castList = $result2->fetch_assoc()) {
+                        ?>
+                            <li><?php echo $castList['Name'] ?></li>
+                        <?php
+                        }
+                        ?>
                     </ul>
                 </div>
             </div>

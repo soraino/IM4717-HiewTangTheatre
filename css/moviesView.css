@@ -8,12 +8,73 @@
     border-radius: 5px;
 }
 
-#sorter select {
+/* #sorter select {
     width: 130px;
     padding: 4px;
     border-radius: 20px;
-    border-color: black;
-    background-color: transparent;
+    border-color: #dbdbdb;
+    background-color: #fff;
+    color: #363636;
+}
+
+#sorter select:hover {
+    border-color: #b5b5b5;
+} */
+
+.select_box {
+    display: inline-block;
+    width: 150px;
+    position: relative;
+    vertical-align: top;
+}
+
+.select_box select:hover {
+    border-color: #b5b5b5;
+}
+
+.select_box:hover::after {
+    border-color: #000;
+}
+
+.select_box:after {
+    right: 1.125em;
+    z-index: 4;
+    border: 3px solid #ef8f00;
+    border-radius: 2px;
+    border-right: 0;
+    border-top: 0;
+    content: " ";
+    display: block;
+    height: 0.5em;
+    margin-top: -0.4375em;
+    pointer-events: none;
+    position: absolute;
+    top: 47%;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    width: 0.5em;
+    box-sizing: content-box;
+}
+.select_box select {
+    padding-right: 2.5em;
+    cursor: pointer;
+    display: block;
+    width: 150px;
+    outline: 0;
+    color: #363636;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    align-items: center;
+    border: 1px solid #dbdbdb;
+    border-radius: 290486px;
+    box-shadow: none;
+    display: inline-flex;
+    justify-content: flex-start;
+    padding-bottom: calc(0.4em - 1px);
+    padding-left: calc(0.75em - 1px);
+    padding-top: calc(0.4em - 1px);
+    position: relative;
+    margin: 0;
 }
 
 #sorter option {
@@ -34,9 +95,14 @@
     width: 55px;
     height: 25px;
     padding: 4px;
-    background-color: transparent;
+    background-color: #fff;
     border-radius: 20px;
-    border: solid 1px #000;
+    border: solid 1px #dbdbdb;
+}
+
+.gridView-btn:hover,
+.listView-btn:hover {
+    border-color: #b5b5b5;
 }
 
 .gridView-btn img,
@@ -45,42 +111,36 @@
     height: 15px;
 }
 
+svg path {
+    fill: #ef8f00 !important;
+}
+
 #movieView {
     margin: 30px;
 }
-
-/* .column {
-    float: left;
-    width: 80px;
-    padding: 10px;
-    border: solid 1px chocolate;
-}
-
-.row {
-    content: "";
-    display: table;
-    clear: both;
-} */
 
 .row {
     padding: 20px 0;
 }
 
-/* .row .listView-detail {
-    margin: 0 50px;
-} */
-
 h3 {
     margin-top: 0px;
 }
 
+.listView-detail div {
+    margin-top: 120px;
+}
+
 .listView-detail p {
     font-size: 14px;
+    line-height: 30px;
 }
 
 .listView-detail span {
+    font-size: 14px;
     display: flex;
     align-items: center;
+    height: 40px;
 }
 
 hr {
