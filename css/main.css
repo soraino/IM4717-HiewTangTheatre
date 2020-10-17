@@ -6,6 +6,7 @@ html {
     padding: 0;
     font-family: "Open Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f5f5;
+    overflow-x: hidden;
 }
 
 ul,

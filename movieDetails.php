@@ -12,7 +12,7 @@
 <?php
 $db = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
 
-if (mysqli_connect_errno() || !isset($_GET)) {
+if (mysqli_connect_errno()) {
     echo 'Error: Could not connect to database.';
     exit;
 }

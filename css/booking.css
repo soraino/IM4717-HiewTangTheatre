@@ -12,17 +12,27 @@ input[type="radio"]:checked+label{
     color: #EF8F00;
 }
 
+input[type="radio"]:checked.timeslot+label{
+    color: #fff;
+    font-weight: 700;
+}
+
+.selectedTimeSlot{
+    background-color: #EF8F00;
+}
+label{
+    display: block;
+}
 table{
     border-collapse: collapse;
     border-spacing: 0;
     width: 100%;
     margin-top: 20px;
 }
-
+tr{
+    border: solid 1px #dbdbdb;
+}
 td,th {
-    border-width: 1px;
-    border: 1px solid #dbdbdb;
-    border-width: 1px 0 1px;
     padding: .5em .75em;
     vertical-align: top;
 }
@@ -30,11 +40,18 @@ thead{
     font-weight: bolder;
     font-size: 1.5em;
 }
-td:last-child{
-    border-right-width: 1px;
-}
 td:first-child{
-    border-left-width: 1px;
-    border-right-width: 1px;
+    border-left: solid 1px  #dbdbdb;
+    border-right: solid 1px  #dbdbdb;
     font-weight:bold;
+}
+.link{
+    font-size: 1em;
+    text-decoration: underline;
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+}
+.link:hover{
+    color: #EF8F00;
 }

@@ -29,6 +29,7 @@
                     array_push($theatres, $row);
                 }
             }
+            $queryResult -> free();
             $DB->close();
             $dateSortMovie = $movies;
             usort($dateSortMovie, function($a, $b) {
@@ -38,7 +39,7 @@
         <nav class="navbar">
             <div class="navbar-menu container">
                 <div class="navbar-end">
-                    <a class="navbar-item"> Home </a>
+                    <a href="./" class="navbar-item"> Home </a>
                     <a href="moviesView.php" class="navbar-item"> Movies </a>
                     <a class="navbar-item"> Check Bookings </a>
                     <div class="navbar-item">
