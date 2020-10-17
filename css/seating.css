@@ -1,0 +1,120 @@
+#top select,
+#top input {
+    width: 145px;
+    height: 24px;
+    border-radius: 15px;
+    border: 1px solid black;
+}
+
+#top {
+    margin: 30px 0;
+}
+
+.outer-container {
+    border: 1px solid black;
+    width: auto;
+}
+
+.screen {
+    width: 95%;
+    height: fit-content;
+    justify-content: center;
+    background-color: rgb(197, 197, 197);
+    padding: 10px 0;
+    margin: 20px auto;
+}
+
+.seats {
+    margin: 30px 50px;
+}
+
+.iseat {
+    text-align: center;
+    border: 1px solid black;
+    margin: 8px;
+    background-color: white;
+}
+
+.iseat:nth-child(2) {
+    background-color: grey;
+}
+
+.seats-left {
+    /* background-color: red; */
+    margin-right: 30px;
+}
+
+.seats-right {
+    /* background-color: blue; */
+    margin-left: 30px;
+}
+
+.legends {
+    width: 95%;
+    margin: 20px auto;
+    border-top: 1px solid black;
+}
+
+.title {
+    display: block !important;
+    width: 100%;
+    height: fit-content;
+    padding: 10px 0;
+}
+
+.box {
+    display: inline-block;
+    border: 1px solid black;
+    width: 40px;
+    height: 40px;
+    margin-right: 100px;
+}
+
+.box p {
+    margin: 0px;
+    margin-left: 60px;
+    line-height: 40px;
+}
+
+#tickets {
+    margin-top: 20px;
+}
+
+.tickets-header {
+    width: 95%;
+    margin: 0 auto;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.tickets-item {
+    width: 95%;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+#tickets p {
+    display: block;
+    width: 100%;
+    margin: 5px;
+}
+
+#payment {
+    width: 80%;
+    margin: 50px auto;
+    justify-content: center;
+}
+
+#payment-left {
+    width: 50%;
+    float: left;
+}
+
+#payment label {
+    float: left;
+    width: 150px;
+}
+
+#payment input[type="submit"] {
+    float: right;
+}

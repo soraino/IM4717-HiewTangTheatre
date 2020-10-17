@@ -18,7 +18,7 @@ if (mysqli_connect_errno()) {
 }
 
 $selectedMovie = $_GET['movie'];
-$sql = "select * from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId and A.Name = '" . $selectedMovie . "'";
+$sql = "select A.Id, A.Name, B.PhotoUrl, A.Language, A.Synopsis, A.Genre, A.ReleaseDate, A.Rating, A.Duration from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId and A.Name = '" . $selectedMovie . "'";
 $result = $db->query($sql);
 $numRows = $result->num_rows;
 $movieDetails = $result->fetch_assoc();
@@ -91,7 +91,7 @@ $directorList = $result2->fetch_assoc();
                                     </div>
                                 </div>
                                 <div class="col pad-0">
-                                    <a href="booking.html?movie=<?php echo $movieDetails['Id']; ?>" class=" button float-right">BOOK TICKET</a>
+                                    <a href="booking.php?movie=<?php echo $movieDetails['Id']; ?>" class=" button float-right">BOOK TICKET</a>
                                 </div>
                             </div>
                         </div>
