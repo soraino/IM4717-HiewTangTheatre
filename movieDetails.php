@@ -18,7 +18,7 @@ if (mysqli_connect_errno()) {
 }
 
 $selectedMovie = $_GET['movie'];
-$sql = "select * from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId and A.Name = '" . $selectedMovie . "'";
+$sql = "select A.*, B.PhotoUrl from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId and A.Name = '" . $selectedMovie . "'";
 $result = $db->query($sql);
 $numRows = $result->num_rows;
 $movieDetails = $result->fetch_assoc();
@@ -57,14 +57,16 @@ $directorList = $result2->fetch_assoc();
             <div class="container">
                 <div class="row">
                     <div class="col size-3 bring-front">
-                        <img class="movie-image" src="assets/movie/poster/<?php echo $movieDetails['PhotoUrl']; ?>.jpg" alt="" width="260" />
+                        <img class="movie-image" src="assets/movie/poster/<?php echo $movieDetails['PhotoUrl']; ?>.jpg"
+                            alt="" width="260" />
                     </div>
                     <div class="col size-9">
                         <h1 class="movie-title"><?php echo $movieDetails['Name']; ?></h1>
                         <br />
                         <p><?php echo $movieDetails['Language']; ?></p>
                         <p style="margin-top: 10px;"><?php echo $movieDetails['Genre']; ?></p>
-                        <p style="margin-top: 10px;"><?php echo date("F j, Y", strtotime($movieDetails['ReleaseDate']))  ?></p>
+                        <p style="margin-top: 10px;">
+                            <?php echo date("F j, Y", strtotime($movieDetails['ReleaseDate']))  ?></p>
                         <p><?php echo $movieDetails['Duration'] ?> Mins</p>
                     </div>
                 </div>
@@ -82,8 +84,13 @@ $directorList = $result2->fetch_assoc();
                                         $ratingPercentage = ($movieDetails['Rating'] / 5) * 100;
                                         ?>
                                         <div class="star-ratings-css">
-                                            <div class="star-ratings-css-top" style="width: <?php echo $ratingPercentage ?>%"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                            <div class="star-ratings-css-top"
+                                                style="width: <?php echo $ratingPercentage ?>%">
+                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                            </div>
+                                            <div class="star-ratings-css-bottom">
+                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -91,7 +98,8 @@ $directorList = $result2->fetch_assoc();
                                     </div>
                                 </div>
                                 <div class="col pad-0">
-                                    <a href="booking.html?movie=<?php echo $movieDetails['Id']; ?>" class=" button float-right">BOOK TICKET</a>
+                                    <a href="booking.php?movie=<?php echo $movieDetails['Id']; ?>"
+                                        class=" button float-right">BOOK TICKET</a>
                                 </div>
                             </div>
                         </div>
@@ -101,23 +109,29 @@ $directorList = $result2->fetch_assoc();
         </div>
         <div class="container padded">
             <section>
-                <h1>Screen shot</h1>
-                <div id="slider1" class="slider">
-                    <div class="wrapper">
-                        <div id="slides1" class="slides shifting">
-                            <?php
+                <video controls autoplay muted>
+                    <source src="assets/movie/trailer/<?php echo $movieDetails['PhotoUrl']; ?>.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </section>
+            <h1>Screen shot</h1>
+            <div id="slider1" class="slider">
+                <div class="wrapper">
+                    <div id="slides1" class="slides shifting">
+                        <?php
                             for ($counter = 1; $counter <= 5; $counter++) { ?>
-                                <div class="slide">
-                                    <img src="assets/movie/screenshot/<?php echo $movieDetails['PhotoUrl'] . $counter; ?>.jpg" alt="<?php echo $movieDetails['Name']; ?>" />
-                                </div>
-                            <?php
+                        <div class="slide">
+                            <img src="assets/movie/screenshot/<?php echo $movieDetails['PhotoUrl'] . $counter; ?>.jpg"
+                                alt="<?php echo $movieDetails['Name']; ?>" />
+                        </div>
+                        <?php
                             }
                             ?>
-                        </div>
                     </div>
-                    <a id="prev1" class="control prev" style="top: 23%"></a>
-                    <a id="next1" class="control next" style="top: 23%"></a>
                 </div>
+                <a id="prev1" class="control prev" style="top: 59%"></a>
+                <a id="next1" class="control next" style="top: 59%"></a>
+            </div>
             </section>
             <div class="row">
                 <div class="col">
@@ -130,7 +144,7 @@ $directorList = $result2->fetch_assoc();
                         <?php
                         while ($directorList = $result3->fetch_assoc()) {
                         ?>
-                            <li><?php echo $directorList['Name'] ?></li>
+                        <li><?php echo $directorList['Name'] ?></li>
                         <?php
                         }
                         ?>
@@ -140,7 +154,7 @@ $directorList = $result2->fetch_assoc();
                         <?php
                         while ($castList = $result2->fetch_assoc()) {
                         ?>
-                            <li><?php echo $castList['Name'] ?></li>
+                        <li><?php echo $castList['Name'] ?></li>
                         <?php
                         }
                         ?>
@@ -159,7 +173,7 @@ $directorList = $result2->fetch_assoc();
 </body>
 <script src="./js/slider.js"></script>
 <script>
-    initSlider(1);
+initSlider(1);
 </script>
 
 </html>

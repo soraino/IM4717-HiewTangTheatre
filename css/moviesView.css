@@ -152,3 +152,6 @@ a {
     text-decoration: none;
     color: black;
 }
+.book-ticket:hover{
+    text-decoration: underline !important;
+}

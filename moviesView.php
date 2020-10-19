@@ -109,7 +109,7 @@ if (isset($_GET['Sort'])) {
         <!-- Movies display -->
         <div id="movieView">
             <?php
-            $sql = "select * from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId " . $filter;
+            $sql = "select A.*, B.PhotoUrl from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId; " . $filter;
             $result = $db->query($sql);
             $numRows = $result->num_rows;
 
@@ -146,7 +146,7 @@ if (isset($_GET['Sort'])) {
                                     <div>
                                         <hr />
                                         <span class="float-left"><img src="assets/play.svg" alt="ticket" width="20px" height="20px" />&nbsp; Watch Trailer</span>
-                                        <span class="float-right"><img src="assets/movie-tickets.svg" alt="ticket" width="32px" height="32px" />&nbsp; Book Ticket</span>
+                                        <a href="./booking.php?movie=<?php echo $movieList['Id'];?>" <?php echo time() > strtotime($movieList['ReleaseDate'])? '': 'hidden'; ?>><span class="float-right"><img src="assets/ticket-alt.svg" alt="ticket" width="32px" height="32px" />&nbsp; <p class="book-ticket">Book Ticket</p></span></a>
                                         <hr />
                                     </div>
                                 </div>
