@@ -11,17 +11,17 @@
 
 <body>
     <script>
-    function redirectHome() {
-        window.location.replace("./");
-    }
-    <?php
-        if (!isset($_GET['movie'])) {
-    ?>
-    alert('Please come into this page throught the proper channels');
-    redirectHome();
-    <?php
+        function redirectHome() {
+            window.location.replace("./");
         }
-    ?>
+        <?php
+        if (!isset($_GET['movie'])) {
+        ?>
+            alert('Please come into this page throught the proper channels');
+            redirectHome();
+        <?php
+        }
+        ?>
     </script>
     <nav class="navbar">
         <div class="navbar-menu container">
@@ -42,44 +42,44 @@
         </div>
     </nav>
     <?php
-            @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
-            $LocationVal = '';
-            $PHOTO_QUERY = "SELECT PhotoUrl FROM f34ee.Photo WHERE MovieDetailId = ".$_GET['movie'].";";
-            if(isset($_GET['location'])){
-                $LocationVal = 'AND t.Location ="'.$_GET['location'].'"';
-            }
-            $TIMESLOT_QUERY = "SELECT ts.* , t.Location FROM f34ee.Timeslot AS ts INNER JOIN f34ee.Theatre AS t WHERE ts.MovieDetailId = ".$_GET['movie']." AND ts.TheatreId = t.Id ".$LocationVal." ORDER BY ts.TheatreId ASC,ts.StartTime ASC;";
-            $THEATRE_QUERY = "SELECT distinct Location FROM f34ee.Theatre ORDER BY Id;";
-            if(mysqli_connect_errno()){
-                exit('Unable to connect to DB');
-            }
-            $bannerURL;
-            $timeslots = array();
-            $theatre = array();
-            
-            $queryResult = $DB->query($PHOTO_QUERY);
-            if($queryResult->num_rows > 0){
-                $bannerURL = $queryResult->fetch_assoc()['PhotoUrl'];
-            }
-            
-            $queryResult = $DB->query($THEATRE_QUERY);
-            if($queryResult->num_rows > 0){
-                while($row = $queryResult->fetch_assoc()){
-                    array_push($theatre, $row);
-                }
-            }
-            
-            $queryResult = $DB->query($TIMESLOT_QUERY);
-            if($queryResult->num_rows > 0){
-                while($row = $queryResult->fetch_assoc()){
-                    array_push($timeslots, $row);
-                }
-            }
-            $queryResult -> free();
-            $DB->close();
-            ?>
-    <form action="/seating.php" method="post">
-        <input type="hidden" value="<?php echo $_GET['movie'];?>" name="movie" />
+    @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
+    $LocationVal = '';
+    $PHOTO_QUERY = "SELECT PhotoUrl FROM f34ee.Photo WHERE MovieDetailId = " . $_GET['movie'] . ";";
+    if (isset($_GET['location'])) {
+        $LocationVal = 'AND t.Location ="' . $_GET['location'] . '"';
+    }
+    $TIMESLOT_QUERY = "SELECT ts.* , t.Location FROM f34ee.Timeslot AS ts INNER JOIN f34ee.Theatre AS t WHERE ts.MovieDetailId = " . $_GET['movie'] . " AND ts.TheatreId = t.Id " . $LocationVal . " ORDER BY ts.TheatreId ASC,ts.StartTime ASC;";
+    $THEATRE_QUERY = "SELECT distinct Location FROM f34ee.Theatre ORDER BY Id;";
+    if (mysqli_connect_errno()) {
+        exit('Unable to connect to DB');
+    }
+    $bannerURL;
+    $timeslots = array();
+    $theatre = array();
+
+    $queryResult = $DB->query($PHOTO_QUERY);
+    if ($queryResult->num_rows > 0) {
+        $bannerURL = $queryResult->fetch_assoc()['PhotoUrl'];
+    }
+
+    $queryResult = $DB->query($THEATRE_QUERY);
+    if ($queryResult->num_rows > 0) {
+        while ($row = $queryResult->fetch_assoc()) {
+            array_push($theatre, $row);
+        }
+    }
+
+    $queryResult = $DB->query($TIMESLOT_QUERY);
+    if ($queryResult->num_rows > 0) {
+        while ($row = $queryResult->fetch_assoc()) {
+            array_push($timeslots, $row);
+        }
+    }
+    $queryResult->free();
+    $DB->close();
+    ?>
+    <form action="seating.php" method="post">
+        <input type="hidden" value="<?php echo $_GET['movie']; ?>" name="movie" />
         <div>
             <img src="assets/movie/banner/<?php echo $bannerURL; ?>.jpg" style="display: block" />
             <div style="height: 100px; width: 100%; background-color: #000">
@@ -161,66 +161,64 @@
                     </tr>
                 </thead>
                 <?php
-                    if(!isset($_GET['location'])){
-                        for($i = 0; $i< count($theatre); $i++){
-                            
+                if (!isset($_GET['location'])) {
+                    for ($i = 0; $i < count($theatre); $i++) {
+
+                ?>
+                        <tr>
+                            <td>
+                                <p><?php echo $theatre[$i]['Location']; ?></p>
+                            </td>
+                            <?php
+                            for ($j = 0; $j < count($timeslots); $j++) {
+                                if ($theatre[$i]['Location'] == $timeslots[$j]['Location']) {
                             ?>
-                <tr>
-                    <td>
-                        <p><?php echo $theatre[$i]['Location']; ?></p>
-                    </td>
-                    <?php
-                            for($j = 0 ; $j< count($timeslots); $j++){
-                                if($theatre[$i]['Location'] == $timeslots[$j]['Location']){
-                                    ?>
-                    <td onclick="selectTimeSlot(this,'<?php echo "ts".$i."l".$j; ?>')">
-                        <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts".$i."l".$j; ?>"
-                            value="<?php echo $timeslots[$j]['Id']; ?>" onchange="updateBg(this)" />
-                        <label for="<?php echo "ts".$i."l".$j; ?>">
-                            <p><?php echo substr($timeslots[$j]['StartTime'],0,5); ?></p>
-                        </label>
-                    </td>
-                    <?php
+                                    <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l" . $j; ?>')">
+                                        <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l" . $j; ?>" value="<?php echo $timeslots[$j]['Id']; ?>" onchange="updateBg(this)" />
+                                        <label for="<?php echo "ts" . $i . "l" . $j; ?>">
+                                            <p><?php echo substr($timeslots[$j]['StartTime'], 0, 5); ?></p>
+                                        </label>
+                                    </td>
+                            <?php
                                 }
                             }
                             ?>
-                </tr>
-                <?php
-                        }
-                    }else{
+                        </tr>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <tr>
+                        <td>
+                            <p><?php echo $_GET['location']; ?></p>
+                        </td>
+                        <?php
+                        for ($i = 0; $i < count($timeslots); $i++) {
+                            if ($_GET['location'] == $timeslots[$i]['Location']) {
                         ?>
-                <tr>
-                    <td>
-                        <p><?php echo $_GET['location']; ?></p>
-                    </td>
-                    <?php
-                        for($i = 0 ; $i< count($timeslots); $i++){
-                            if($_GET['location'] == $timeslots[$i]['Location']){
-                                ?>
-                    <td onclick="selectTimeSlot(this,'<?php echo "ts".$i."l"; ?>')">
-                        <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts".$i."l"; ?>"
-                            value="<?php echo $timeslots[$j]['Id']; ?>" onchange="updateBg(this)" />
-                        <label for="<?php echo "ts".$i."l"; ?>">
-                            <p><?php echo substr($timeslots[$i]['StartTime'],0,5); ?></p>
-                        </label>
-                    </td>
-                    <?php
+                                <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l"; ?>')">
+                                    <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l"; ?>" value="<?php echo $timeslots[$j]['Id']; ?>" onchange="updateBg(this)" />
+                                    <label for="<?php echo "ts" . $i . "l"; ?>">
+                                        <p><?php echo substr($timeslots[$i]['StartTime'], 0, 5); ?></p>
+                                    </label>
+                                </td>
+                        <?php
                             }
                         }
-                    ?>
-                </tr>
+                        ?>
+                    </tr>
                 <?php
-                    }
-                    ?>
+                }
+                ?>
             </table>
             <?php
-                if(isset($_GET['location'])){
+            if (isset($_GET['location'])) {
             ?>
-            <div class="clearfix">
-                <button type="button" class="link float-right" onclick="showAllLocation()">
-                    View All Locations
-                </button>
-            </div>
+                <div class="clearfix">
+                    <button type="button" class="link float-right" onclick="showAllLocation()">
+                        View All Locations
+                    </button>
+                </div>
             <?php
             }
             ?>
@@ -242,68 +240,68 @@
     </footer>
 </body>
 <script>
-function initDateSelector() {
-    const today = new Date();
-    const url = new URL(window.location);
-    const search_params = url.searchParams;
-    for (let i = 0; i <= 6; i++) {
-        const dateIter = new Date();
-        dateIter.setDate(today.getDate() + i);
-        const dateVal = dateIter.getFullYear() + '-' + (dateIter.getMonth() + 1) + '-' + dateIter.getDate();
-        document.getElementById(
-            `day${i + 1}_para`
-        ).innerText = `${dateIter.toLocaleString("en-GB", {
+    function initDateSelector() {
+        const today = new Date();
+        const url = new URL(window.location);
+        const search_params = url.searchParams;
+        for (let i = 0; i <= 6; i++) {
+            const dateIter = new Date();
+            dateIter.setDate(today.getDate() + i);
+            const dateVal = dateIter.getFullYear() + '-' + (dateIter.getMonth() + 1) + '-' + dateIter.getDate();
+            document.getElementById(
+                `day${i + 1}_para`
+            ).innerText = `${dateIter.toLocaleString("en-GB", {
                     day: "numeric",
                     month: "short"
                 })}`;
-        document.getElementById(
-            `day${i + 1}_header`
-        ).innerText = `${dateIter.toLocaleString("en-GB", {
+            document.getElementById(
+                `day${i + 1}_header`
+            ).innerText = `${dateIter.toLocaleString("en-GB", {
                     weekday: "short"
                 })}`;
-        document.getElementById(
-            `day${i + 1}`
-        ).value = dateVal;
-        if (search_params.get('date') != null && dateVal == search_params.get('date')) {
             document.getElementById(
                 `day${i + 1}`
-            ).checked = true;
+            ).value = dateVal;
+            if (search_params.get('date') != null && dateVal == search_params.get('date')) {
+                document.getElementById(
+                    `day${i + 1}`
+                ).checked = true;
+            }
         }
     }
-}
 
-function showAllLocation() {
-    const url = new URL(window.location);
-    const search_params = url.searchParams;
-    search_params.delete('location');
-    url.search = search_params.toString();
-    window.location.replace(url.toString());
-}
+    function showAllLocation() {
+        const url = new URL(window.location);
+        const search_params = url.searchParams;
+        search_params.delete('location');
+        url.search = search_params.toString();
+        window.location.replace(url.toString());
+    }
 
-function updateBg(element) {
-    if (element.checked) {
+    function updateBg(element) {
+        if (element.checked) {
+            const selectedSlots = document.getElementsByClassName([
+                "selectedTimeSlot"
+            ]);
+            for (i = 0; i < selectedSlots.length; i++) {
+                selectedSlots[i].classList.remove("selectedTimeSlot");
+            }
+            element.parentElement.classList.add("selectedTimeSlot");
+        }
+    }
+
+    function selectTimeSlot(element, id) {
+        document.getElementById(id).checked = true;
         const selectedSlots = document.getElementsByClassName([
             "selectedTimeSlot"
         ]);
         for (i = 0; i < selectedSlots.length; i++) {
             selectedSlots[i].classList.remove("selectedTimeSlot");
         }
-        element.parentElement.classList.add("selectedTimeSlot");
+        element.classList.add("selectedTimeSlot");
     }
-}
 
-function selectTimeSlot(element, id) {
-    document.getElementById(id).checked = true;
-    const selectedSlots = document.getElementsByClassName([
-        "selectedTimeSlot"
-    ]);
-    for (i = 0; i < selectedSlots.length; i++) {
-        selectedSlots[i].classList.remove("selectedTimeSlot");
-    }
-    element.classList.add("selectedTimeSlot");
-}
-
-initDateSelector();
+    initDateSelector();
 </script>
 
 </html>
