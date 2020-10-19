@@ -1,13 +1,14 @@
-#top select,
-#top input {
-    width: 145px;
-    height: 24px;
-    border-radius: 15px;
-    border: 1px solid black;
+#banner {
+    background-color: #363636;
+    height: 350px;
 }
 
 #top {
     margin: 30px 0;
+}
+
+label {
+    margin-right: 10px;
 }
 
 .outer-container {
@@ -117,4 +118,74 @@
 
 #payment input[type="submit"] {
     float: right;
+}
+
+.select_box,
+input[type="date"] {
+    display: inline-block;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+    vertical-align: top;
+}
+
+.select_box select:hover,
+input[type="date"]:hover {
+    border-color: #b5b5b5;
+}
+
+.select_box:hover::after {
+    border-color: #000;
+}
+
+.select_box:after {
+    right: 10em;
+    z-index: 4;
+    border: 3px solid #ef8f00;
+    border-radius: 2px;
+    border-right: 0;
+    border-top: 0;
+    content: " ";
+    display: block;
+    height: 0.5em;
+    margin-top: -0.4375em;
+    pointer-events: none;
+    position: absolute;
+    top: 47%;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    width: 0.5em;
+    box-sizing: content-box;
+}
+.select_box select,
+input[type="date"] {
+    padding-right: calc(0.75em - 1px);
+    cursor: pointer;
+    display: block;
+    max-width: 100%;
+    width: 200px;
+    outline: 0;
+    color: #363636;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    align-items: center;
+    border: 1px solid #dbdbdb;
+    border-radius: 290486px;
+    box-shadow: none;
+    display: inline-flex;
+    justify-content: flex-start;
+    padding-bottom: calc(0.4em - 1px);
+    padding-left: calc(0.75em - 1px);
+    padding-top: calc(0.4em - 1px);
+    position: relative;
+    margin: 0;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+#summary .outer-container {
+    margin: 0 auto;
 }

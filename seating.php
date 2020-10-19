@@ -18,11 +18,15 @@ if (mysqli_connect_errno()) {
 }
 
 $movieId = $_POST['movie'];
-echo $movieId;
+echo "movie ID: " . $movieId;
 
 $sql_theatre = "select distinct Location from Theatre";
 $result_theatre = $db->query($sql_theatre);
 $theatre = $result_theatre->fetch_assoc();
+
+$sql_movie = "select * from MovieDetail A join Photo B on A.Id = B.MovieDetailId where MovieDetailId = '" . $movieId . "'";
+$run_movie = $db->query($sql_movie);
+$result_movie = mysqli_fetch_assoc($run_movie);
 
 
 $alphabet = range('A', 'Z');
@@ -32,6 +36,7 @@ $alphabet = range('A', 'Z');
 <script>
     var ticketCount = 0;
     var subtotal = 0;
+    var seats = [];
 
     function seatSelector(id) {
         var selected = window.getComputedStyle(document.getElementById(id));
@@ -40,13 +45,17 @@ $alphabet = range('A', 'Z');
             document.getElementById(id).style.backgroundColor = "yellow";
             ticketCount += 1;
             subtotal = 12.5 * ticketCount;
+            seats.push(id);
         } else if (selected.backgroundColor === "rgb(255, 255, 0)") {
             document.getElementById(id).style.backgroundColor = "white";
             ticketCount -= 1;
             subtotal = 12.5 * ticketCount;
+            var index = seats.indexOf(id);
+            seats.splice(index, 1);
         }
         document.getElementById('qty').value = ticketCount;
-        document.getElementById('subtotal').value = subtotal;
+        document.getElementById('subtotal').value = '$ ' + subtotal;
+        document.getElementById('seats').innerHTML = seats.join(", ");
     }
 </script>
 
@@ -70,12 +79,16 @@ $alphabet = range('A', 'Z');
         </div>
     </nav>
     <!-- End of navigation bar -->
+    <div id="banner">
+        <img src="./assets/movie/banner/<?php echo $result_movie['PhotoUrl'] ?>.jpg" alt="<?php echo $result_banner['PhotoUrl'] ?>" width="100%" height="350px">
+    </div>
     <div class="container">
         <div id="top">
             <div class="row">
-                <div class="col">
+                <div class="center select_box">
                     <label>Cinema: </label>
                     <select name="cinema" id="cinema">
+                        <option disabled selected>-- Select --</option>
                         <?php
                         while ($theatre = $result_theatre->fetch_assoc()) {
                         ?>
@@ -85,11 +98,11 @@ $alphabet = range('A', 'Z');
                         ?>
                     </select>
                 </div>
-                <div class="col">
+                <div class="center">
                     <label>Date: </label>
                     <input type="date" id="date" name="date">
                 </div>
-                <div class="col">
+                <div class="center select_box">
                     <label>Time: </label>
                     <select name="time" id="time">
                         <option value="1">1</option>
@@ -159,43 +172,81 @@ $alphabet = range('A', 'Z');
                 </div>
             </div>
         </div>
-        <div id="tickets">
-            <div class="row tickets-header">
-                <p>Tickets</p>
-                <p>Cost</p>
-                <p>Qty</p>
-                <p>Subtotal</p>
+        <br>
+        <div id="summary">
+            <div class="row">
+                <div class="col size-7 outer-container">
+                    <h4>Contact Details</h4>
+                    <div class="row">
+                        <div class="col size-3">
+                            <p><label>Email: </label></p>
+                            <p><label>Phone Number: </label></p>
+                        </div>
+                        <div class="col">
+                            <p><input type="text" id="email" name="email" value=""></p>
+                            <p><input type="text" id="phone" name="phone" value=""></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <h4>Payment Details</h4>
+                    <div class="row">
+                        <div class="col size-3">
+                            <p><label>Name on Card: </label></p>
+                            <p><label>Card Number: </label></p>
+                            <p><label>Card Expiry Date: </label></p>
+                            <p><label>CVV Code: </label></p>
+                        </div>
+                        <div class="col">
+                            <p><input type="text" id="card" name="card" value=""></p>
+                            <p><input type="text" id="cardNo" name="cardNo" value=""></p>
+                            <p><input type="text" id="expiry" name="expiry" value=""></p>
+                            <p><input type="text" id="cvv" name="cvv" value=""></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <p><input type="checkbox"> *I have read and accepted to the Terms and Conditions and Privacy Policy</p>
+                            <p><input type="submit" value="Book Now"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col size-4 outer-container">
+                    <h4>Booking Summary</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <p><?php echo $result_movie['Name'] ?></p>
+                            <p><?php echo $result_movie['Genre'] ?></p>
+                            <p>?Location?</p>
+                            <p>?Date?</p>
+                            <p>?Time?</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <p>Standard Ticket</p>
+                            <p>Quantity</p>
+                            <p>Seat(s)</p>
+                        </div>
+                        <div class="col">
+                            <p>$12.50</p>
+                            <p><input id="qty" type="text" value="" disabled></p>
+                            <p id="seats"></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <p>Subtotal</p>
+                        </div>
+                        <div class="col">
+                            <p><input id="subtotal" type="text" value="" disabled></p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row tickets-item">
-                <p>Standard Ticket</p>
-                <p>$12.50</p>
-                <p><input id="qty" type="text" value="" disabled></p>
-                <p><input id="subtotal" type="text" value="" disabled></p>
-            </div>
-        </div>
-        <div id="payment">
-            <input hidden type="text" value="movie id">
-            <div id="payment-left">
-                <label>Email: </label>
-                <input type="text" id="email" value="">
-                <br>
-                <label>Name on Card: </label>
-                <input type="text" id="card" value="">
-                <br>
-                <label>Card Number: </label>
-                <input type="text" id="cardNo" value="">
-            </div>
-            <div>
-                <label>Phone Number: </label>
-                <input type="text" id="phone" value="">
-                <br>
-                <label>Card Expiry Date: </label>
-                <input type="text" id="expiry" value="">
-                <br>
-                <label>CVV Code: </label>
-                <input type="text" id="cvv" value="">
-            </div>
-            <input type="submit" value="Book Now">
         </div>
     </div>
     <!-- End of container -->

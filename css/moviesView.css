@@ -8,19 +8,6 @@
     border-radius: 5px;
 }
 
-/* #sorter select {
-    width: 130px;
-    padding: 4px;
-    border-radius: 20px;
-    border-color: #dbdbdb;
-    background-color: #fff;
-    color: #363636;
-}
-
-#sorter select:hover {
-    border-color: #b5b5b5;
-} */
-
 .select_box {
     display: inline-block;
     width: 150px;
@@ -152,6 +139,6 @@ a {
     text-decoration: none;
     color: black;
 }
-.book-ticket:hover{
+.book-ticket:hover {
     text-decoration: underline !important;
 }
