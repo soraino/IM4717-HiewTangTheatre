@@ -83,6 +83,11 @@ ol {
     align-items: stretch;
     display: flex;
 }
+.navbar-start {
+    justify-content: flex-start;
+    align-items: stretch;
+    display: flex;
+}
 .navbar-item {
     align-items: center;
     display: flex;
@@ -94,6 +99,13 @@ ol {
     position: relative;
     text-transform: uppercase;
     text-decoration: none;
+    margin: auto;
+}
+.navbar-end>a.navbar-item{
+    margin-right: 0 !important;
+}
+a.navbar-item.active{
+    color: #ef8f00;
 }
 a.navbar-item {
     cursor: pointer;
@@ -104,6 +116,10 @@ a.navbar-item {
 }
 a.navbar-item:hover {
     text-decoration: underline;
+    color: #ef8f00;
+}
+a.navbar-item.active{
+    text-decoration: none;
 }
 .input {
     margin: 0;
@@ -134,7 +150,15 @@ a.navbar-item:hover {
     color: #363636;
     height: 50%;
 }
-
+.logo{
+    height: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.logo> img{
+    height: 100%;
+    width: auto;
+}
 .select {
     display: inline-block;
     max-width: 100%;

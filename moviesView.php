@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HiewTang Theatre</title>
+    <link rel="icon" type="image/png" href="assets/logo/favicon.ico" />
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/moviesView.css" />
 </head>
@@ -49,12 +50,20 @@ if (isset($_GET['Sort'])) {
 ?>
 
 <body>
-    <nav class="navbar">
+<nav class="navbar">
         <div class="navbar-menu container">
-            <div class="navbar-end">
+            <a href="./">
+                <div class="logo">
+                    <img src="./assets/logo/HiewTangTheatre_dark.png" />
+                </div>
+            </a>
+            <div class="navbar-start">
                 <a href="./" class="navbar-item"> Home </a>
-                <a href="moviesView.php" class="navbar-item"> Movies </a>
+                <a href="moviesView.php" class="navbar-item active"> Movies </a>
                 <a class="navbar-item"> Check Bookings </a>
+            </div>
+            <div class="navbar-end">
+
                 <div class="navbar-item">
                     <input class="input is-rounded" type="text" placeholder="Search" />
                     <svg class="search-icon" viewBox="0 0 12 13">
@@ -64,6 +73,8 @@ if (isset($_GET['Sort'])) {
                         </g>
                     </svg>
                 </div>
+                <a href="" class="navbar-item"> Login </a>
+                <a href="" class="navbar-item"> Register </a>
             </div>
         </div>
     </nav>

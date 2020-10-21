@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/png" href="assets/logo/favicon.ico" />
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/booking.css" />
     <title>HiewTang Theatre</title>
@@ -25,10 +26,18 @@
     </script>
     <nav class="navbar">
         <div class="navbar-menu container">
-            <div class="navbar-end">
+            <a href="./">
+                <div class="logo">
+                    <img src="./assets/logo/HiewTangTheatre_dark.png" />
+                </div>
+            </a>
+            <div class="navbar-start">
                 <a href="./" class="navbar-item"> Home </a>
-                <a href="./moviesView.php" class="navbar-item"> Movies </a>
+                <a href="moviesView.php" class="navbar-item"> Movies </a>
                 <a class="navbar-item"> Check Bookings </a>
+            </div>
+            <div class="navbar-end">
+
                 <div class="navbar-item">
                     <input class="input is-rounded" type="text" placeholder="Search" />
                     <svg class="search-icon" viewBox="0 0 12 13">
@@ -38,6 +47,8 @@
                         </g>
                     </svg>
                 </div>
+                <a href="" class="navbar-item"> Login </a>
+                <a href="" class="navbar-item"> Register </a>
             </div>
         </div>
     </nav>
@@ -78,7 +89,7 @@
     $queryResult->free();
     $DB->close();
     ?>
-    <form action="seating.php" method="POST">
+    <form action="seating.php" method="GET">
         <input type="hidden" value="<?php echo $_GET['movie']; ?>" name="movie" />
         <div>
             <img src="assets/movie/banner/<?php echo $bannerURL; ?>.jpg" style="display: block" />
