@@ -78,7 +78,7 @@
     $queryResult->free();
     $DB->close();
     ?>
-    <form action="seating.php" method="post">
+    <form action="seating.php" method="POST">
         <input type="hidden" value="<?php echo $_GET['movie']; ?>" name="movie" />
         <div>
             <img src="assets/movie/banner/<?php echo $bannerURL; ?>.jpg" style="display: block" />
@@ -228,7 +228,6 @@
                     Proceed to Seat Selection
                 </button>
             </div>
-
         </div>
     </form>
     <footer class="footer">
@@ -300,6 +299,23 @@
         }
         element.classList.add("selectedTimeSlot");
     }
+    document.querySelector('form').addEventListener('submit', e => {
+        // Get all radio buttons, convert to an array.
+        const radios = Array.prototype.slice.call(document.querySelectorAll('input[type=radio]'));
+        // Reduce to get an array of radio button sets
+        const questions = Object.values(radios.reduce((result, el) => 
+            Object.assign(result, { [el.name]: (result[el.name] || []).concat(el) }), {}));
+        // Loop through each question, looking for any that aren't answered.
+        const hasUnanswered = questions.some(question => !question.some(el => el.checked));
+        const found = questions.find(question => !question.some(el => el.checked));
+        if (hasUnanswered) {
+            alert(`Please insert a ${found[0].name}`)
+            e.preventDefault(); // just for demo purposes... normally, just put this in the hasUnanswered part
+        } else {
+            console.log('All set');
+        }
+        
+    });
 
     initDateSelector();
 </script>
