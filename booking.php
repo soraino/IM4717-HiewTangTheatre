@@ -48,7 +48,7 @@
                     </svg>
                 </div>
                 <a href="./login.html" class="navbar-item"> Login </a>
-                <a href="" class="navbar-item"> Register </a>
+                <a href="./register.html" class="navbar-item"> Register </a>
             </div>
         </div>
     </nav>
@@ -322,8 +322,6 @@
         if (hasUnanswered) {
             alert(`Please insert a ${found[0].name}`)
             e.preventDefault(); // just for demo purposes... normally, just put this in the hasUnanswered part
-        } else {
-            console.log('All set');
         }
         
     });

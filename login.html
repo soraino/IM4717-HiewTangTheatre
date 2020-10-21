@@ -34,8 +34,10 @@
                             </g>
                         </svg>
                     </div>
-                    <a href="./login.html" class="navbar-item"> Login </a>
-                    <a href="" class="navbar-item"> Register </a>
+                    <a href="./login.html" class="navbar-item active">
+                        Login
+                    </a>
+                    <a href="./register.html" class="navbar-item"> Register </a>
                 </div>
             </div>
         </nav>
@@ -48,7 +50,8 @@
                     type="email"
                     name="email"
                     id="email"
-                    placeholder="email@domian.com"
+                    placeholder="email@domain.com"
+                    required
                 />
                 <br />
                 <label for="password">Password:</label>
@@ -58,6 +61,7 @@
                     name="password"
                     id="password"
                     placeholder="Password"
+                    required
                 />
                 <div class="clearfix">
                     <button class="button float-right" type="submit">
