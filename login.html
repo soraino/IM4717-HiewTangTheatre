@@ -42,6 +42,7 @@
         <main class="container is-small">
             <h1>Login</h1>
             <form action="./login.php" method="post">
+                <input type="hidden" name="movie" id="movie" />
                 <label for="email">Email:</label>
                 <input
                     class="input"
@@ -67,6 +68,15 @@
             </form>
         </main>
         <script>
+            const url = new URL(window.location);
+            const search_params = url.searchParams;
+            let movieId = -1;
+            if (search_params.get("notLogin") == "1") {
+                alert("Please log in to access booking");
+                movieId = search_params.get("movie");
+            }
+            document.getElementById("movie").value = movieId;
+
             function getCookie(name) {
                 // Split cookie string and get all individual name=value pairs in an array
                 var cookieArr = document.cookie.split(";");

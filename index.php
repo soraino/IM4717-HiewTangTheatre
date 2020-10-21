@@ -12,34 +12,36 @@
 
 <body>
     <?php
-        echo $_COOKIE["userId"];
-            @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
-            $MOVIE_QUERY = "select M.*, P.PhotoUrl from f34ee.MovieDetail as M inner join f34ee.Photo as P where P.MovieDetailId = M.Id order by M.Rating desc;";
-            $THEATRE_QUERY = "select distinct Location from f34ee.Theatre;";
-            if(mysqli_connect_errno()){
-                exit('Unable to connect to db');
-            }
-            $movies = array();
-            $theatres = array();
-            $queryResult = $DB->query($MOVIE_QUERY);
-            if($queryResult->num_rows > 0){
-                while($row = $queryResult->fetch_assoc()){
-                    array_push($movies, $row);
-                }
-            }
-            $queryResult = $DB->query($THEATRE_QUERY);
-            if($queryResult->num_rows > 0){
-                while($row = $queryResult->fetch_assoc()){
-                    array_push($theatres, $row);
-                }
-            }
-            $queryResult -> free();
-            $DB->close();
-            $dateSortMovie = $movies;
-            usort($dateSortMovie, function($a, $b) {
-                return strtotime($b['ReleaseDate']) - strtotime($a['ReleaseDate']);
-            })
-        ?>
+    echo "User ID: " . $_COOKIE["userId"];
+    session_start();
+
+    @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
+    $MOVIE_QUERY = "select M.*, P.PhotoUrl from f34ee.MovieDetail as M inner join f34ee.Photo as P where P.MovieDetailId = M.Id order by M.Rating desc;";
+    $THEATRE_QUERY = "select distinct Location from f34ee.Theatre;";
+    if (mysqli_connect_errno()) {
+        exit('Unable to connect to db');
+    }
+    $movies = array();
+    $theatres = array();
+    $queryResult = $DB->query($MOVIE_QUERY);
+    if ($queryResult->num_rows > 0) {
+        while ($row = $queryResult->fetch_assoc()) {
+            array_push($movies, $row);
+        }
+    }
+    $queryResult = $DB->query($THEATRE_QUERY);
+    if ($queryResult->num_rows > 0) {
+        while ($row = $queryResult->fetch_assoc()) {
+            array_push($theatres, $row);
+        }
+    }
+    $queryResult->free();
+    $DB->close();
+    $dateSortMovie = $movies;
+    usort($dateSortMovie, function ($a, $b) {
+        return strtotime($b['ReleaseDate']) - strtotime($a['ReleaseDate']);
+    })
+    ?>
     <nav class="navbar">
         <div class="navbar-menu container">
             <a href="./">
@@ -63,34 +65,42 @@
                         </g>
                     </svg>
                 </div>
-                <a href="./login.html" class="navbar-item"> Login </a>
-                <a href="" class="navbar-item"> Register </a>
+                <?php if (isset($_COOKIE["userId"])) {
+                ?>
+                    <a href="./logout.php" class="navbar-item"> Logout </a>
+                <?php
+                } else {
+                ?>
+                    <a href="./login.html" class="navbar-item"> Login </a>
+                    <a href="" class="navbar-item"> Register </a>
+                <?php
+                }
+                ?>
+
             </div>
         </div>
     </nav>
     <div class="carousel-wrapper">
         <div class="carousel">
             <?php
-                    for($i = 0; $i < 4; $i++){
-                ?>
-            <a href="<?php echo './movieDetails.php?movie='.urlencode($movies[$i]['Name'])?>">
-                <?php
-                        if($i==0){
-                ?>
-                <img class="carousel__photo initial"
-                    src="<?php echo './assets/movie/banner/'.$movies[$i]['PhotoUrl'].'.jpg'; ?>" />
-                <?php
-                        }else{
-                ?>
-                <img class="carousel__photo"
-                    src="<?php echo './assets/movie/banner/'.$movies[$i]['PhotoUrl'].'.jpg'; ?>" />
-                <?php
-                        }
-                ?>
-            </a>
-            <?php
+            for ($i = 0; $i < 4; $i++) {
+            ?>
+                <a href="<?php echo './movieDetails.php?movie=' . urlencode($movies[$i]['Id']) ?>">
+                    <?php
+                    if ($i == 0) {
+                    ?>
+                        <img class="carousel__photo initial" src="<?php echo './assets/movie/banner/' . $movies[$i]['PhotoUrl'] . '.jpg'; ?>" />
+                    <?php
+                    } else {
+                    ?>
+                        <img class="carousel__photo" src="<?php echo './assets/movie/banner/' . $movies[$i]['PhotoUrl'] . '.jpg'; ?>" />
+                    <?php
                     }
-                ?>
+                    ?>
+                </a>
+            <?php
+            }
+            ?>
             <div class="carousel__button--next"></div>
             <div class="carousel__button--prev"></div>
         </div>
@@ -106,26 +116,25 @@
                             <select name="movie" id="movieSelect" onchange="movieSelectorChange(this)" required>
                                 <option value="" selected disabled>Select a movie</option>
                                 <?php
-                                        for($i = 0; $i < count($dateSortMovie); $i++){
-                                            if(time() >= strtotime($dateSortMovie[$i]['ReleaseDate'])){
-                                                echo '<option value="'.$dateSortMovie[$i]['Id'].'">'.$dateSortMovie[$i]['Name'].'</option>';
-                                            }
-                                        }
-                                    ?>
+                                for ($i = 0; $i < count($dateSortMovie); $i++) {
+                                    if (time() >= strtotime($dateSortMovie[$i]['ReleaseDate'])) {
+                                        echo '<option value="' . $dateSortMovie[$i]['Id'] . '">' . $dateSortMovie[$i]['Name'] . '</option>';
+                                    }
+                                }
+                                ?>
                                 <select>
                         </div>
                     </div>
                     <div class="col center">
                         <label>Location</label>
                         <div class="select">
-                            <select name="location" id="locationSelect" onchange="locationSelectorChange(this)"
-                                required>
+                            <select name="location" id="locationSelect" onchange="locationSelectorChange(this)" required>
                                 <option value="" selected disabled>Select a Location</option>
                                 <?php
-                                        for($i = 0; $i < count($theatres); $i++){
-                                            echo '<option value="'.$theatres[$i]['Location'].'">'.$theatres[$i]['Location'].'</option>';
-                                        }
-                                    ?>
+                                for ($i = 0; $i < count($theatres); $i++) {
+                                    echo '<option value="' . $theatres[$i]['Location'] . '">' . $theatres[$i]['Location'] . '</option>';
+                                }
+                                ?>
                                 <select>
                         </div>
                     </div>
@@ -145,19 +154,18 @@
                 <div class="wrapper">
                     <div id="slides1" class="slides shifting">
                         <?php
-                                for($i = 0; $i < count($dateSortMovie); $i++){
-                                    if(time() >= strtotime($dateSortMovie[$i]['ReleaseDate'])){
-                            ?>
-                        <a href="<?php echo './movieDetails.php?movie='.urlencode($dateSortMovie[$i]['Name'])?>">
-                            <div class="slide">
-                                <img
-                                    src="<?php echo './assets/movie/poster/'.$dateSortMovie[$i]['PhotoUrl'].'.jpg'; ?>" />
-                            </div>
-                        </a>
+                        for ($i = 0; $i < count($dateSortMovie); $i++) {
+                            if (time() >= strtotime($dateSortMovie[$i]['ReleaseDate'])) {
+                        ?>
+                                <a href="<?php echo './movieDetails.php?movie=' . urlencode($dateSortMovie[$i]['Id']) ?>">
+                                    <div class="slide">
+                                        <img src="<?php echo './assets/movie/poster/' . $dateSortMovie[$i]['PhotoUrl'] . '.jpg'; ?>" />
+                                    </div>
+                                </a>
                         <?php
-                                    }
-                                }
-                            ?>
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
                 <a id="prev1" class="control prev" style="top: 32%"></a>
@@ -170,23 +178,23 @@
                 <div class="wrapper">
                     <div id="slides2" class="slides shifting">
                         <?php
-                                $counter = 0;
-                                for($i = 0; $i < count($movies); $i++){
-                                    if(time() >= strtotime($movies[$i]['ReleaseDate'])){
-                            ?>
-                        <a href="<?php echo './movieDetails.php?movie='.urlencode($movies[$i]['Name'])?>">
-                            <div class="slide">
-                                <img src="<?php echo './assets/movie/poster/'.$movies[$i]['PhotoUrl'].'.jpg'; ?>" />
-                            </div>
-                        </a>
+                        $counter = 0;
+                        for ($i = 0; $i < count($movies); $i++) {
+                            if (time() >= strtotime($movies[$i]['ReleaseDate'])) {
+                        ?>
+                                <a href="<?php echo './movieDetails.php?movie=' . urlencode($movies[$i]['Id']) ?>">
+                                    <div class="slide">
+                                        <img src="<?php echo './assets/movie/poster/' . $movies[$i]['PhotoUrl'] . '.jpg'; ?>" />
+                                    </div>
+                                </a>
                         <?php
-                                        $counter++;
-                                    }
-                                    if($counter == 5){
-                                        break;
-                                    }
-                                }
-                            ?>
+                                $counter++;
+                            }
+                            if ($counter == 5) {
+                                break;
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
                 <a id="prev2" class="control prev" style="top: 60%"></a>
@@ -199,19 +207,18 @@
                 <div class="wrapper">
                     <div id="slides3" class="slides shifting">
                         <?php
-                                for($i = count($dateSortMovie) - 1; $i >= 0; $i--){
-                                    if(time() < strtotime($dateSortMovie[$i]['ReleaseDate'])){
-                            ?>
-                        <a href="<?php echo './movieDetails.php?movie='.urlencode($dateSortMovie[$i]['Name'])?>">
-                            <div class="slide">
-                                <img
-                                    src="<?php echo './assets/movie/poster/'.$dateSortMovie[$i]['PhotoUrl'].'.jpg'; ?>" />
-                            </div>
-                        </a>
+                        for ($i = count($dateSortMovie) - 1; $i >= 0; $i--) {
+                            if (time() < strtotime($dateSortMovie[$i]['ReleaseDate'])) {
+                        ?>
+                                <a href="<?php echo './movieDetails.php?movie=' . urlencode($dateSortMovie[$i]['Id']) ?>">
+                                    <div class="slide">
+                                        <img src="<?php echo './assets/movie/poster/' . $dateSortMovie[$i]['PhotoUrl'] . '.jpg'; ?>" />
+                                    </div>
+                                </a>
                         <?php
-                                    }
-                                }
-                            ?>
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
                 <a id="prev3" class="control prev" style="top: 85%"></a>
@@ -230,21 +237,21 @@
 <script src="./js/slider.js"></script>
 <script src="./js/bannerSlider.js"></script>
 <script>
-const movieSelector = document.getElementById('movieSelect');
-const locationSelector = document.getElementById('locationSelect');
+    const movieSelector = document.getElementById('movieSelect');
+    const locationSelector = document.getElementById('locationSelect');
 
-function initialisedPage() {
-    const dateInput = document.getElementById('dateInput');
-    const dateVar = new Date();
-    dateInput.min = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
-    dateVar.setDate(dateVar.getDate() + 7);
-    dateInput.max = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
-    initSlider(1);
-    initSlider(2);
-    initSlider(3);
-    initCarousel();
-}
-initialisedPage();
+    function initialisedPage() {
+        const dateInput = document.getElementById('dateInput');
+        const dateVar = new Date();
+        dateInput.min = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
+        dateVar.setDate(dateVar.getDate() + 7);
+        dateInput.max = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
+        initSlider(1);
+        initSlider(2);
+        initSlider(3);
+        initCarousel();
+    }
+    initialisedPage();
 </script>
 
 </html>

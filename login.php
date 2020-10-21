@@ -1,6 +1,6 @@
 <?php
 include "./dbconnect.php";
-if(!isset($_POST['email']) || !isset($_POST['password'])){
+if (!isset($_POST['email']) || !isset($_POST['password'])) {
     die('Unexpected error has occured');
 }
 $email = strtolower(trim(utf8_decode(urldecode($_POST['email']))));
@@ -10,31 +10,25 @@ $LOGIN_USER_QUERY = "SELECT Id, Name, PhoneNumber FROM f34ee.User WHERE Email = 
 
 $loginResult = $DB->query($LOGIN_USER_QUERY);
 
-if($loginResult->num_rows){
+if ($loginResult->num_rows) {
     $row = $loginResult->fetch_assoc();
     $userData = array(
-        Id => $row['Id'],
-        PhoneNumber => $row['PhoneNumber'],
-        Name => $row['Name'],
+        'Id' => $row['Id'],
+        'PhoneNumber' => $row['PhoneNumber'],
+        'Name' => $row['Name'],
     );
     session_start();
-    setcookie($name = 'userId', $value = $row['Id'], $expire = time()+ (3600*24*7), $path = "", $domain = "", $secure = false, $httponly = false);
+    setcookie($name = 'userId', $value = $row['Id'], $expire = time() + (3600 * 24 * 7), $path = "", $domain = "", $secure = false, $httponly = false);
     $_SESSION[$row['Id']] = $userData;
     $DB->close();
-    $loginResult -> free();
-?>
-    <script>
-        window.location.replace('./')
-    </script>
-<?php
-}else{
+    $loginResult->free();
+    if ((int)$_POST['movie'] > 0) {
+        header('location:booking.php?movie=' . $_POST['movie']);
+    } else {
+        header('location:index.php');
+    }
+} else {
     $DB->close();
-    $loginResult -> free();
-?>
-    <script>
-        window.location.replace('./login.html')
-    </script>
-<?php
+    $loginResult->free();
+    header('location:login.html');
 }
-
-?>
