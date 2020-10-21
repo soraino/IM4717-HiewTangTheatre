@@ -13,33 +13,33 @@
 <body>
     <?php
     session_start();
-            @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
-            $MOVIE_QUERY = "select M.*, P.PhotoUrl from f34ee.MovieDetail as M inner join f34ee.Photo as P where P.MovieDetailId = M.Id order by M.Rating desc;";
-            $THEATRE_QUERY = "select distinct Location from f34ee.Theatre;";
-            if(mysqli_connect_errno()){
-                exit('Unable to connect to db');
-            }
-            $movies = array();
-            $theatres = array();
-            $queryResult = $DB->query($MOVIE_QUERY);
-            if($queryResult->num_rows > 0){
-                while($row = $queryResult->fetch_assoc()){
-                    array_push($movies, $row);
-                }
-            }
-            $queryResult = $DB->query($THEATRE_QUERY);
-            if($queryResult->num_rows > 0){
-                while($row = $queryResult->fetch_assoc()){
-                    array_push($theatres, $row);
-                }
-            }
-            $queryResult -> free();
-            $DB->close();
-            $dateSortMovie = $movies;
-            usort($dateSortMovie, function($a, $b) {
-                return strtotime($b['ReleaseDate']) - strtotime($a['ReleaseDate']);
-            })
-        ?>
+    @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
+    $MOVIE_QUERY = "select M.*, P.PhotoUrl from f34ee.MovieDetail as M inner join f34ee.Photo as P where P.MovieDetailId = M.Id order by M.Rating desc;";
+    $THEATRE_QUERY = "select distinct Location from f34ee.Theatre;";
+    if (mysqli_connect_errno()) {
+        exit('Unable to connect to db');
+    }
+    $movies = array();
+    $theatres = array();
+    $queryResult = $DB->query($MOVIE_QUERY);
+    if ($queryResult->num_rows > 0) {
+        while ($row = $queryResult->fetch_assoc()) {
+            array_push($movies, $row);
+        }
+    }
+    $queryResult = $DB->query($THEATRE_QUERY);
+    if ($queryResult->num_rows > 0) {
+        while ($row = $queryResult->fetch_assoc()) {
+            array_push($theatres, $row);
+        }
+    }
+    $queryResult->free();
+    $DB->close();
+    $dateSortMovie = $movies;
+    usort($dateSortMovie, function ($a, $b) {
+        return strtotime($b['ReleaseDate']) - strtotime($a['ReleaseDate']);
+    })
+    ?>
     <nav class="navbar">
         <div class="navbar-menu container">
             <a href="./">
@@ -63,8 +63,6 @@
                         </g>
                     </svg>
                 </div>
-                <a href="./login.html" class="navbar-item"> Login </a>
-                <a href="./register.html" class="navbar-item"> Register </a>
                 <?php if (isset($_COOKIE["userId"])) {
                 ?>
                     <a href="./logout.php" class="navbar-item"> Logout </a>

@@ -34,6 +34,8 @@ if (mysqli_connect_errno()) {
     exit;
 }
 
+session_start();
+
 $filter = "";
 if (isset($_GET['Sort'])) {
     if (($_GET['Sort'] == "Now Showing")) {
@@ -50,7 +52,7 @@ if (isset($_GET['Sort'])) {
 ?>
 
 <body>
-<nav class="navbar">
+    <nav class="navbar">
         <div class="navbar-menu container">
             <a href="./">
                 <div class="logo">
@@ -73,8 +75,17 @@ if (isset($_GET['Sort'])) {
                         </g>
                     </svg>
                 </div>
-                <a href="./login.html" class="navbar-item"> Login </a>
-                <a href="./register.html" class="navbar-item"> Register </a>
+                <?php if (isset($_COOKIE["userId"])) {
+                ?>
+                    <a href="./logout.php" class="navbar-item"> Logout </a>
+                <?php
+                } else {
+                ?>
+                    <a href="./login.html" class="navbar-item"> Login </a>
+                    <a href="./register.html" class="navbar-item"> Register </a>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </nav>
@@ -129,7 +140,7 @@ if (isset($_GET['Sort'])) {
                     <div class="row is-wrap">
                         <?php
                         while ($movieList = $result->fetch_assoc()) { ?>
-                            <a href="movieDetails.php?movie=<?php echo $movieList['Name']; ?>">
+                            <a href="movieDetails.php?movie=<?php echo $movieList['Id']; ?>">
                                 <div class="col size-2">
                                     <img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
                                     <p><?php echo $movieList['Name']; ?></p>
@@ -145,7 +156,7 @@ if (isset($_GET['Sort'])) {
                         while ($movieList = $result->fetch_assoc()) { ?>
                             <div class="row is-wrap">
                                 <div class="col size-2">
-                                    <a href="movieDetails.php?movie=<?php echo $movieList['Name']; ?>">
+                                    <a href="movieDetails.php?movie=<?php echo $movieList['Id']; ?>">
                                         <img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
                                     </a>
                                 </div>
@@ -173,7 +184,7 @@ if (isset($_GET['Sort'])) {
                 <div class="row is-wrap">
                     <?php
                     while ($movieList = $result->fetch_assoc()) { ?>
-                        <a href="movieDetails.php?movie=<?php echo $movieList['Name']; ?>">
+                        <a href="movieDetails.php?movie=<?php echo $movieList['Id']; ?>">
                             <div class="col size-2"><img src="assets/movie/poster/<?php echo $movieList['PhotoUrl']; ?>.jpg" alt="" width="230" height="330" />
                                 <p><?php echo $movieList['Name']; ?></p>
                             </div>
