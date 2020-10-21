@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>HiewTang Theatre</title>
+        <link rel="stylesheet" href="./css/main.css" />
+        <link rel="stylesheet" href="./css/register.css" />
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="navbar-menu container">
+                <a href="./">
+                    <div class="logo">
+                        <img src="./assets/logo/HiewTangTheatre_dark.png" />
+                    </div>
+                </a>
+                <div class="navbar-start">
+                    <a href="./" class="navbar-item"> Home </a>
+                    <a href="moviesView.php" class="navbar-item"> Movies </a>
+                    <a class="navbar-item"> Check Bookings </a>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <input
+                            class="input is-rounded"
+                            type="text"
+                            placeholder="Search"
+                        />
+                        <svg class="search-icon" viewBox="0 0 12 13">
+                            <g stroke-width="2" stroke="#999999" fill="none">
+                                <path d="M11.29 11.71l-4-4" />
+                                <circle cx="5" cy="5" r="4" />
+                            </g>
+                        </svg>
+                    </div>
+                    <a href="./login.html" class="navbar-item"> Login </a>
+                    <a href="./register.html" class="navbar-item active">
+                        Register
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <main class="container is-small">
+            <h1>Register</h1>
+            <form action="./register.php" method="post">
+                <label for="email">Email:</label>
+                <input
+                    class="input"
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="email@domain.com"
+                    required
+                />
+                <br />
+                <label for="password">Password:</label>
+                <input
+                    class="input"
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                    required
+                />
+                <div id="message">
+                    <h3>Password must contain the following:</h3>
+                    <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                    <p id="capital" class="invalid">
+                        A <b>capital (uppercase)</b> letter
+                    </p>
+                    <p id="number" class="invalid">A <b>number</b></p>
+                    <p id="length" class="invalid">
+                        Minimum <b>8 characters</b>
+                    </p>
+                </div>
+                <label for="confirmPassword">Confirm Password:</label>
+                <input
+                    class="input"
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    placeholder="Confirm Password"
+                    required
+                />
+                <div id="message2">
+                    <p id="conf" class="invalid">
+                        Confirm Password must be the same as <b>Password</b>
+                    </p>
+                </div>
+                <label for="name">Name:</label>
+                <input
+                    class="input"
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="John Doe"
+                    required
+                />
+                <label for="phone">Phone Number:</label>
+                <input
+                    class="input"
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    minlength="8"
+                    maxlength="8"
+                    placeholder="87651906"
+                    pattern="\d{8}"
+                    title="Please enter proper singaporean phone number"
+                    required
+                />
+                <label for="creditCardName">Name on Credit Card:</label>
+                <input
+                    class="input"
+                    type="text"
+                    name="creditCardName"
+                    id="creditCardName"
+                    placeholder="John Doe"
+                    required
+                />
+                <div class="row">
+                    <div class="col size-6" style="padding: 0">
+                        <label for="creditCardNumber"
+                            >Credit Card Number:</label
+                        >
+                        <input
+                            class="input"
+                            type="text"
+                            name="creditCardNumber"
+                            id="creditCardNumber"
+                            minlength="16"
+                            maxlength="16"
+                            placeholder="1234123412341234"
+                            pattern="\d{16}"
+                            title="Please enter proper credit card number"
+                            style="height: initial; width: 93%"
+                            required
+                        />
+                    </div>
+                    <div class="col size-3" style="padding: 0">
+                        <label for="ccv">CCV/CVC:</label>
+                        <input
+                            class="input"
+                            type="text"
+                            name="ccv"
+                            id="ccv"
+                            minlength="3"
+                            maxlength="3"
+                            placeholder="123"
+                            pattern="\d{3}"
+                            title="Please enter proper ccv/cvc"
+                            style="height: initial; width: 86%"
+                            required
+                        />
+                    </div>
+                    <div class="col size-3" style="padding: 0">
+                        <label for="cardExpiry">Card Expiry:</label>
+                        <input
+                            class="input"
+                            type="text"
+                            name="cardExpiry"
+                            id="cardExpiry"
+                            minlength="5"
+                            maxlength="5"
+                            placeholder="MM/YY"
+                            pattern="^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$"
+                            title="Please enter proper singaporean phone number"
+                            style="height: initial"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <button class="button float-right" type="submit">
+                        Register
+                    </button>
+                </div>
+            </form>
+        </main>
+        <script>
+            let passwordConf = false;
+            let expiryConf = false;
+            var passwordInput = document.getElementById("password");
+            var confPasswordInput = document.getElementById("confirmPassword");
+            var cardExpiryInput = document.getElementById("cardExpiry");
+            var letter = document.getElementById("letter");
+            var capital = document.getElementById("capital");
+            var number = document.getElementById("number");
+            var length = document.getElementById("length");
+            var conf = document.getElementById("conf");
+
+            // When the user clicks on the password field, show the message box
+            passwordInput.onfocus = function () {
+                document.getElementById("message").style.display = "block";
+            };
+            confPasswordInput.onfocus = function () {
+                document.getElementById("message2").style.display = "block";
+            };
+
+            // When the user clicks outside of the password field, hide the message box
+            passwordInput.onblur = function () {
+                document.getElementById("message").style.display = "none";
+            };
+            confPasswordInput.onblur = function () {
+                document.getElementById("message2").style.display = "none";
+            };
+            confPasswordInput.onkeyup = function () {
+                if (passwordInput.value == confPasswordInput.value) {
+                    passwordConf = true;
+                    conf.classList.remove("invalid");
+                    conf.classList.add("valid");
+                } else {
+                    passwordConf = false;
+                    conf.classList.remove("valid");
+                    conf.classList.add("invalid");
+                }
+            };
+            // When the user starts to type something inside the password field
+            passwordInput.onkeyup = function () {
+                // Validate lowercase letters
+                var lowerCaseLetters = /[a-z]/g;
+                if (passwordInput.value.match(lowerCaseLetters)) {
+                    letter.classList.remove("invalid");
+                    letter.classList.add("valid");
+                } else {
+                    letter.classList.remove("valid");
+                    letter.classList.add("invalid");
+                }
+
+                // Validate capital letters
+                var upperCaseLetters = /[A-Z]/g;
+                if (passwordInput.value.match(upperCaseLetters)) {
+                    capital.classList.remove("invalid");
+                    capital.classList.add("valid");
+                } else {
+                    capital.classList.remove("valid");
+                    capital.classList.add("invalid");
+                }
+
+                // Validate numbers
+                var numbers = /[0-9]/g;
+                if (passwordInput.value.match(numbers)) {
+                    number.classList.remove("invalid");
+                    number.classList.add("valid");
+                } else {
+                    number.classList.remove("valid");
+                    number.classList.add("invalid");
+                }
+
+                // Validate length
+                if (passwordInput.value.length >= 8) {
+                    length.classList.remove("invalid");
+                    length.classList.add("valid");
+                } else {
+                    length.classList.remove("valid");
+                    length.classList.add("invalid");
+                }
+            };
+            cardExpiryInput.onkeyup = function () {
+                const dates = cardExpiryInput.value.split("/");
+                const currDate = new Date();
+
+                if (
+                    parseInt(dates[1]) > currDate.getFullYear() - 2000 ||
+                    (currDate.getFullYear() - 2000 == parseInt(dates[1]) &&
+                        parseInt(dates[0]) >= currDate.getMonth() + 1)
+                ) {
+                    expiryConf = true;
+                } else {
+                    expiryConf = false;
+                }
+            };
+            function getCookie(name) {
+                // Split cookie string and get all individual name=value pairs in an array
+                var cookieArr = document.cookie.split(";");
+                // Loop through the array elements
+                for (var i = 0; i < cookieArr.length; i++) {
+                    var cookiePair = cookieArr[i].split("=");
+                    /* Removing whitespace at the beginning of the cookie name
+                and compare it with the given string */
+                    if (name == cookiePair[0].trim()) {
+                        // Decode the cookie value and return
+                        return decodeURIComponent(cookiePair[1]);
+                    }
+                }
+                // Return null if not found
+                return null;
+            }
+
+            document.querySelector("form").addEventListener("submit", (e) => {
+                if (!passwordConf) {
+                    alert("Password and Confirm Password don't match");
+                    e.preventDefault();
+                }
+                if (!expiryConf) {
+                    alert("Expiry date has been reached");
+                    e.preventDefault();
+                }
+            });
+
+            if (getCookie("userId")) window.location.replace("./");
+        </script>
+    </body>
+</html>

@@ -74,7 +74,7 @@ if (isset($_GET['Sort'])) {
                     </svg>
                 </div>
                 <a href="./login.html" class="navbar-item"> Login </a>
-                <a href="" class="navbar-item"> Register </a>
+                <a href="./register.html" class="navbar-item"> Register </a>
             </div>
         </div>
     </nav>

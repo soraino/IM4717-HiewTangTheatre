@@ -1,7 +1,7 @@
 <?php
 include "./dbconnect.php";
-if (!isset($_POST['email']) || !isset($_POST['password'])) {
-    die('Unexpected error has occured');
+if(!isset($_POST['email']) || !isset($_POST['password'])){
+    die('Unexpected error has occured <a href="./">Return to home</a>');
 }
 $email = strtolower(trim(utf8_decode(urldecode($_POST['email']))));
 $password = md5(utf8_decode(urldecode($_POST['password'])));
