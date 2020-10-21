@@ -47,7 +47,7 @@
                         </g>
                     </svg>
                 </div>
-                <a href="" class="navbar-item"> Login </a>
+                <a href="./login.html" class="navbar-item"> Login </a>
                 <a href="" class="navbar-item"> Register </a>
             </div>
         </div>

@@ -12,6 +12,7 @@
 
 <body>
     <?php
+        echo $_COOKIE["userId"];
             @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
             $MOVIE_QUERY = "select M.*, P.PhotoUrl from f34ee.MovieDetail as M inner join f34ee.Photo as P where P.MovieDetailId = M.Id order by M.Rating desc;";
             $THEATRE_QUERY = "select distinct Location from f34ee.Theatre;";
@@ -62,7 +63,7 @@
                         </g>
                     </svg>
                 </div>
-                <a href="" class="navbar-item"> Login </a>
+                <a href="./login.html" class="navbar-item"> Login </a>
                 <a href="" class="navbar-item"> Register </a>
             </div>
         </div>

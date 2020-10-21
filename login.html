@@ -4,6 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>HiewTang Theatre</title>
+        <link rel="stylesheet" href="./css/main.css" />
+        <link rel="stylesheet" href="./css/login.css" />
     </head>
     <body>
         <nav class="navbar">
@@ -32,10 +34,56 @@
                             </g>
                         </svg>
                     </div>
-                    <a href="" class="navbar-item active"> Login </a>
+                    <a href="./login.html" class="navbar-item"> Login </a>
                     <a href="" class="navbar-item"> Register </a>
                 </div>
             </div>
         </nav>
+        <main class="container is-small">
+            <h1>Login</h1>
+            <form action="./login.php" method="post">
+                <label for="email">Email:</label>
+                <input
+                    class="input"
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="email@domian.com"
+                />
+                <br />
+                <label for="password">Password:</label>
+                <input
+                    class="input"
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                />
+                <div class="clearfix">
+                    <button class="button float-right" type="submit">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </main>
+        <script>
+            function getCookie(name) {
+                // Split cookie string and get all individual name=value pairs in an array
+                var cookieArr = document.cookie.split(";");
+                // Loop through the array elements
+                for (var i = 0; i < cookieArr.length; i++) {
+                    var cookiePair = cookieArr[i].split("=");
+                    /* Removing whitespace at the beginning of the cookie name
+                and compare it with the given string */
+                    if (name == cookiePair[0].trim()) {
+                        // Decode the cookie value and return
+                        return decodeURIComponent(cookiePair[1]);
+                    }
+                }
+                // Return null if not found
+                return null;
+            }
+            if (getCookie("userId")) window.location.replace("./");
+        </script>
     </body>
 </html>

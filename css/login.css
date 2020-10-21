@@ -1,0 +1,15 @@
+.is-small{
+    max-width: 960px;
+    padding: 60px;
+    padding-bottom: 40px;
+    margin-top: 30px;
+    background: #fff;
+    border-radius: 10px;
+}
+.clearfix{
+    margin-top: 10px;
+}
+.input{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
