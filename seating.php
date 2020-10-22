@@ -91,24 +91,9 @@ $alphabet = range('A', 'Z');
 ?>
 
 <body>
-    <nav class="navbar">
-        <div class="navbar-menu container">
-            <div class="navbar-end">
-                <a href="index.php" class="navbar-item"> Home </a>
-                <a href="moviesView.php" class="navbar-item"> Movies </a>
-                <a class="navbar-item"> Bookings </a>
-                <div class="navbar-item">
-                    <input class="input is-rounded" type="text" placeholder="Search" />
-                    <svg class="search-icon" viewBox="0 0 12 13">
-                        <g stroke-width="2" stroke="#999999" fill="none">
-                            <path d="M11.29 11.71l-4-4" />
-                            <circle cx="5" cy="5" r="4" />
-                        </g>
-                    </svg>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php
+        include "./navbar.php";
+    ?>
     <!-- End of navigation bar -->
     <div id="banner">
         <img src="./assets/movie/banner/<?php echo $result_movie['PhotoUrl'] ?>.jpg" alt="<?php echo $result_banner['PhotoUrl'] ?>" width="100%" height="350px">
