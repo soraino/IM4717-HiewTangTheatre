@@ -101,16 +101,16 @@ ol {
     text-decoration: none;
     margin: auto;
 }
-.navbar-end>a.navbar-item{
+.navbar-end > a.navbar-item {
     margin-right: 0 !important;
 }
-a.navbar-item.active{
+a.navbar-item.active {
     color: #ef8f00;
 }
 a.navbar-item {
     cursor: pointer;
-    font-weight: 500;
-    font-size: 24px;
+    font-weight: 600;
+    font-size: 18px;
     align-self: flex-end;
     margin-right: 30px;
 }
@@ -118,7 +118,7 @@ a.navbar-item:hover {
     text-decoration: underline;
     color: #ef8f00;
 }
-a.navbar-item.active{
+a.navbar-item.active {
     text-decoration: none;
 }
 .input {
@@ -150,12 +150,12 @@ a.navbar-item.active{
     color: #363636;
     height: 50%;
 }
-.logo{
+.logo {
     height: 90%;
     margin-top: auto;
     margin-bottom: auto;
 }
-.logo> img{
+.logo > img {
     height: 100%;
     width: auto;
 }

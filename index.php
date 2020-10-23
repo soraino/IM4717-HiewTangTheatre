@@ -17,9 +17,16 @@
     @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
     $MOVIE_QUERY = "select M.*, P.PhotoUrl from f34ee.MovieDetail as M inner join f34ee.Photo as P where P.MovieDetailId = M.Id order by M.Rating desc;";
     $THEATRE_QUERY = "select distinct Location from f34ee.Theatre;";
+
+    $sql_userDetails = "select * from User where Id = '" . $_COOKIE['userId'] . "'";
+    $run_userDetails = $DB->query($sql_userDetails);
+    $result_userDetails =  mysqli_fetch_assoc($run_userDetails);
+
     if (mysqli_connect_errno()) {
         exit('Unable to connect to db');
     }
+    session_start();
+
     $movies = array();
     $theatres = array();
     $queryResult = $DB->query($MOVIE_QUERY);
@@ -68,6 +75,14 @@
     </div>
     <main class="container">
         <div class="box">
+            <?php
+            if (isset($_COOKIE["userId"])) {
+            ?>
+                <h2 style="color: #ef8f00;">Welcome back, <?php echo $result_userDetails['Name'] ?></h2>
+                <hr>
+            <?php
+            }
+            ?>
             <h2>Quick Purchase</h2>
             <form method="GET" action="./booking.php">
                 <div class="row">

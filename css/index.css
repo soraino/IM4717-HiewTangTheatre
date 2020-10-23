@@ -14,6 +14,7 @@ label {
     margin-top: 40px;
     margin-bottom: 20px;
     border: solid 1px #000;
+    border-radius: 10px;
 }
 
 .slide {
@@ -27,7 +28,7 @@ label {
     position: relative;
     margin: 10px;
 }
-.slide>img{
+.slide > img {
     width: 200px;
     height: 300px;
 }

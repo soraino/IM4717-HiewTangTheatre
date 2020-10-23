@@ -7,8 +7,18 @@
     margin: 30px 0;
 }
 
-label {
-    margin-right: 10px;
+.seats label {
+    display: block;
+    border: 1px solid black;
+    /* text-align: center; */
+}
+
+.seats input[type="checkbox"] {
+    display: none;
+}
+
+input:checked + label {
+    background-color: #ffff00;
 }
 
 .outer-container {
@@ -36,7 +46,7 @@ label {
     background-color: white;
 }
 
-.iseat:nth-child(2) {
+.iseat:nth-child(4) {
     background-color: grey;
 }
 
