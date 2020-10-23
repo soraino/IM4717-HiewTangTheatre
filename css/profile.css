@@ -1,0 +1,78 @@
+.container {
+    /* width: 1200px; */
+}
+
+.profile-img {
+    /* background-color: lightgrey; */
+    width: auto;
+    height: auto;
+    margin-top: 40px;
+}
+
+.profile-details {
+    /* background-color: lightgrey; */
+    height: auto;
+    margin: 0 auto;
+    /* text-align: center; */
+}
+
+.payment-details {
+    /* background-color: lightgrey; */
+    height: auto;
+    margin: 0 auto;
+}
+
+h3 {
+    background-color: #ffc66b;
+    margin: 0;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+#profilePic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: block;
+    /* text-align: center; */
+}
+
+#myBtn {
+    text-decoration: underline;
+    display: block;
+    text-align: center;
+}
+
+label {
+    display: inline-block;
+    padding: 12px 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 3px 0;
+}
+
+input[type="submit"] {
+    background-color: #ef8f00;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+
+input[type="submit"]:hover {
+    background-color: #ffc66b;
+}
+
+footer {
+    clear: both;
+}
