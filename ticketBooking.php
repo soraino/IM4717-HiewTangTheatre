@@ -58,7 +58,7 @@ if ($run_booking === TRUE) {
 
         if ($run_ticket === TRUE) {
             echo "New record created successfully";
-            header('Location: receipt.php?bId=' . urlencode($currentId));
+            header('Location: myBooking.php?bId=' . urlencode($currentId));
         } else {
             echo "Error: 1 " . $sql_currentId . "<br>" . $db->error;
         }
