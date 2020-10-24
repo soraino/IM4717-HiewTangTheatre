@@ -134,7 +134,13 @@ if (isset($_GET['Sort'])) {
                                     <div>
                                         <hr />
                                         <span class="float-left"><img src="assets/play.svg" alt="ticket" width="20px" height="20px" />&nbsp; Watch Trailer</span>
-                                        <a href="./booking.php?movie=<?php echo $movieList['Id']; ?>" <?php echo time() > strtotime($movieList['ReleaseDate']) ? '' : 'hidden'; ?>><span class="float-right"><img src="assets/ticket-alt.svg" alt="ticket" width="28px" />&nbsp; <p class="book-ticket">Book Ticket</p></span></a>
+                                        <?php
+                                            if(time() > strtotime($movieList['ReleaseDate'])){
+                                                ?>
+                                                <a href="./booking.php?movie=<?php echo $movieList['Id']; ?>"><span class="float-right"><img src="assets/ticket-alt.svg" alt="ticket" width="28px" />&nbsp; <p class="book-ticket">Book Ticket</p></span></a>
+                                                <?php
+                                            }
+                                        ?>
                                         <hr />
                                     </div>
                                 </div>

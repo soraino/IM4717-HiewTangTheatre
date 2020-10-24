@@ -75,14 +75,6 @@
     </div>
     <main class="container">
         <div class="box">
-            <?php
-            if (isset($_COOKIE["userId"])) {
-            ?>
-                <h2 style="color: #ef8f00;">Welcome back, <?php echo $result_userDetails['Name'] ?></h2>
-                <hr>
-            <?php
-            }
-            ?>
             <h2>Quick Purchase</h2>
             <form method="GET" action="./booking.php">
                 <div class="row">

@@ -1,8 +1,19 @@
 <nav class="navbar">
-    <div class="navbar-menu container">
-        <a href="./">
-            <div class="logo">
-                <img src="./assets/logo/HiewTangTheatre_dark.png" />
+        <div class="navbar-menu container">
+            <a href="./">
+                <div class="logo">
+                    <img src="./assets/logo/HiewTangTheatre_dark.png" />
+                </div>
+            </a>
+            <div class="navbar-start">
+                <a href="./" class="navbar-item"> Home </a>
+                <a href="moviesView.php" class="navbar-item"> Movies </a>
+                <?php if (isset($_COOKIE["userId"])) {
+                ?>
+                    <a class="navbar-item" href="myBooking.php"> My Bookings </a>
+                <?php
+                }
+                ?>
             </div>
         </a>
         <div class="navbar-start">
