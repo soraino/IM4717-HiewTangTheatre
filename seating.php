@@ -75,11 +75,29 @@ $dateId = $_POST['date'];
 $cinema = $_POST['cinema'];
 $time = $_POST['time'];
 
-echo "movie ID: " . $movieId;
-echo "TimeslotID: " . $timeslotId;
-echo "Date: " . $dateId;
-echo "Cinema: " . $cinema;
-echo "Time: " . $time;
+// echo "movie ID: " . $movieId;
+// echo "TimeslotID: " . $timeslotId;
+// echo "Date: " . $dateId;
+// echo "Cinema: " . $cinema;
+// echo "Time: " . $time;
+
+//GETTING INDIVIDUAL SEAT ID
+$sql_seatId = "select S.Id, S.`Column`, S.Row from Seating as S join Timeslot T where T.Id = '" . $timeslotId . "' and T.TheatreId = S.TheatreId Order by S.Row ASC, S.Column ASC";
+$run_seatId = $db->query($sql_seatId);
+
+$result_seatId = array();
+while ($item = $run_seatId->fetch_assoc()) {
+    array_push($result_seatId, $item);
+}
+$rows_seatId = count($result_seatId);
+
+//GETTING UNAVAILABLE SEATS
+$sql_unavailableSeats = "select T.SeatId from Ticket T join Booking B on T.BookingId = B.Id where PremiereDate = '" . $dateId . "' and B.TimeslotId = '" . $timeslotId . "'";
+$run_unavailableSeats = $db->query($sql_unavailableSeats);
+$result_unavailableSeats = array();
+while ($item = $run_unavailableSeats->fetch_assoc()) {
+    array_push($result_unavailableSeats, $item['SeatId']);
+}
 
 //GETTING USER DATA FROM DB FOR DISPLAY
 $sql_uData = "select U.*, CH.CardNumber, C.Name as CardName, C.CVV, C.ExpiryDate  from User U join CardHolder CH on U.Id = CH.UserId join Card C on CH.CardNumber = C.CardNumber where Id = '" . $_COOKIE['userId'] . "'";
@@ -221,33 +239,20 @@ $alphabet = range('A', 'Z');
                         <!-- seats left -->
                         <div class="col seats-left">
                             <?php
+                            $i = 0;
                             for ($row = 0; $row < 5; $row++) {
                             ?>
                                 <div class="row">
                                     <?php
-                                    for ($col = 1; $col <= 6; $col++) { ?>
-                                        <input type="checkbox" id="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>" name="seats" onchange="seatSelector('<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>')">
-                                        <label class="col iseat" for="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>"><?php echo $alphabet[$row] . sprintf("%02d", $col); ?></label><br>
+                                    for ($col = 1; $col <= 12; $col++) {
+                                    ?>
+                                        <input type="checkbox" id="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>" name="seats" onchange="seatSelector('<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>')" <?php echo in_array($result_seatId[$i]['Id'], $result_unavailableSeats) ? "disabled"  :  ""; ?>>
+                                        <label class="col iseat" for="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>"><?php echo strtoupper($result_seatId[$i]['Row']) . $result_seatId[$i]['Column']; ?></label><br>
                                     <?php
+                                        $i++;
                                     } ?>
                                 </div>
 
-                            <?php
-                            } ?>
-                        </div>
-                        <!-- seats right -->
-                        <div class="col seats-right">
-                            <?php
-                            for ($row = 0; $row < 5; $row++) {
-                            ?>
-                                <div class="row">
-                                    <?php
-                                    for ($col = 7; $col <= 12; $col++) { ?>
-                                        <input type="checkbox" id="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>" name="seats" onchange="seatSelector('<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>')">
-                                        <label class="col iseat" for="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>"><?php echo $alphabet[$row] . sprintf("%02d", $col); ?></label><br>
-                                    <?php
-                                    } ?>
-                                </div>
                             <?php
                             } ?>
                         </div>

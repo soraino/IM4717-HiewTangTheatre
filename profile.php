@@ -121,7 +121,7 @@ if (isset($_COOKIE["userId"])) {
                         <p><input type="text" id="name" name="name" value="<?php echo $result_profile['Name'] ?>" required></p>
                         <p><input type="text" id="email" name="email" value="<?php echo $result_profile['Email'] ?>" required></p>
                         <p><input type="text" id="phone" name="phone" value="<?php echo $result_profile['PhoneNumber'] ?>" minlength="8" maxlength="8" pattern="\d{8}" title="Please enter proper singaporean phone number" required></p>
-                        <p><input type="password" id="password" name="password" value="<?php echo $result_profile['Password'] ?>" disabled required><small id="small" onclick="changePwd()" style="font-style: italic; float:right; text-decoration: underline;">Change password</small></p>
+                        <p><input type="password" id="password" name="password" value="<?php echo $result_profile['Password'] ?>" placeholder="Password" disabled required><small id="small" onclick="changePwd()" style="font-style: italic; float:right; text-decoration: underline;">Change password</small></p>
                         <p><input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required /></p>
                     </div>
                 </div>
@@ -188,6 +188,7 @@ if (isset($_COOKIE["userId"])) {
 
         function changePwd() {
             document.getElementById("password").disabled = false;
+            document.getElementById("password").value = "";
             document.getElementById("confirmPassword").style.display = "block";
             document.getElementById("labelCfmPwd").style.display = "block";
             document.getElementById("small").style.display = "none";

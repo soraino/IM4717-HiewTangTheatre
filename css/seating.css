@@ -21,6 +21,10 @@ input:checked + label {
     background-color: #ffff00;
 }
 
+input:disabled + label {
+    background-color: #808080;
+}
+
 .outer-container {
     border: 1px solid black;
     width: auto;

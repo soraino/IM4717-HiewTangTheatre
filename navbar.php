@@ -8,7 +8,7 @@
         <div class="navbar-start">
             <a href="./" class="navbar-item"> Home </a>
             <a href="moviesView.php" class="navbar-item"> Movies </a>
-            <a class="navbar-item"> Check Bookings </a>
+            <a class="navbar-item"> My Bookings </a>
         </div>
         <div class="navbar-end">
 
