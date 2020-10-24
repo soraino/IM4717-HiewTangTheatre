@@ -239,22 +239,31 @@ $alphabet = range('A', 'Z');
                         <!-- seats left -->
                         <div class="col seats-left">
                             <?php
-                            $i = 0;
-                            for ($row = 0; $row < 5; $row++) {
+                            if (isset($timeslotId)) {
                             ?>
-                                <div class="row">
-                                    <?php
-                                    for ($col = 1; $col <= 12; $col++) {
-                                    ?>
-                                        <input type="checkbox" id="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>" name="seats" onchange="seatSelector('<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>')" <?php echo in_array($result_seatId[$i]['Id'], $result_unavailableSeats) ? "disabled"  :  ""; ?>>
-                                        <label class="col iseat" for="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>"><?php echo strtoupper($result_seatId[$i]['Row']) . $result_seatId[$i]['Column']; ?></label><br>
-                                    <?php
-                                        $i++;
-                                    } ?>
-                                </div>
+                                <?php
+                                $i = 0;
+                                for ($row = 0; $row < 5; $row++) {
+                                ?>
+                                    <div class="row">
+                                        <?php
+                                        for ($col = 1; $col <= 12; $col++) {
+                                        ?>
+                                            <input type="checkbox" id="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>" name="seats" onchange="seatSelector('<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>')" <?php echo in_array($result_seatId[$i]['Id'], $result_unavailableSeats) ? "disabled"  :  ""; ?>>
+                                            <label class="col iseat" for="<?php echo $alphabet[$row] . sprintf("%02d", $col); ?>"><?php echo strtoupper($result_seatId[$i]['Row']) . $result_seatId[$i]['Column']; ?></label><br>
+                                        <?php
+                                            $i++;
+                                        } ?>
+                                    </div>
 
+                                <?php
+                                }
+                            } else {
+                                ?>
+                                <p style="color:red; text-align:center;">*Please select a timeslot*</p>
                             <?php
-                            } ?>
+                            }
+                            ?>
                         </div>
                     </div>
 

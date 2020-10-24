@@ -30,12 +30,6 @@ $seats = $_POST['seats'];
 $date = $_POST['date'];
 $showtimeId = $_POST['showtimeId'];
 
-$sql_currentId = "SELECT Id FROM Booking ORDER BY Id DESC LIMIT 1";
-$run_currentId = $db->query($sql_currentId);
-$result_currentId = $run_currentId->num_rows;
-
-$currentId = $result_currentId + 1;
-
 $explodedSeats = explode(", ", $seats);
 
 for ($i = 0; $i < $qty; $i++) {
@@ -46,27 +40,35 @@ for ($i = 0; $i < $qty; $i++) {
     array_push($seatId_array, $result_seatId['Id']);
 }
 
-if ($result_currentId = 0) {
-    $sql_booking = "insert into Booking (Id, PremiereDate, TimeslotId, UserId) VALUES ('1', '$date', '$showtimeId', '$userId')";
-    $run_booking = $db->query($sql_booking);
-    foreach ($seatId_array as $item) {
-        $sql_ticket = "insert into Ticket (SeatId, BookingId) VALUES ('$item', '1')";
-        $run_ticket = $db->query($sql_ticket);
+$sql_booking = "insert into Booking (PremiereDate, TimeslotId, UserId) VALUES ('$date', '$showtimeId', '$userId')";
+$run_booking = $db->query($sql_booking);
+
+if ($run_booking === TRUE) {
+    $sql_currentId = "select Id FROM Booking where PremiereDate = '" . $date . "' and TimeslotId = '" . $showtimeId . "' and UserId = '" . $userId . "'";
+    $run_currentId = $db->query($sql_currentId);
+    if ($run_currentId->num_rows > 0) {
+        $result_currentId = $run_currentId->fetch_assoc();
+
+        $currentId = $result_currentId['Id'];
+
+        foreach ($seatId_array as $item) {
+            $sql_ticket = "insert into Ticket (SeatId, BookingId) VALUES ('$item', '$currentId')";
+            $run_ticket = $db->query($sql_ticket);
+        }
+
+        if ($run_ticket === TRUE) {
+            echo "New record created successfully";
+            header('Location: receipt.php');
+        } else {
+            echo "Error: 1 " . $sql_currentId . "<br>" . $db->error;
+        }
+    } else {
+        echo "Error: 2 " . $sql_currentId . "<br>" . $db->error;
     }
 } else {
-    $sql_booking = "INSERT INTO Booking (Id, PremiereDate, TimeslotId, UserId) VALUES ('$currentId', '$date', '$showtimeId', '$userId')";
-    $run_booking = $db->query($sql_booking);
-    foreach ($seatId_array as $item) {
-        $sql_ticket = "INSERT INTO Ticket (SeatId, BookingId) VALUES ('$item', '$currentId')";
-        $run_ticket = $db->query($sql_ticket);
-    }
+    echo "Error: 3 " . $sql_booking . "<br>" . $db->error;
 }
 
-if ($run_booking === TRUE && $run_ticket === TRUE) {
-    echo "New record created successfully";
-    header('Location: receipt.php');
-} else {
-    echo "Error: " . $sql . "<br>" . $db->error;
-}
+
 
 $db->close();
