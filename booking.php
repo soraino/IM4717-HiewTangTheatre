@@ -224,7 +224,7 @@ if (isset($_COOKIE["userId"])) {
                                 if ($_GET['location'] == $timeslots[$i]['Location']) {
                             ?>
                                     <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l"; ?>')">
-                                        <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l"; ?>" value="<?php echo $timeslots[$j]['Id']; ?>" onchange="updateBg(this)" />
+                                        <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l"; ?>" value="<?php echo $timeslots[$i]['Id']; ?>" onchange="updateBg(this)" />
                                         <label for="<?php echo "ts" . $i . "l"; ?>">
                                             <p><?php echo substr($timeslots[$i]['StartTime'], 0, 5); ?></p>
                                         </label>

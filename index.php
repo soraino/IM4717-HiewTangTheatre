@@ -212,7 +212,7 @@
         const dateInput = document.getElementById('dateInput');
         const dateVar = new Date();
         dateInput.min = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
-        dateVar.setDate(dateVar.getDate() + 7);
+        dateVar.setDate(dateVar.getDate() + 6);
         dateInput.max = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
         initSlider(1);
         initSlider(2);
