@@ -1,20 +1,29 @@
+<?php
+session_start();
+
+$userId = $_COOKIE['userId'];
+$userData = $_SESSION["user" . $userId];
+$uname = $userData['Name'];
+
+?>
+
 <nav class="navbar">
-        <div class="navbar-menu container">
-            <a href="./">
-                <div class="logo">
-                    <img src="./assets/logo/HiewTangTheatre_dark.png" />
-                </div>
-            </a>
-            <div class="navbar-start">
-                <a href="./" class="navbar-item"> Home </a>
-                <a href="moviesView.php" class="navbar-item"> Movies </a>
-                <?php if (isset($_COOKIE["userId"])) {
-                ?>
-                    <a class="navbar-item" href="myBooking.php"> My Bookings </a>
-                <?php
-                }
-                ?>
+    <div class="navbar-menu container">
+        <a href="./">
+            <div class="logo">
+                <img src="./assets/logo/HiewTangTheatre_dark.png" />
             </div>
+        </a>
+        <div class="navbar-start">
+            <a href="./" class="navbar-item"> Home </a>
+            <a href="moviesView.php" class="navbar-item"> Movies </a>
+            <?php if (isset($_COOKIE["userId"])) {
+            ?>
+                <a class="navbar-item" href="myBooking.php"> My Bookings </a>
+            <?php
+            }
+            ?>
+        </div>
         <div class="navbar-end">
 
             <div class="navbar-item">
@@ -29,7 +38,7 @@
             <?php if (isset($_COOKIE["userId"])) {
             ?>
                 <a href="./logout.php" class="navbar-item"> Logout </a>
-                <a href="./profile.php" class="navbar-item"><img src="./assets/user.svg" alt="user.svg" width="35px" height="35px"></a>
+                <a href="./profile.php" class="navbar-item"><img style="margin-right: 8px;" src="./assets/user.svg" alt="user.svg" width="32px" height="32px"></a>
             <?php
             } else {
             ?>

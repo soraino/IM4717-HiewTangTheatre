@@ -36,43 +36,6 @@ if (isset($_COOKIE["userId"])) {
     </head>
 
     <style>
-        /* The Modal (background) */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            padding-top: 100px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        .close {
-            color: #aaaaaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
         #confirmPassword,
         #labelCfmPwd {
             display: none;
@@ -81,31 +44,7 @@ if (isset($_COOKIE["userId"])) {
 
     <body>
         <?php include "./navbar.php"; ?>
-        <div id="myModal" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h4>Upload new profile picture</h4>
-                <form action="upload.php" method="post" enctype="multipart/form-data">
-                    Select image to upload:
-                    <input type="hidden" name="userId" value="<?php echo $userId ?>">
-                    <input type="file" name="fileToUpload" id="fileToUpload">
-                    <input type="submit" value="Upload Image" name="submit">
-                </form>
-            </div>
-
-        </div>
         <main class="container">
-            <div class="row profile-img">
-                <div class="col size-1">
-                    <img id="profilePic" src="./assets/user.png" alt="profile picture">
-                    <span id="myBtn">Edit</span>
-                </div>
-                <div class="col size-5">
-                    <h2 style=" text-align: center; margin-top: 50px;"><?php echo $result_profile['Name'] ?></h2>
-                </div>
-            </div>
             <form action="updateProfile.php" method="POST">
                 <h3>My Profile Details</h3>
                 <div class="row profile-details">
@@ -118,11 +57,27 @@ if (isset($_COOKIE["userId"])) {
                     </div>
                     <div class="col size-3">
                         <input type="hidden" name="userId" value="<?php echo $userId ?>">
-                        <p><input type="text" id="name" name="name" value="<?php echo $result_profile['Name'] ?>" required></p>
-                        <p><input type="text" id="email" name="email" value="<?php echo $result_profile['Email'] ?>" required></p>
-                        <p><input type="text" id="phone" name="phone" value="<?php echo $result_profile['PhoneNumber'] ?>" minlength="8" maxlength="8" pattern="\d{8}" title="Please enter proper singaporean phone number" required></p>
+                        <p><input type="text" id="name" name="name" value="<?php echo $result_profile['Name'] ?>" placeholder="John Doe" required></p>
+                        <p><input type="text" id="email" name="email" value="<?php echo $result_profile['Email'] ?>" placeholder="email@domain.com" required></p>
+                        <p><input type="text" id="phone" name="phone" value="<?php echo $result_profile['PhoneNumber'] ?>" minlength="8" maxlength="8" placeholder="87651906" pattern="\d{8}" title="Please enter proper Singapore phone number" required></p>
                         <p><input type="password" id="password" name="password" value="<?php echo $result_profile['Password'] ?>" placeholder="Password" disabled required><small id="small" onclick="changePwd()" style="font-style: italic; float:right; text-decoration: underline;">Change password</small></p>
-                        <p><input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required /></p>
+                        <div id="message">
+                            <h4>Password must contain the following:</h4>
+                            <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                            <p id="capital" class="invalid">
+                                A <b>capital (uppercase)</b> letter
+                            </p>
+                            <p id="number" class="invalid">A <b>number</b></p>
+                            <p id="length" class="invalid">
+                                Minimum <b>8 characters</b>
+                            </p>
+                        </div>
+                        <p><input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" disabled required /></p>
+                        <div id="message2">
+                            <p id="conf" class="invalid">
+                                Confirm Password must be the same as <b>Password</b>
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <h3>My Payment Details</h3>
@@ -134,10 +89,10 @@ if (isset($_COOKIE["userId"])) {
                         <p><label for="cardExpiry">Card Expiry: </label></p>
                     </div>
                     <div class="col size-3">
-                        <p><input type="text" id="creditCardName" name="creditCardName" value="<?php echo $result_profile['CardName'] ?>" required></p>
-                        <p><input type="text" id="creditCardNumber" name="creditCardNumber" value="<?php echo $result_profile['CardNumber'] ?>" minlength="16" maxlength="16" pattern="\d{16}" title="Please enter proper credit card number" required></p>
-                        <p><input type="text" id="cvv" name="cvv" value="<?php echo $result_profile['CVV'] ?>" minlength="3" maxlength="3" pattern="\d{3}" title="Please enter proper cvv/cvc" required></p>
-                        <p><input type="text" id="cardExpiry" name="cardExpiry" value="<?php echo $result_profile['ExpiryDate'] ?>" minlength="5" maxlength="5" placeholder="MM/YY" pattern="^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$" title="Please enter proper singaporean phone number" required></p>
+                        <p><input type="text" id="creditCardName" name="creditCardName" value="<?php echo $result_profile['CardName'] ?>" placeholder="John Doe" required></p>
+                        <p><input type="text" id="creditCardNumber" name="creditCardNumber" value="<?php echo $result_profile['CardNumber'] ?>" minlength="16" maxlength="16" pattern="\d{16}" title="Please enter proper credit card number" placeholder="1234123412341234" required></p>
+                        <p><input type="text" id="cvv" name="cvv" value="<?php echo $result_profile['CVV'] ?>" minlength="3" maxlength="3" pattern="\d{3}" title="Please enter proper cvv/cvc" placeholder="123" required></p>
+                        <p><input type="text" id="cardExpiry" name="cardExpiry" value="<?php echo $result_profile['ExpiryDate'] ?>" minlength="5" maxlength="5" placeholder="MM/YY" pattern="^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$" title="Please enter proper card expiry" required></p>
                     </div>
                 </div>
                 <div class="row float-right">
@@ -160,39 +115,119 @@ if (isset($_COOKIE["userId"])) {
     </html>
 
     <script>
-        // Get the modal
-        var modal = document.getElementById("myModal");
-
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
         function changePwd() {
             document.getElementById("password").disabled = false;
             document.getElementById("password").value = "";
+            document.getElementById("confirmPassword").disabled = false;
             document.getElementById("confirmPassword").style.display = "block";
             document.getElementById("labelCfmPwd").style.display = "block";
             document.getElementById("small").style.display = "none";
         }
+
+        let passwordConf = false;
+        let expiryConf = false;
+        var passwordInput = document.getElementById("password");
+        var confPasswordInput = document.getElementById("confirmPassword");
+        var cardExpiryInput = document.getElementById("cardExpiry");
+        var letter = document.getElementById("letter");
+        var capital = document.getElementById("capital");
+        var number = document.getElementById("number");
+        var length = document.getElementById("length");
+        var conf = document.getElementById("conf");
+
+        // When the user clicks on the password field, show the message box
+        passwordInput.onfocus = function() {
+            document.getElementById("message").style.display = "block";
+        };
+        confPasswordInput.onfocus = function() {
+            document.getElementById("message2").style.display = "block";
+        };
+
+        // When the user clicks outside of the password field, hide the message box
+        passwordInput.onblur = function() {
+            document.getElementById("message").style.display = "none";
+        };
+        confPasswordInput.onblur = function() {
+            document.getElementById("message2").style.display = "none";
+        };
+        confPasswordInput.onkeyup = function() {
+            if (passwordInput.value == confPasswordInput.value) {
+                passwordConf = true;
+                conf.classList.remove("invalid");
+                conf.classList.add("valid");
+            } else {
+                passwordConf = false;
+                conf.classList.remove("valid");
+                conf.classList.add("invalid");
+            }
+        };
+        // When the user starts to type something inside the password field
+        passwordInput.onkeyup = function() {
+            // Validate lowercase letters
+            var lowerCaseLetters = /[a-z]/g;
+            if (passwordInput.value.match(lowerCaseLetters)) {
+                letter.classList.remove("invalid");
+                letter.classList.add("valid");
+            } else {
+                letter.classList.remove("valid");
+                letter.classList.add("invalid");
+            }
+
+            // Validate capital letters
+            var upperCaseLetters = /[A-Z]/g;
+            if (passwordInput.value.match(upperCaseLetters)) {
+                capital.classList.remove("invalid");
+                capital.classList.add("valid");
+            } else {
+                capital.classList.remove("valid");
+                capital.classList.add("invalid");
+            }
+
+            // Validate numbers
+            var numbers = /[0-9]/g;
+            if (passwordInput.value.match(numbers)) {
+                number.classList.remove("invalid");
+                number.classList.add("valid");
+            } else {
+                number.classList.remove("valid");
+                number.classList.add("invalid");
+            }
+
+            // Validate length
+            if (passwordInput.value.length >= 8) {
+                length.classList.remove("invalid");
+                length.classList.add("valid");
+            } else {
+                length.classList.remove("valid");
+                length.classList.add("invalid");
+            }
+        };
+
+        cardExpiryInput.onkeyup = function() {
+            const dates = cardExpiryInput.value.split("/");
+            const currDate = new Date();
+
+            if (
+                parseInt(dates[1]) > currDate.getFullYear() - 2000 ||
+                (currDate.getFullYear() - 2000 == parseInt(dates[1]) &&
+                    parseInt(dates[0]) >= currDate.getMonth() + 1)
+            ) {
+                expiryConf = true;
+            } else {
+                expiryConf = false;
+            }
+        };
+
+        document.querySelector("form").addEventListener("submit", (e) => {
+            if (!passwordConf) {
+                alert("Password and Confirm Password don't match");
+                e.preventDefault();
+            }
+            if (!expiryConf) {
+                alert("Expiry date has been reached");
+                e.preventDefault();
+            }
+        });
     </script>
 
 

@@ -69,11 +69,18 @@ if (mysqli_connect_errno()) {
 
 session_start();
 
-$movieId = $_POST['movie'];
-$timeslotId = $_POST['timeslot'];
-$dateId = $_POST['date'];
-$cinema = $_POST['cinema'];
-$time = $_POST['time'];
+if (isset($_GET['carderror'])) {
+    echo "<script type='text/javascript'>alert('Card number provided doesnt match the user');</script>";
+    $movieId =  $_SESSION['movieId'];
+    $timeslotId = $_SESSION['timeslotId'];
+    $dateId = $_SESSION['dateId'];
+    $cinema = $_SESSION['cinema'];
+} else {
+    $movieId = $_POST['movie'];
+    $timeslotId = $_POST['timeslot'];
+    $dateId = $_POST['date'];
+    $cinema = $_POST['cinema'];
+}
 
 // echo "movie ID: " . $movieId;
 // echo "TimeslotID: " . $timeslotId;
@@ -315,8 +322,8 @@ $alphabet = range('A', 'Z');
                             <div class="col">
                                 <p><input type="text" id="cardName" name="cardName" value="<?php echo $result_uData['CardName'] ?>" placeholder="John Doe" required></p>
                                 <p><input type="text" id="cardNo" name="cardNo" value="<?php echo $result_uData['CardNumber'] ?>" minlength="16" maxlength="16" placeholder="1234123412341234" pattern="\d{16}" title="Please enter proper credit card number" required></p>
-                                <p><input type="text" id="expiry" name="expiry" value="<?php echo $result_uData['ExpiryDate'] ?>" minlength="5" maxlength="5" placeholder="MM/YY" pattern="^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$" title="Please enter proper singaporean phone number" required></p>
-                                <p><input type="text" id="cvv" name="cvv" value="<?php echo $result_uData['CVV'] ?>" minlength="3" maxlength="3" placeholder="123" pattern="\d{3}" title="Please enter proper ccv/cvc" required></p>
+                                <p><input type="text" id="expiry" name="expiry" value="<?php echo $result_uData['ExpiryDate'] ?>" minlength="5" maxlength="5" placeholder="MM/YY" pattern="^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$" title="Please enter proper credit card number" required></p>
+                                <p><input type="text" id="cvv" name="cvv" value="<?php echo $result_uData['CVV'] ?>" minlength="3" maxlength="3" placeholder="123" pattern="\d{3}" title="Please enter proper cvv/cvc" required></p>
                             </div>
                         </div>
                         <hr>
