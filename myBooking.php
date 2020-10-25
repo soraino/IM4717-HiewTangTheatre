@@ -83,7 +83,7 @@
     else{
     ?>
     <main class="container">
-        <h1>All Bookings</h1>
+        <h1>All Bookings Details</h1>
         <?php
         $BOOKING_QUERY = "select B.Id, B.PremiereDate, TIME_FORMAT(T.StartTime, '%h:%i %p') as StartTime, TH.Location, TH.Number, M.Name from f34ee.Booking as B inner join f34ee.Timeslot as T on T.id = B.TimeslotId inner join f34ee.Theatre as TH on TH.id = T.TheatreId inner join f34ee.MovieDetail as M on M.Id = T.MovieDetailId where B.UserId = '".$userId."' ;";
         $bookingResults = $DB->query($BOOKING_QUERY);
@@ -104,28 +104,37 @@
                     }
                 }
                 ?>
-        <div class="row box">
-            <div class="col size-6" style="text-align: center;">
-                <h4>
-                    Reference ID:<?php echo $BookingId; ?><br />
-                    Cinema: <?php echo $location; ?>, Theatre <?php echo $theatreNumber; ?><br />
-                    Seat:<?php 
-                for($i = 0 ; $i< count($seatNumbers); $i++){
-                    echo strtoupper($seatNumbers[$i]);
-                    if(count($seatNumbers) > 1 && $i < count($seatNumbers) -1 ){
-                        echo ', ';
-                    }
-                }
-                ?>
-                </h4>
-            </div>
-            <div class="col size-6" style="text-align: center;">
-                <h4>
-                Movie Name: <?php echo $movieName;?><br>
-                Date: <?php echo date_format($date,"d/m/Y"); ?><br>
-                Time: <?php echo $startTime; ?>
-                </h4>
-            </div>
+        <div class="box">
+            <table>
+                <tr>
+                    <th>Reference ID</th>
+                    <td><?php echo $BookingId; ?></td>
+                    <th>Movie Name</th>
+                    <td><?php echo $movieName;?></td>
+                </tr>
+                <tr>
+                    <th>Cinema</th>
+                    <td><?php echo $location; ?>, Theatre <?php echo $theatreNumber; ?></td>
+                    <th>Seat Number</th>
+                    <td><?php 
+                            for($i = 0 ; $i< count($seatNumbers); $i++){
+                                echo strtoupper($seatNumbers[$i]);
+                                if(count($seatNumbers) > 1 && $i < count($seatNumbers) -1 ){
+                                    echo ', ';
+                                }
+                            }
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Premiere Date</th>
+                    <td><?php echo date_format($date,"d/m/Y"); ?></td>
+                    <th>Time</th>
+                    <td><?php echo $startTime; ?></td>
+                </tr>
+            </table>
+            <br>
+            <br>
         </div>
         <?php
             }
