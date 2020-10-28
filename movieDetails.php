@@ -119,8 +119,8 @@ $directorList = $result2->fetch_assoc();
                         ?>
                     </div>
                 </div>
-                <a id="prev1" class="control prev" style="top: 59%"></a>
-                <a id="next1" class="control next" style="top: 59%"></a>
+                <a id="prev1" class="control prev" style="top: 55%"></a>
+                <a id="next1" class="control next" style="top: 55%"></a>
             </div>
             </section>
             <div class="row">
