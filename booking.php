@@ -17,59 +17,39 @@ session_start();
 if (isset($_COOKIE["userId"])) {
 ?>
 
-    <body>
-        <script>
-            function redirectHome() {
-                window.location.replace("./");
-            }
-            <?php
+<body>
+    <script>
+    function redirectHome() {
+        window.location.replace("./");
+    }
+    <?php
             if (!isset($_GET['movie'])) {
             ?>
-                alert('Please come into this page throught the proper channels');
-                redirectHome();
-            <?php
+    alert('Please come into this page throught the proper channels');
+    redirectHome();
+    <?php
             }
             ?>
-        </script>
-        <nav class="navbar">
-            <div class="navbar-menu container">
-                <a href="./">
-                    <div class="logo">
-                        <img src="./assets/logo/HiewTangTheatre_dark.png" />
-                    </div>
-                </a>
-                <div class="navbar-start">
-                    <a href="./" class="navbar-item"> Home </a>
-                    <a href="moviesView.php" class="navbar-item"> Movies </a>
-                    <a class="navbar-item"> Check Bookings </a>
-                </div>
-                <div class="navbar-end">
-
-                    <div class="navbar-item">
-                        <input class="input is-rounded" type="text" placeholder="Search" />
-                        <svg class="search-icon" viewBox="0 0 12 13">
-                            <g stroke-width="2" stroke="#999999" fill="none">
-                                <path d="M11.29 11.71l-4-4" />
-                                <circle cx="5" cy="5" r="4" />
-                            </g>
-                        </svg>
-                    </div>
-                    <?php if (isset($_COOKIE["userId"])) {
-                    ?>
-                        <a href="./logout.php" class="navbar-item"> Logout </a>
-                    <?php
-                    } else {
-                    ?>
-                        <a href="./login.html" class="navbar-item"> Login </a>
-                        <a href="./register.html" class="navbar-item"> Register </a>
-                    <?php
-                    }
-                    ?>
-                </div>
-            </div>
-        </nav>
-        <?php
+    </script>
+    
+    <?php
+        include "./navbar.php";
         @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
+        $MOVIE_QUERY = "SELECT * FROM f34ee.MovieDetail WHERE Id = " . $_GET['movie'] . ";";
+        $movieResult = $DB->query($MOVIE_QUERY);
+        if($movieResult->num_rows > 0){
+            $movieDetails = $movieResult->fetch_assoc();
+            if(time() < strtotime($movieDetails['ReleaseDate'])){
+                ?>
+    <script>
+    alert('Please come into this page throught the proper channels');
+    redirectHome();
+    </script>
+    <?php
+            }
+        }
+
+
         $LocationVal = '';
         $PHOTO_QUERY = "SELECT PhotoUrl FROM f34ee.Photo WHERE MovieDetailId = " . $_GET['movie'] . ";";
         if (isset($_GET['location'])) {
@@ -105,166 +85,168 @@ if (isset($_COOKIE["userId"])) {
         $queryResult->free();
         $DB->close();
         ?>
-        <form action="seating.php" method="POST">
-            <input type="hidden" value="<?php echo $_GET['movie']; ?>" name="movie" />
-            <div>
-                <img src="assets/movie/banner/<?php echo $bannerURL; ?>.jpg" style="display: block" />
-                <div style="height: 100px; width: 100%; background-color: #000">
-                    <div class="container">
-                        <div class="row center-text date-selector">
-                            <div class="col">
-                                <input type="radio" name="date" id="day1" />
-                                <label for="day1">
-                                    <h1 id="day1_header" class="no-margin">
-                                    </h1>
-                                    <p id="day1_para" class="no-margin">
-                                    </p>
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input type="radio" name="date" id="day2" />
-                                <label for="day2">
-                                    <h1 id="day2_header" class="no-margin">
-                                    </h1>
-                                    <p id="day2_para" class="no-margin">
-                                    </p>
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input type="radio" name="date" id="day3" />
-                                <label for="day3">
-                                    <h1 id="day3_header" class="no-margin">
-                                    </h1>
-                                    <p id="day3_para" class="no-margin">
-                                    </p>
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input type="radio" name="date" id="day4" />
-                                <label for="day4">
-                                    <h1 id="day4_header" class="no-margin">
-                                    </h1>
-                                    <p id="day4_para" class="no-margin">
-                                    </p>
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input type="radio" name="date" id="day5" />
-                                <label for="day5">
-                                    <h1 id="day5_header" class="no-margin">
-                                    </h1>
-                                    <p id="day5_para" class="no-margin">
-                                    </p>
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input type="radio" name="date" id="day6" />
-                                <label for="day6">
-                                    <h1 id="day6_header" class="no-margin">
-                                    </h1>
-                                    <p id="day6_para" class="no-margin">
-                                    </p>
-                                </label>
-                            </div>
-                            <div class="col">
-                                <input type="radio" name="date" id="day7" />
-                                <label for="day7">
-                                    <h1 id="day7_header" class="no-margin">
-                                    </h1>
-                                    <p id="day7_para" class="no-margin">
-                                    </p>
-                                </label>
-                            </div>
+    <form action="seating.php" method="POST">
+        <input type="hidden" value="<?php echo $_GET['movie']; ?>" name="movie" />
+        <div>
+            <img src="assets/movie/banner/<?php echo $bannerURL; ?>.jpg" style="display: block" />
+            <div style="height: 100px; width: 100%; background-color: #000">
+                <div class="container">
+                    <div class="row center-text date-selector">
+                        <div class="col">
+                            <input type="radio" name="date" id="day1" />
+                            <label for="day1">
+                                <h1 id="day1_header" class="no-margin">
+                                </h1>
+                                <p id="day1_para" class="no-margin">
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input type="radio" name="date" id="day2" />
+                            <label for="day2">
+                                <h1 id="day2_header" class="no-margin">
+                                </h1>
+                                <p id="day2_para" class="no-margin">
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input type="radio" name="date" id="day3" />
+                            <label for="day3">
+                                <h1 id="day3_header" class="no-margin">
+                                </h1>
+                                <p id="day3_para" class="no-margin">
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input type="radio" name="date" id="day4" />
+                            <label for="day4">
+                                <h1 id="day4_header" class="no-margin">
+                                </h1>
+                                <p id="day4_para" class="no-margin">
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input type="radio" name="date" id="day5" />
+                            <label for="day5">
+                                <h1 id="day5_header" class="no-margin">
+                                </h1>
+                                <p id="day5_para" class="no-margin">
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input type="radio" name="date" id="day6" />
+                            <label for="day6">
+                                <h1 id="day6_header" class="no-margin">
+                                </h1>
+                                <p id="day6_para" class="no-margin">
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input type="radio" name="date" id="day7" />
+                            <label for="day7">
+                                <h1 id="day7_header" class="no-margin">
+                                </h1>
+                                <p id="day7_para" class="no-margin">
+                                </p>
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="container">
-                <table class="table is-bordered center-text">
-                    <thead>
-                        <tr>
-                            <td>Loction</td>
-                            <td colspan="5">Timeslots</td>
-                        </tr>
-                    </thead>
-                    <?php
+        </div>
+        <div class="container">
+            <table class="table is-bordered center-text">
+                <thead>
+                    <tr>
+                        <td>Loction</td>
+                        <td colspan="5">Timeslots</td>
+                    </tr>
+                </thead>
+                <?php
                     if (!isset($_GET['location'])) {
                         for ($i = 0; $i < count($theatre); $i++) {
 
                     ?>
-                            <tr>
-                                <td>
-                                    <p><?php echo $theatre[$i]['Location']; ?></p>
-                                </td>
-                                <?php
+                <tr>
+                    <td>
+                        <p><?php echo $theatre[$i]['Location']; ?></p>
+                    </td>
+                    <?php
                                 for ($j = 0; $j < count($timeslots); $j++) {
                                     if ($theatre[$i]['Location'] == $timeslots[$j]['Location']) {
                                 ?>
-                                        <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l" . $j; ?>')">
-                                            <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l" . $j; ?>" value="<?php echo $timeslots[$j]['Id']; ?>" onchange="updateBg(this)" />
-                                            <label for="<?php echo "ts" . $i . "l" . $j; ?>">
-                                                <p><?php echo substr($timeslots[$j]['StartTime'], 0, 5); ?></p>
-                                            </label>
-                                        </td>
-                                <?php
+                    <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l" . $j; ?>')">
+                        <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l" . $j; ?>"
+                            value="<?php echo $timeslots[$j]['Id']; ?>" onchange="updateBg(this)" />
+                        <label for="<?php echo "ts" . $i . "l" . $j; ?>">
+                            <p><?php echo substr($timeslots[$j]['StartTime'], 0, 5); ?></p>
+                        </label>
+                    </td>
+                    <?php
                                     }
                                 }
                                 ?>
-                            </tr>
-                        <?php
+                </tr>
+                <?php
                         }
                     } else {
                         ?>
-                        <tr>
-                            <td>
-                                <p><?php echo $_GET['location']; ?></p>
-                            </td>
-                            <?php
+                <tr>
+                    <td>
+                        <p><?php echo $_GET['location']; ?></p>
+                    </td>
+                    <?php
                             for ($i = 0; $i < count($timeslots); $i++) {
                                 if ($_GET['location'] == $timeslots[$i]['Location']) {
                             ?>
-                                    <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l"; ?>')">
-                                        <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l"; ?>" value="<?php echo $timeslots[$i]['Id']; ?>" onchange="updateBg(this)" />
-                                        <label for="<?php echo "ts" . $i . "l"; ?>">
-                                            <p><?php echo substr($timeslots[$i]['StartTime'], 0, 5); ?></p>
-                                        </label>
-                                    </td>
-                            <?php
+                    <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l"; ?>')">
+                        <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l"; ?>"
+                            value="<?php echo $timeslots[$i]['Id']; ?>" onchange="updateBg(this)" />
+                        <label for="<?php echo "ts" . $i . "l"; ?>">
+                            <p><?php echo substr($timeslots[$i]['StartTime'], 0, 5); ?></p>
+                        </label>
+                    </td>
+                    <?php
                                 }
                             }
                             ?>
-                        </tr>
-                    <?php
+                </tr>
+                <?php
                     }
                     ?>
-                </table>
-                <?php
+            </table>
+            <?php
                 if (isset($_GET['location'])) {
                 ?>
-                    <div class="clearfix">
-                        <button type="button" class="link float-right" onclick="showAllLocation()">
-                            View All Locations
-                        </button>
-                    </div>
-                <?php
+            <div class="clearfix">
+                <button type="button" class="link float-right" onclick="showAllLocation()">
+                    View All Locations
+                </button>
+            </div>
+            <?php
                 }
                 ?>
-                <br>
-                <div class="clearfix">
-                    <button class="button float-right" type="submit">
-                        Proceed to Seat Selection
-                    </button>
-                </div>
+            <br>
+            <div class="clearfix">
+                <button class="button float-right" type="submit">
+                    Proceed to Seat Selection
+                </button>
             </div>
-        </form>
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="container">
-                    <p>Copyright lol</p>
-                </div>
+        </div>
+    </form>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="container">
+                <p>Copyright lol</p>
             </div>
-        </footer>
-    </body>
+        </div>
+    </footer>
+</body>
 <?php
 } else {
     header("Location: login.html?notLogin=1&movie=" . $_GET['movie']);
@@ -272,85 +254,85 @@ if (isset($_COOKIE["userId"])) {
 
 ?>
 <script>
-    function initDateSelector() {
-        const today = new Date();
-        const url = new URL(window.location);
-        const search_params = url.searchParams;
-        for (let i = 0; i <= 6; i++) {
-            const dateIter = new Date();
-            dateIter.setDate(today.getDate() + i);
-            const dateVal = dateIter.getFullYear() + '-' + (dateIter.getMonth() + 1) + '-' + dateIter.getDate();
-            document.getElementById(
-                `day${i + 1}_para`
-            ).innerText = `${dateIter.toLocaleString("en-GB", {
+function initDateSelector() {
+    const today = new Date();
+    const url = new URL(window.location);
+    const search_params = url.searchParams;
+    for (let i = 0; i <= 6; i++) {
+        const dateIter = new Date();
+        dateIter.setDate(today.getDate() + i);
+        const dateVal = dateIter.getFullYear() + '-' + (dateIter.getMonth() + 1) + '-' + dateIter.getDate();
+        document.getElementById(
+            `day${i + 1}_para`
+        ).innerText = `${dateIter.toLocaleString("en-GB", {
                     day: "numeric",
                     month: "short"
                 })}`;
-            document.getElementById(
-                `day${i + 1}_header`
-            ).innerText = `${dateIter.toLocaleString("en-GB", {
+        document.getElementById(
+            `day${i + 1}_header`
+        ).innerText = `${dateIter.toLocaleString("en-GB", {
                     weekday: "short"
                 })}`;
+        document.getElementById(
+            `day${i + 1}`
+        ).value = dateVal;
+        if (search_params.get('date') != null && dateVal == search_params.get('date')) {
             document.getElementById(
                 `day${i + 1}`
-            ).value = dateVal;
-            if (search_params.get('date') != null && dateVal == search_params.get('date')) {
-                document.getElementById(
-                    `day${i + 1}`
-                ).checked = true;
-            }
+            ).checked = true;
         }
     }
+}
 
-    function showAllLocation() {
-        const url = new URL(window.location);
-        const search_params = url.searchParams;
-        search_params.delete('location');
-        url.search = search_params.toString();
-        window.location.replace(url.toString());
-    }
+function showAllLocation() {
+    const url = new URL(window.location);
+    const search_params = url.searchParams;
+    search_params.delete('location');
+    url.search = search_params.toString();
+    window.location.replace(url.toString());
+}
 
-    function updateBg(element) {
-        if (element.checked) {
-            const selectedSlots = document.getElementsByClassName([
-                "selectedTimeSlot"
-            ]);
-            for (i = 0; i < selectedSlots.length; i++) {
-                selectedSlots[i].classList.remove("selectedTimeSlot");
-            }
-            element.parentElement.classList.add("selectedTimeSlot");
-        }
-    }
-
-    function selectTimeSlot(element, id) {
-        document.getElementById(id).checked = true;
+function updateBg(element) {
+    if (element.checked) {
         const selectedSlots = document.getElementsByClassName([
             "selectedTimeSlot"
         ]);
         for (i = 0; i < selectedSlots.length; i++) {
             selectedSlots[i].classList.remove("selectedTimeSlot");
         }
-        element.classList.add("selectedTimeSlot");
+        element.parentElement.classList.add("selectedTimeSlot");
     }
-    document.querySelector('form').addEventListener('submit', e => {
-        // Get all radio buttons, convert to an array.
-        const radios = Array.prototype.slice.call(document.querySelectorAll('input[type=radio]'));
-        // Reduce to get an array of radio button sets
-        const questions = Object.values(radios.reduce((result, el) =>
-            Object.assign(result, {
-                [el.name]: (result[el.name] || []).concat(el)
-            }), {}));
-        // Loop through each question, looking for any that aren't answered.
-        const hasUnanswered = questions.some(question => !question.some(el => el.checked));
-        const found = questions.find(question => !question.some(el => el.checked));
-        if (hasUnanswered) {
-            alert(`Please insert a ${found[0].name}`)
-            e.preventDefault(); // just for demo purposes... normally, just put this in the hasUnanswered part
-        }
+}
 
-    });
+function selectTimeSlot(element, id) {
+    document.getElementById(id).checked = true;
+    const selectedSlots = document.getElementsByClassName([
+        "selectedTimeSlot"
+    ]);
+    for (i = 0; i < selectedSlots.length; i++) {
+        selectedSlots[i].classList.remove("selectedTimeSlot");
+    }
+    element.classList.add("selectedTimeSlot");
+}
+document.querySelector('form').addEventListener('submit', e => {
+    // Get all radio buttons, convert to an array.
+    const radios = Array.prototype.slice.call(document.querySelectorAll('input[type=radio]'));
+    // Reduce to get an array of radio button sets
+    const questions = Object.values(radios.reduce((result, el) =>
+        Object.assign(result, {
+            [el.name]: (result[el.name] || []).concat(el)
+        }), {}));
+    // Loop through each question, looking for any that aren't answered.
+    const hasUnanswered = questions.some(question => !question.some(el => el.checked));
+    const found = questions.find(question => !question.some(el => el.checked));
+    if (hasUnanswered) {
+        alert(`Please insert a ${found[0].name}`)
+        e.preventDefault(); // just for demo purposes... normally, just put this in the hasUnanswered part
+    }
 
-    initDateSelector();
+});
+
+initDateSelector();
 </script>
 
 </html>
