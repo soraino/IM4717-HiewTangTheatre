@@ -211,9 +211,11 @@
     function initialisedPage() {
         const dateInput = document.getElementById('dateInput');
         const dateVar = new Date();
-        dateInput.min = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
+        let day = dateVar.getDate()<10? `0${dateVar.getDate()}`: dateVar.getDate();
+        dateInput.min = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + day;
         dateVar.setDate(dateVar.getDate() + 6);
-        dateInput.max = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
+        day = dateVar.getDate()<10? `0${dateVar.getDate()}`: dateVar.getDate();
+        dateInput.max = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + day; 
         initSlider(1);
         initSlider(2);
         initSlider(3);

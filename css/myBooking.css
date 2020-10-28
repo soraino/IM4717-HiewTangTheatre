@@ -1,4 +1,19 @@
-.box{
+.box {
     border: 1px solid #000;
     margin-bottom: 10px;
+}
+table {
+    border-collapse: collapse;
+    width: 90%;
+}
+td,
+th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+td {
+    width: 35%;
+}
+th {
+    width: 15%;
 }

@@ -261,7 +261,8 @@ function initDateSelector() {
     for (let i = 0; i <= 6; i++) {
         const dateIter = new Date();
         dateIter.setDate(today.getDate() + i);
-        const dateVal = dateIter.getFullYear() + '-' + (dateIter.getMonth() + 1) + '-' + dateIter.getDate();
+        let day =  dateIter.getDate()<10? `0${dateIter.getDate()}`: dateIter.getDate();
+        const dateVal = dateIter.getFullYear() + '-' + (dateIter.getMonth() + 1) + '-' +day;
         document.getElementById(
             `day${i + 1}_para`
         ).innerText = `${dateIter.toLocaleString("en-GB", {

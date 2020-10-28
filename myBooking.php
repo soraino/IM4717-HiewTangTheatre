@@ -133,8 +133,7 @@
                     <td><?php echo $startTime; ?></td>
                 </tr>
             </table>
-            <br>
-            <br>
+            <button class="button">remove</button>
         </div>
         <?php
             }
