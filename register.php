@@ -20,9 +20,9 @@ window.location.replace('./register.html')
 <?php
 }
 $DbValidation = true;
-$QUERY_EMAIL = "SELECT Email FROM f34ee.User WHERE Email = '".$_POST['email']."';";
-$QUERY_PHONENUMBER = "SELECT PhoneNumber FROM f34ee.User WHERE Email = '".$_POST['phone']."';";
-$QUERY_CARDNUMBER = "SELECT CardNumber FROM f34ee.Card WHERE CardNumber = '".$_POST['creditCardNumber']."';";
+$QUERY_EMAIL = "SELECT Email FROM f34ee.User WHERE Email = '" . trim($_POST['email']) . "';";
+$QUERY_PHONENUMBER = "SELECT PhoneNumber FROM f34ee.User WHERE PhoneNumber = '" . trim($_POST['phone']) . "';";
+$QUERY_CARDNUMBER = "SELECT CardNumber FROM f34ee.Card WHERE CardNumber = '" . trim($_POST['creditCardNumber']) . "';";
 
 $emailResults = $DB->query($QUERY_EMAIL);
 $phoneNumberResults = $DB->query($QUERY_PHONENUMBER);
@@ -62,9 +62,9 @@ $cardNumberResults->free();
 if (!$DbValidation) {
     $DB->close();
 ?>
-<script>
-window.history.back();
-</script>
+    <script>
+        window.history.back();
+    </script>
 <?php
 }
 $emailResults->free();

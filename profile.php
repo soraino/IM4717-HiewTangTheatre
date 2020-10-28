@@ -8,14 +8,6 @@ if (mysqli_connect_errno()) {
     exit;
 }
 
-if (isset($_GET['update'])) {
-?>
-    <script>
-        alert("Profile updated successfully");
-    </script>
-<?php
-}
-
 $userId = $_COOKIE["userId"];
 
 $sql_profile = "select U.*, C.Name as CardName, C.CardNumber, C.CVV, C.ExpiryDate from User U join CardHolder CH on U.Id = CH.UserId join Card C on CH.CardNumber = C.CardNumber where Id = '" . $userId . "'";
@@ -46,7 +38,7 @@ if (isset($_COOKIE["userId"])) {
         <?php include "./navbar.php"; ?>
         <main class="container">
             <form action="updateProfile.php" method="POST">
-                <h3>My Profile Details</h3>
+                <h3>Profile Details</h3>
                 <div class="row profile-details">
                     <div class="col size-3">
                         <p><label for="name">Name: </label></p>
@@ -57,6 +49,9 @@ if (isset($_COOKIE["userId"])) {
                     </div>
                     <div class="col size-3">
                         <input type="hidden" name="userId" value="<?php echo $userId ?>">
+                        <input type="hidden" name="email_hidden" value="<?php echo $result_profile['Email'] ?>">
+                        <input type="hidden" name="phone_hidden" value="<?php echo $result_profile['PhoneNumber'] ?>">
+                        <input type="hidden" name="cardNum_hidden" value="<?php echo $result_profile['CardNumber'] ?>">
                         <p><input type="text" id="name" name="name" value="<?php echo $result_profile['Name'] ?>" placeholder="John Doe" required></p>
                         <p><input type="text" id="email" name="email" value="<?php echo $result_profile['Email'] ?>" placeholder="email@domain.com" required></p>
                         <p><input type="text" id="phone" name="phone" value="<?php echo $result_profile['PhoneNumber'] ?>" minlength="8" maxlength="8" placeholder="87651906" pattern="\d{8}" title="Please enter proper Singapore phone number" required></p>
@@ -80,7 +75,7 @@ if (isset($_COOKIE["userId"])) {
                         </div>
                     </div>
                 </div>
-                <h3>My Payment Details</h3>
+                <h3>Payment Details</h3>
                 <div class="row payment-details">
                     <div class="col size-3">
                         <p><label for="creditCardName">Name on Credit Card: </label></p>
@@ -125,7 +120,7 @@ if (isset($_COOKIE["userId"])) {
         }
 
         let passwordConf = false;
-        let expiryConf = false;
+        let expiryConf = true;
         var passwordInput = document.getElementById("password");
         var confPasswordInput = document.getElementById("confirmPassword");
         var cardExpiryInput = document.getElementById("cardExpiry");
@@ -219,7 +214,7 @@ if (isset($_COOKIE["userId"])) {
         };
 
         document.querySelector("form").addEventListener("submit", (e) => {
-            if (!passwordConf) {
+            if (!passwordConf && !password.disabled) {
                 alert("Password and Confirm Password don't match");
                 e.preventDefault();
             }

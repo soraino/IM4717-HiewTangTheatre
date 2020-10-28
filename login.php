@@ -1,6 +1,6 @@
 <?php
 include "./dbconnect.php";
-if(!isset($_POST['email']) || !isset($_POST['password'])){
+if (!isset($_POST['email']) || !isset($_POST['password'])) {
     die('Unexpected error has occured <a href="./">Return to home</a>');
 }
 $email = strtolower(trim(utf8_decode(urldecode($_POST['email']))));
@@ -20,7 +20,7 @@ if ($loginResult->num_rows) {
     );
     session_start();
     setcookie($name = 'userId', $value = $row['Id'], $expire = time() + (3600 * 24 * 7), $path = "", $domain = "", $secure = false, $httponly = false);
-    $_SESSION["user".$row['Id']] = $userData;
+    $_SESSION["user" . $row['Id']] = $userData;
     $DB->close();
     $loginResult->free();
     if ((int)$_POST['movie'] > 0) {
@@ -29,7 +29,10 @@ if ($loginResult->num_rows) {
         header('location:index.php');
     }
 } else {
+    echo "<script>
+    alert('Incorrect Email or Password');
+    window.location.href='login.html';
+    </script>";
     $DB->close();
     $loginResult->free();
-    header('location:login.html');
 }

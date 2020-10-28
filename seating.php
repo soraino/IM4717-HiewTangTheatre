@@ -174,7 +174,7 @@ $alphabet = range('A', 'Z');
                         <input type="hidden" value="<?php echo $movieId ?>" name="movie" />
                         <input type="hidden" value="<?php echo $result_currentTheatre['Location'] ?>" name="cinema" />
                         <input type="hidden" value="<?php echo $result_currentTheatre['Id'] ?>" name="timeslot" />
-                        <label>Date: </label>
+                        <label>Date: </label>&nbsp;
                         <input type="date" id="date" name="date" value="<?php echo $dateId ?>" onchange="doReload3(this.value)">
                     </div>
                 </form>
@@ -296,15 +296,15 @@ $alphabet = range('A', 'Z');
 
             <div id="summary">
                 <div class="row">
-                    <div class="col size-7 outer-container">
+                    <div class="col size-7 outer-container contact-details">
                         <h4>Contact Details</h4>
                         <div class="row">
-                            <div class="col size-3">
+                            <div class="col size-4">
                                 <p><label>Name: </label></p>
                                 <p><label>Email: </label></p>
                                 <p><label>Phone Number: </label></p>
                             </div>
-                            <div class="col">
+                            <div class="col size-5">
                                 <p><input type="text" id="name" name="name" value="<?php echo $result_uData['Name'] ?>" placeholder="John Doe" required></p>
                                 <p><input type="text" id="email" name="email" value="<?php echo $result_uData['Email'] ?>" placeholder="email@domain.com" required></p>
                                 <p><input type="text" id="phone" name="phone" value="<?php echo $result_uData['PhoneNumber'] ?>" minlength="8" maxlength="8" placeholder="87651906" pattern="\d{8}" required></p>
@@ -313,13 +313,13 @@ $alphabet = range('A', 'Z');
                         <hr>
                         <h4>Payment Details</h4>
                         <div class="row">
-                            <div class="col size-3">
+                            <div class="col size-4">
                                 <p><label>Name on Credit Card: </label></p>
                                 <p><label>Card Number: </label></p>
                                 <p><label>Card Expiry Date: </label></p>
                                 <p><label>CVV Code: </label></p>
                             </div>
-                            <div class="col">
+                            <div class="col size-5">
                                 <p><input type="text" id="cardName" name="cardName" value="<?php echo $result_uData['CardName'] ?>" placeholder="John Doe" required></p>
                                 <p><input type="text" id="cardNo" name="cardNo" value="<?php echo $result_uData['CardNumber'] ?>" minlength="16" maxlength="16" placeholder="1234123412341234" pattern="\d{16}" title="Please enter proper credit card number" required></p>
                                 <p><input type="text" id="expiry" name="expiry" value="<?php echo $result_uData['ExpiryDate'] ?>" minlength="5" maxlength="5" placeholder="MM/YY" pattern="^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$" title="Please enter proper credit card number" required></p>
@@ -334,7 +334,7 @@ $alphabet = range('A', 'Z');
                             </div>
                         </div>
                     </div>
-                    <div class="col size-4 outer-container">
+                    <div class="col size-4 outer-container booking-summary">
                         <h4>Booking Summary</h4>
                         <hr>
                         <div class="row">
@@ -409,5 +409,19 @@ $alphabet = range('A', 'Z');
         </div>
     </footer>
 </body>
+<script>
+    function initialisedPage() {
+        const dateInput = document.getElementById('date');
+        const dateVar = new Date();
+        dateInput.min = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
+        dateVar.setDate(dateVar.getDate() + 6);
+        dateInput.max = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + dateVar.getDate();
+        initSlider(1);
+        initSlider(2);
+        initSlider(3);
+        initCarousel();
+    }
+    initialisedPage();
+</script>
 
 </html>

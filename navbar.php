@@ -27,7 +27,9 @@ $uname = $userData['Name'];
         <div class="navbar-end">
 
             <div class="navbar-item">
-                <input class="input is-rounded" type="text" placeholder="Search" />
+                <form name="search-form" action="moviesView.php" method="GET">
+                    <input class="input is-rounded" name="Search" type="text" placeholder="Search" value="<?php echo $_GET['Search'] ?>" />
+                </form>
                 <svg class="search-icon" viewBox="0 0 12 13">
                     <g stroke-width="2" stroke="#999999" fill="none">
                         <path d="M11.29 11.71l-4-4" />

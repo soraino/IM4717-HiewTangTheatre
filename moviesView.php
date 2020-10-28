@@ -11,11 +11,16 @@
 </head>
 
 <script>
+    //Sorting is activated
     function doReload(Sort) {
         <?php
-        if (isset($_GET['View'])) {
+        if (isset($_GET['Search'])) {
         ?>
-            document.location = 'moviesView.php?Sort=' + Sort + '&View=<?php echo $_GET['View']; ?>';
+            document.location = 'moviesView.php?Sort=' + Sort + '&Search=<?php echo $_GET['Search']; ?>'
+        <?php
+        } else if (isset($_GET['View'])) {
+        ?>
+            document.location = 'moviesView.php?Sort=' + Sort + '&View=<?php echo $_GET['View']; ?> '
         <?php
         } else {
         ?>
@@ -46,6 +51,8 @@ if (isset($_GET['Sort'])) {
     } else if (($_GET['Sort'] == "Coming Soon")) {
         $currentDate = date("Y-m-d H:i:s", time());
         $filter = "and ReleaseDate > '$currentDate'";
+    } else {
+        $filter = "";
     }
 }
 
@@ -53,7 +60,7 @@ if (isset($_GET['Sort'])) {
 
 <body>
     <?php
-        include "./navbar.php";
+    include "./navbar.php";
     ?>
     <!-- End of navigation bar -->
     <main class="container">
@@ -82,12 +89,12 @@ if (isset($_GET['Sort'])) {
                 </select>
             </div>
             <div id="sorter_btn">
-                <a href="moviesView.php?Sort=<?php echo $_GET['Sort']; ?>&View=grid">
+                <a href="moviesView.php?Sort=<?php echo $_GET['Sort']; ?>&View=grid&Search=<?php echo $_GET['Search']; ?>">
                     <button class="gridView-btn">
                         <img src="assets/grid.svg" alt="grid" />
                     </button>
                 </a>
-                <a href="moviesView.php?Sort=<?php echo $_GET['Sort']; ?>&View=list">
+                <a href="moviesView.php?Sort=<?php echo $_GET['Sort']; ?>&View=list&Search=<?php echo $_GET['Search']; ?>">
                     <button class="listView-btn">
                         <img src="assets/list.svg" alt="list" />
                     </button>
@@ -97,9 +104,14 @@ if (isset($_GET['Sort'])) {
         <!-- Movies display -->
         <div id="movieView">
             <?php
-            $sql = "select A.*, B.PhotoUrl from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId " . $filter;
+            $searchItem = $_GET['Search'];
+            $searchItem = preg_replace("#[^0-9a-z]#i", "", $searchItem);
+            $sql = "select A.*, B.PhotoUrl from MovieDetail A inner join Photo B on A.Id = B.MovieDetailId where Name LIKE '%$searchItem%'" . $filter;
             $result = $db->query($sql);
             $numRows = $result->num_rows;
+            if ($numRows == 0) {
+                echo "'No search results'";
+            }
 
             if (isset($_GET['View'])) {
                 if ($_GET['View'] == "grid") { ?>
@@ -135,11 +147,11 @@ if (isset($_GET['Sort'])) {
                                         <hr />
                                         <span class="float-left"><img src="assets/play.svg" alt="ticket" width="20px" height="20px" />&nbsp; Watch Trailer</span>
                                         <?php
-                                            if(time() > strtotime($movieList['ReleaseDate'])){
-                                                ?>
-                                                <a href="./booking.php?movie=<?php echo $movieList['Id']; ?>"><span class="float-right"><img src="assets/ticket-alt.svg" alt="ticket" width="28px" />&nbsp; <p class="book-ticket">Book Ticket</p></span></a>
-                                                <?php
-                                            }
+                                        if (time() > strtotime($movieList['ReleaseDate'])) {
+                                        ?>
+                                            <a href="./booking.php?movie=<?php echo $movieList['Id']; ?>"><span class="float-right"><img src="assets/ticket-alt.svg" alt="ticket" width="28px" />&nbsp; <p class="book-ticket">Book Ticket</p></span></a>
+                                        <?php
+                                        }
                                         ?>
                                         <hr />
                                     </div>

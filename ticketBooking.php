@@ -39,7 +39,6 @@ $date = $_POST['date'];
 $showtimeId = $_POST['showtimeId'];
 
 //SENDING MAIL
-
 $sql_cardExist = "select COUNT(CardNumber) as sum from Card where CardNumber = '" . $cardNo . "'";
 $run_cardExist = $db->query($sql_cardExist);
 $result_cardExist = $run_cardExist->fetch_assoc();
@@ -90,7 +89,7 @@ if ($result_cardExist['sum'] > 0) {
                         "Reference ID: " . $currentId . "\r\n" .
                         "Cinema: " . $location . ", Theatre " . $result_movieDetails['Number'] . "\r\n" .
                         "Seat: " . $seats . "\r\n" .
-                        "Date: " . date_format($date, "d/m/Y") . "\r\n" .
+                        "Date: " . $date . "\r\n" .
                         "Time: " . $result_movieDetails['StartTime'] . "\r\n" . "\r\n" .
                         "Thank you for your purchase!";
                     $headers = 'From: message@hiewtangtheatres.com';
@@ -159,7 +158,6 @@ if ($result_cardExist['sum'] > 0) {
         echo "Error: 3 " . $sql_booking . "<br>" . $db->error;
     }
 }
-
 
 
 $db->close();
