@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/seating.css" />
+    <link rel="icon" type="image/png" href="assets/logo/favicon.ico" />
     <title>Seats selection</title>
 </head>
 
@@ -401,13 +402,7 @@ $alphabet = range('A', 'Z');
         </form>
     </div>
     <!-- End of container -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="container">
-                <p>Copyright lol</p>
-            </div>
-        </div>
-    </footer>
+    <?php include "./footer.php"; ?>
 </body>
 <script>
     function initialisedPage() {

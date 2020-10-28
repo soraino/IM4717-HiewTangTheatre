@@ -25,6 +25,7 @@ if (isset($_COOKIE["userId"])) {
         <title>HiewTang Theatre</title>
         <link rel="stylesheet" href="./css/main.css" />
         <link rel="stylesheet" href="./css/profile.css" />
+        <link rel="icon" type="image/png" href="assets/logo/favicon.ico" />
     </head>
 
     <style>
@@ -55,7 +56,7 @@ if (isset($_COOKIE["userId"])) {
                         <p><input type="text" id="name" name="name" value="<?php echo $result_profile['Name'] ?>" placeholder="John Doe" required></p>
                         <p><input type="text" id="email" name="email" value="<?php echo $result_profile['Email'] ?>" placeholder="email@domain.com" required></p>
                         <p><input type="text" id="phone" name="phone" value="<?php echo $result_profile['PhoneNumber'] ?>" minlength="8" maxlength="8" placeholder="87651906" pattern="\d{8}" title="Please enter proper Singapore phone number" required></p>
-                        <p><input type="password" id="password" name="password" value="<?php echo $result_profile['Password'] ?>" placeholder="Password" disabled required><small id="small" onclick="changePwd()" style="font-style: italic; float:right; text-decoration: underline;">Change password</small></p>
+                        <p><input type="password" id="password" name="password" value="<?php echo $result_profile['Password'] ?>" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" disabled required><small id="small" onclick="changePwd()" style="font-style: italic; float:right; text-decoration: underline;">Change password</small></p>
                         <div id="message">
                             <h4>Password must contain the following:</h4>
                             <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
@@ -67,7 +68,7 @@ if (isset($_COOKIE["userId"])) {
                                 Minimum <b>8 characters</b>
                             </p>
                         </div>
-                        <p><input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" disabled required /></p>
+                        <p><input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" disabled required /></p>
                         <div id="message2">
                             <p id="conf" class="invalid">
                                 Confirm Password must be the same as <b>Password</b>
@@ -97,14 +98,7 @@ if (isset($_COOKIE["userId"])) {
                 </div>
             </form>
         </main>
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="container">
-                    <p>Copyright lol</p>
-                </div>
-            </div>
-
-        </footer>
+        <?php include "./footer.php"; ?>
     </body>
 
     </html>

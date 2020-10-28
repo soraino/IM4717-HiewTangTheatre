@@ -181,13 +181,7 @@ if (isset($_GET['Sort'])) {
         </div>
     </main>
     <!-- End of container -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="container">
-                <p>Copyright lol</p>
-            </div>
-        </div>
-    </footer>
+    <?php include "./footer.php"; ?>
 </body>
 
 </html>

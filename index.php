@@ -194,13 +194,8 @@
             </div>
         </div>
     </main>
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="container">
-                <p>Copyright lol</p>
-            </div>
-        </div>
-    </footer>
+
+    <?php include "./footer.php"; ?>
 </body>
 <script src="./js/slider.js"></script>
 <script src="./js/bannerSlider.js"></script>
@@ -211,11 +206,11 @@
     function initialisedPage() {
         const dateInput = document.getElementById('dateInput');
         const dateVar = new Date();
-        let day = dateVar.getDate()<10? `0${dateVar.getDate()}`: dateVar.getDate();
+        let day = dateVar.getDate() < 10 ? `0${dateVar.getDate()}` : dateVar.getDate();
         dateInput.min = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + day;
         dateVar.setDate(dateVar.getDate() + 6);
-        day = dateVar.getDate()<10? `0${dateVar.getDate()}`: dateVar.getDate();
-        dateInput.max = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + day; 
+        day = dateVar.getDate() < 10 ? `0${dateVar.getDate()}` : dateVar.getDate();
+        dateInput.max = dateVar.getFullYear() + '-' + (dateVar.getMonth() + 1) + '-' + day;
         initSlider(1);
         initSlider(2);
         initSlider(3);

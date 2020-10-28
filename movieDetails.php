@@ -153,13 +153,7 @@ $directorList = $result2->fetch_assoc();
             </div>
         </div>
     </main>
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="container">
-                <p>Copyright lol</p>
-            </div>
-        </div>
-    </footer>
+    <?php include "./footer.php"; ?>
 </body>
 <script src="./js/slider.js"></script>
 <script>
