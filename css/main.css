@@ -393,3 +393,7 @@ svg.search-icon {
 .next:active {
     transform: scale(0.8);
 }
+
+#search {
+    width: auto;
+}
