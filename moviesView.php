@@ -145,7 +145,7 @@ if (isset($_GET['Sort'])) {
                                     <p>Release Date: <?php echo date("F j, Y", strtotime($movieList['ReleaseDate']))  ?></p>
                                     <div>
                                         <hr />
-                                        <span class="float-left"><img src="assets/play.svg" alt="ticket" width="20px" height="20px" />&nbsp; Watch Trailer</span>
+                                        <a href="./movieDetails.php?movie=<?php echo $movieList['Id']; ?>#trailer"><span class="float-left"><img src="assets/play.svg" alt="ticket" width="20px" height="20px" />&nbsp; Watch Trailer</span></a>
                                         <?php
                                         if (time() > strtotime($movieList['ReleaseDate'])) {
                                         ?>
