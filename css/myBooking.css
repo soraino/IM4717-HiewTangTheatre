@@ -1,6 +1,7 @@
 .box {
     border: 1px solid #000;
     margin-bottom: 10px;
+    display: flex;
 }
 table {
     border-collapse: collapse;
@@ -16,4 +17,7 @@ td {
 }
 th {
     width: 15%;
+}
+button,form{
+    margin: auto;
 }

@@ -133,7 +133,10 @@
                     <td><?php echo $startTime; ?></td>
                 </tr>
             </table>
-            <button class="button">remove</button>
+            <form action="./deleteBooking.php" method="POST">
+                <input type="hidden" name="bId" value="<?php echo $BookingId; ?>">
+                <button class="button">Delete</button>
+            </form>
         </div>
         <?php
             }

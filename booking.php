@@ -31,7 +31,7 @@ if (isset($_COOKIE["userId"])) {
             }
             ?>
     </script>
-    
+
     <?php
         include "./navbar.php";
         @$DB = new mysqli('localhost', 'f34ee', 'f34ee', 'f34ee');
@@ -57,12 +57,14 @@ if (isset($_COOKIE["userId"])) {
         }
         $TIMESLOT_QUERY = "SELECT ts.* , t.Location FROM f34ee.Timeslot AS ts INNER JOIN f34ee.Theatre AS t WHERE ts.MovieDetailId = " . $_GET['movie'] . " AND ts.TheatreId = t.Id " . $LocationVal . " ORDER BY ts.TheatreId ASC,ts.StartTime ASC;";
         $THEATRE_QUERY = "SELECT distinct Location FROM f34ee.Theatre ORDER BY Id;";
+        $AVAILABLE_QUERY = "SELECT count(t.BookingId) as numRows, t.BookingId, b.TimeslotId from f34ee.Ticket as t inner join f34ee.Booking as b on b.Id = t.BookingId where b.PremiereDate ='".$_GET['date']."' group by b.TimeslotId";
         if (mysqli_connect_errno()) {
             exit('Unable to connect to DB');
         }
         $bannerURL;
         $timeslots = array();
         $theatre = array();
+        $ticsBrought = array();
 
         $queryResult = $DB->query($PHOTO_QUERY);
         if ($queryResult->num_rows > 0) {
@@ -82,6 +84,12 @@ if (isset($_COOKIE["userId"])) {
                 array_push($timeslots, $row);
             }
         }
+        $queryResult = $DB->query($AVAILABLE_QUERY);
+        if ($queryResult->num_rows > 0) {
+            while ($row = $queryResult->fetch_assoc()) {
+                $ticsBrought["Id".$row['TimeslotId']] = $row['numRows'];
+            }
+        }
         $queryResult->free();
         $DB->close();
         ?>
@@ -93,7 +101,7 @@ if (isset($_COOKIE["userId"])) {
                 <div class="container">
                     <div class="row center-text date-selector">
                         <div class="col">
-                            <input type="radio" name="date" id="day1" />
+                            <input type="radio" name="date" id="day1" onchange="reload(this)" />
                             <label for="day1">
                                 <h1 id="day1_header" class="no-margin">
                                 </h1>
@@ -102,7 +110,7 @@ if (isset($_COOKIE["userId"])) {
                             </label>
                         </div>
                         <div class="col">
-                            <input type="radio" name="date" id="day2" />
+                            <input type="radio" name="date" id="day2" onchange="reload(this)" />
                             <label for="day2">
                                 <h1 id="day2_header" class="no-margin">
                                 </h1>
@@ -111,7 +119,7 @@ if (isset($_COOKIE["userId"])) {
                             </label>
                         </div>
                         <div class="col">
-                            <input type="radio" name="date" id="day3" />
+                            <input type="radio" name="date" id="day3" onchange="reload(this)" />
                             <label for="day3">
                                 <h1 id="day3_header" class="no-margin">
                                 </h1>
@@ -120,7 +128,7 @@ if (isset($_COOKIE["userId"])) {
                             </label>
                         </div>
                         <div class="col">
-                            <input type="radio" name="date" id="day4" />
+                            <input type="radio" name="date" id="day4" onchange="reload(this)" />
                             <label for="day4">
                                 <h1 id="day4_header" class="no-margin">
                                 </h1>
@@ -129,7 +137,7 @@ if (isset($_COOKIE["userId"])) {
                             </label>
                         </div>
                         <div class="col">
-                            <input type="radio" name="date" id="day5" />
+                            <input type="radio" name="date" id="day5" onchange="reload(this)" />
                             <label for="day5">
                                 <h1 id="day5_header" class="no-margin">
                                 </h1>
@@ -138,7 +146,7 @@ if (isset($_COOKIE["userId"])) {
                             </label>
                         </div>
                         <div class="col">
-                            <input type="radio" name="date" id="day6" />
+                            <input type="radio" name="date" id="day6" onchange="reload(this)" />
                             <label for="day6">
                                 <h1 id="day6_header" class="no-margin">
                                 </h1>
@@ -147,7 +155,7 @@ if (isset($_COOKIE["userId"])) {
                             </label>
                         </div>
                         <div class="col">
-                            <input type="radio" name="date" id="day7" />
+                            <input type="radio" name="date" id="day7" onchange="reload(this)" />
                             <label for="day7">
                                 <h1 id="day7_header" class="no-margin">
                                 </h1>
@@ -160,6 +168,9 @@ if (isset($_COOKIE["userId"])) {
             </div>
         </div>
         <div class="container">
+            <?php
+                if(isset($_GET['date'])){
+            ?>
             <table class="table is-bordered center-text">
                 <thead>
                     <tr>
@@ -170,7 +181,6 @@ if (isset($_COOKIE["userId"])) {
                 <?php
                     if (!isset($_GET['location'])) {
                         for ($i = 0; $i < count($theatre); $i++) {
-
                     ?>
                 <tr>
                     <td>
@@ -180,9 +190,11 @@ if (isset($_COOKIE["userId"])) {
                                 for ($j = 0; $j < count($timeslots); $j++) {
                                     if ($theatre[$i]['Location'] == $timeslots[$j]['Location']) {
                                 ?>
-                    <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l" . $j; ?>')">
+                    <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l" . $j; ?>')"
+                        class="<?php echo $ticsBrought["Id".$timeslots[$j]['Id']] == 60? 'disabled' : ''; ?>">
                         <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l" . $j; ?>"
-                            value="<?php echo $timeslots[$j]['Id']; ?>" onchange="updateBg(this)" />
+                            value="<?php echo $timeslots[$j]['Id']; ?>" onchange="updateBg(this)"
+                            <?php echo $ticsBrought["Id".$timeslots[$j]['Id']] == 60? 'disabled' : ''; ?> />
                         <label for="<?php echo "ts" . $i . "l" . $j; ?>">
                             <p><?php echo substr($timeslots[$j]['StartTime'], 0, 5); ?></p>
                         </label>
@@ -204,9 +216,11 @@ if (isset($_COOKIE["userId"])) {
                             for ($i = 0; $i < count($timeslots); $i++) {
                                 if ($_GET['location'] == $timeslots[$i]['Location']) {
                             ?>
-                    <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l"; ?>')">
+                    <td onclick="selectTimeSlot(this,'<?php echo "ts" . $i . "l"; ?>')"
+                        class="<?php echo $ticsBrought["Id".$timeslots[$i]['Id']] == 60? 'disabled' : ''; ?>">
                         <input class="timeslot" type="radio" name="timeslot" id="<?php echo "ts" . $i . "l"; ?>"
-                            value="<?php echo $timeslots[$i]['Id']; ?>" onchange="updateBg(this)" />
+                            value="<?php echo $timeslots[$i]['Id']; ?>" onchange="updateBg(this)"
+                            <?php echo $ticsBrought["Id".$timeslots[$i]['Id']] == 60? 'disabled' : ''; ?> />
                         <label for="<?php echo "ts" . $i . "l"; ?>">
                             <p><?php echo substr($timeslots[$i]['StartTime'], 0, 5); ?></p>
                         </label>
@@ -237,6 +251,9 @@ if (isset($_COOKIE["userId"])) {
                     Proceed to Seat Selection
                 </button>
             </div>
+            <?php
+                }
+            ?>
         </div>
     </form>
     <footer class="footer">
@@ -261,8 +278,8 @@ function initDateSelector() {
     for (let i = 0; i <= 6; i++) {
         const dateIter = new Date();
         dateIter.setDate(today.getDate() + i);
-        let day =  dateIter.getDate()<10? `0${dateIter.getDate()}`: dateIter.getDate();
-        const dateVal = dateIter.getFullYear() + '-' + (dateIter.getMonth() + 1) + '-' +day;
+        let day = dateIter.getDate() < 10 ? `0${dateIter.getDate()}` : dateIter.getDate();
+        const dateVal = dateIter.getFullYear() + '-' + (dateIter.getMonth() + 1) + '-' + day;
         document.getElementById(
             `day${i + 1}_para`
         ).innerText = `${dateIter.toLocaleString("en-GB", {
@@ -306,14 +323,29 @@ function updateBg(element) {
 }
 
 function selectTimeSlot(element, id) {
-    document.getElementById(id).checked = true;
-    const selectedSlots = document.getElementsByClassName([
-        "selectedTimeSlot"
-    ]);
-    for (i = 0; i < selectedSlots.length; i++) {
-        selectedSlots[i].classList.remove("selectedTimeSlot");
+    if (!document.getElementById("ts0l").disabled) {
+        document.getElementById(id).checked = true;
+        const selectedSlots = document.getElementsByClassName([
+            "selectedTimeSlot"
+        ]);
+        for (i = 0; i < selectedSlots.length; i++) {
+            selectedSlots[i].classList.remove("selectedTimeSlot");
+        }
+        element.classList.add("selectedTimeSlot");
     }
-    element.classList.add("selectedTimeSlot");
+
+}
+
+function reload(element) {
+    const url = new URL(window.location);
+    const search_params = url.searchParams;
+    if (search_params.get('location') != null) {
+        window.location.replace(
+            `./booking.php?movie=${search_params.get('movie')}&location=${search_params.get('location')}&date=${element.value}`
+            );
+    } else {
+        window.location.replace(`./booking.php?movie=${search_params.get('movie')}&date=${element.value}`);
+    }
 }
 document.querySelector('form').addEventListener('submit', e => {
     // Get all radio buttons, convert to an array.

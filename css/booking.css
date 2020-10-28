@@ -17,6 +17,12 @@ input[type="radio"]:checked.timeslot+label{
     font-weight: 700;
 }
 
+input[type="radio"]:disabled.timeslot+label{
+    color: #fff;
+}
+.disabled{
+    background-color: #808080 !important;
+}
 .selectedTimeSlot{
     background-color: #EF8F00;
 }
