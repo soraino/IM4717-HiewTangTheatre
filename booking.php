@@ -311,7 +311,7 @@ if (isset($_COOKIE["userId"])) {
     }
 
     function selectTimeSlot(element, id) {
-        if (!document.getElementById("ts0l").disabled) {
+        if (!document.getElementById(id).disabled) {
             document.getElementById(id).checked = true;
             const selectedSlots = document.getElementsByClassName([
                 "selectedTimeSlot"
